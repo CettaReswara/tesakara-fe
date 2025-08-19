@@ -1,0 +1,107 @@
+.bg {
+  	width: 100%;
+  	position: relative;
+  	background-color: #f6eee7;
+  	height: 904px;
+}
+
+.he {
+  	position: absolute;
+  	top: 12px;
+  	left: 40px;
+}
+.t {
+  	position: absolute;
+  	top: -3px;
+  	left: 0px;
+  	font-size: 40px;
+  	font-family: 'Meow Script';
+  	display: inline-block;
+  	width: 67px;
+  	height: 49px;
+}
+.f {
+  	position: absolute;
+  	top: 10px;
+  	left: 248px;
+}
+.o {
+  	position: absolute;
+  	top: -3px;
+  	left: 220px;
+  	font-size: 40px;
+  	font-family: 'Meow Script';
+  	display: inline-block;
+  	width: 40px;
+  	height: 49px;
+}
+.edding {
+  	position: absolute;
+  	top: 12px;
+  	left: 123px;
+}
+.w {
+  	position: absolute;
+  	top: -3px;
+  	left: 76px;
+  	font-size: 40px;
+  	font-family: 'Meow Script';
+  	display: inline-block;
+  	width: 47px;
+  	height: 49px;
+}
+.wedding {
+  	width: max-content;
+  	position: relative;
+    margin: 0 auto;
+  	height: 49px;
+  	text-align: left;
+  	font-size: 24px;
+  	color: #675553;
+  	font-family: 'Libre Baskerville';
+}
+
+.name {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  overflow: visible;
+  width: 110%;
+  padding: 50px 50px; 
+  box-sizing: border-box;
+  height: 230px;
+  /* line-height: 1; */
+  font-size: 82px;
+  color: #675553;
+  font-family: 'Meow Script';
+}
+
+@keyframes pulse-text {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.bride {
+  display: block;
+  line-height: 0.3;
+  animation: pulse-text 3s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.groom {
+  display: block;
+  line-height: 0;
+  animation: pulse-text 3s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.div {
+  font-size: 64px;
+  margin: 0.5rem 0;
+}
