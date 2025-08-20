@@ -7,6 +7,7 @@ type InviteProps = {
     bride?: string;
     groom?: string;
     to?: string;
+    date?:string;
   };
 };
 
@@ -14,12 +15,14 @@ export default function Home({ searchParams }: InviteProps) {
   const bride = (searchParams?.bride ?? "Tesa").trim();
   const groom = (searchParams?.groom ?? "Kara").trim();
   const invitee = (searchParams?.to ?? "Muhammad dan Pasangan").trim();
+  const date = "31-08-2025"
 
   return (
     <Template1View 
       bride={bride}//(searchParams?.bride ?? "Tesa").trim()}
       groom={groom}//{(searchParams?.groom ?? "Kara").trim()}
       to={invitee}//{(searchParams?.to ?? "Nama Undangan").trim()}
+      date={date}
     >
     </Template1View>
     // <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">

@@ -8,9 +8,10 @@ type InviteProps = {
     bride: string;
     groom: string;
     to: string;
+    date: string;
 };
 
-export default function Template1View({ bride, groom, to}: InviteProps) {
+export default function Template1View({ bride, groom, to, date}: InviteProps) {
   const [opened, setOpened] = useState(false);
 
   if (!opened) {
@@ -25,7 +26,13 @@ export default function Template1View({ bride, groom, to}: InviteProps) {
     );
   }
 
-  return <Template1Content bride={bride} groom={groom} to={to} />;
+  return <Template1Content 
+            bride={bride} 
+            groom={groom} 
+            to={to} 
+            date={date}
+            youtubeId="lNB8iwiQb9k?si=P7GdtHb9eCpMKYnt" 
+            bgVideoSrc="/videos/template1vid.mp4" />;
 }
   // const open = () => {
   //   // navigate to /invite, scroll, play music, etc.

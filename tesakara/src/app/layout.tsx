@@ -3,13 +3,19 @@ import { libre, meow } from "./font";
 import "./globals.css";
 
 export const metadata = {
-  title: "Wedding Invitation",
-  description: "Intro page template",
+  title: "Tesakara",
+  description: "Syari wedding invitation",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${libre.variable} ${meow.variable}`}>
+      <head>
+        {/* preconnect */}
+        <link rel="preconnect" href="https://www.youtube.com" />
+        <link rel="preconnect" href="https://www.google.com" />
+        <link rel="preconnect" href="https://i.ytimg.com" />
+      </head>
       <body className="min-h-screen bg-rose-100 grid place-items-center">
         <Snow />
         {children}

@@ -1,4 +1,17 @@
-import { Libre_Baskerville, Meow_Script } from "next/font/google";
+import { Libre_Baskerville, Meow_Script, Poppins, Gulzar } from "next/font/google";
+
+
+export const gulzar = Gulzar({
+  subsets: ["arabic"], 
+  weight: "400",
+});
+
+export const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["200", "300", "400", "500", "600", "700"], 
+  // "200" = ExtraLight
+  variable: "--font-poppins",
+});
 
 export const libre = Libre_Baskerville({
   subsets: ["latin"],
