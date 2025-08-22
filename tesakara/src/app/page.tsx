@@ -1,6 +1,4 @@
-import Image from "next/image";
 import Template1View from "@/components/Template1View";
-import Snow from "@/components/Snow";
 
 type InviteProps = {
   searchParams?: {

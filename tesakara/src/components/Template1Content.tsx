@@ -1,9 +1,12 @@
 "use client";
 import React, { useEffect, useRef, useCallback, useState } from "react";
-import Countdown from "./ui/countdown";
 import { poppins, libre, gulzar } from "@/app/font";
 import Snow from "./Snow";
 import Image from "next/image";
+import Countdown from "./ui/countdown";
+import { PhotoWithRing } from "./ui/photoring";
+import { Button } from "./ui/button";
+import Template1Timeline from "./Template1Timeline";
 
 type Props = {
   bride: string;
@@ -102,14 +105,14 @@ export default function Template1Content({
       <Snow color="#382e2dff" />
       <div
         ref={scrollerRef}
-        className="relative w-[470px] h-[905px] overflow-y-auto snap-y snap-mandatory scroll-smooth [scrollbar-gutter:stable]"
+        className="relative w-[470px] h-screen overflow-y-auto snap-y snap-mandatory scroll-smooth [scrollbar-gutter:stable]"
       >
         {/* SECTION 1 — HERO VIDEO */}
         <section
           id="segment-hero-video"
           className={[
             "relative w-full overflow-hidden bg-black transition-all duration-300",
-            lockFirst ? "h-0 snap-none pointer-events-none" : "h-[905px] snap-start",
+            lockFirst ? "h-0 snap-none pointer-events-none" : "h-screen snap-start",
           ].join(" ")}
         >
           {!lockFirst && (
@@ -130,16 +133,16 @@ export default function Template1Content({
         <section
           ref={section2Ref}
           id="segment-after-video"
-          className="relative w-full h-[905px] snap-start bg-[#0b0b0b] flex items-center justify-center section2"
+          className="relative w-full h-screen snap-start bg-[#0b0b0b] flex items-center justify-center section2"
         >
-          <SectionTwo bride={bride} groom={groom} date={date} />
+          <CountdownSection bride={bride} groom={groom} date={date} />
         </section>
 
         {/* SECTION 3 — DALIL (audio starts/stops by visibility) */}
         <section
           ref={dalilRef}
           id="dalil"
-          className="relative w-full h-[905px] snap-start bg-[#0b0b0b]"
+          className="relative w-full h-screen snap-start bg-[#0b0b0b]"
         >
           <DalilSection />
           {/* Spacer acts as bottom sentinel inside Dalil
@@ -150,9 +153,27 @@ export default function Template1Content({
         <section
             ref={mempelaiRef}
             id="mempelai"
-            className="relative isolate w-full min-h-screen snap-start"
+            className="relative isolate snap-start snap-always w-full auto min-h-dvh"
         >
-            <MempelaiSection />
+            <MempelaiSection 
+              fullbride="Tesa Azzahra, S.Pd."
+              fullgroom="dr. Muhammad Kara Haritsah, Sp.PD."
+              fbride="Fulan"
+              fgroom="Fulan"
+              mbride="Fulanah"
+              mgroom="Fulanah"
+              brlink="https://lh3.googleusercontent.com/d/1K22HWbR2mY5TLISQYVsjMvwNifNUG24D"
+              grlink="https://lh3.googleusercontent.com/d/1IMFbAWc3nNbnaDup7OTcpU6PLzaftaHv"
+            />
+        </section>
+
+        {/* SECTION 5 — ACARA */}
+        <section
+            // ref={mempelaiRef}
+            id="acara"
+            className="relative isolate w-full h-screen snap-start snap-always m-0"
+        >
+          <p>pengacara</p>
         </section>
 
         {/* Hidden YouTube iframe (audio) */}
@@ -208,7 +229,7 @@ export default function Template1Content({
 
 /* ---------- SUB‑SECTIONS ---------- */
 
-function SectionTwo({ bride, groom, date }: { bride: string; groom: string; date: string }) {
+function CountdownSection({ bride, groom, date }: { bride: string; groom: string; date: string }) {
   const [dd, mm, yyyy] = date.split("-");
 
   return (
@@ -270,7 +291,7 @@ function SectionTwo({ bride, groom, date }: { bride: string; groom: string; date
         />
       </div>
 
-      {/* local styles for SectionTwo */}
+      {/* local styles */}
       <style jsx>{`
         .bg {
           width: 100%;
@@ -302,7 +323,7 @@ function SectionTwo({ bride, groom, date }: { bride: string; groom: string; date
         .o {
           position: absolute;
           top: -3px;
-          left: 220px;
+          left: 217px;
           font-size: 38px;
           font-family: 'Meow Script';
           display: inline-block;
@@ -334,7 +355,8 @@ function SectionTwo({ bride, groom, date }: { bride: string; groom: string; date
           text-align: left;
           font-size: 22px;
           color: #675553;
-          font-family: 'Libre Baskerville';
+          font-family: 'Libre Baskerville', serif;
+          font-style: italic;
         }
         .name {
           display: flex;
@@ -447,94 +469,133 @@ function DalilSection() {
   );
 }
 
-function MempelaiSection() {
-  const iconlink = "https://lh3.googleusercontent.com/d/1FXIFbA7q056resWKB7SinkZ1az-kWSic=w1496-h992";
+function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom, brlink, grlink  }: { fullbride: string; fullgroom: string; fbride: string; fgroom: string; mbride: string; mgroom: string; brlink: string; grlink: string}) {
+  const bgVideoSrc = "/videos/template1vidbg.mp4";
+  //const iconlink = "https://lh3.googleusercontent.com/d/1FXIFbA7q056resWKB7SinkZ1az-kWSic=w1496-h992";
+  const borderlink = "https://lh3.googleusercontent.com/d/1jNS6LOo6D5HjLkFN7wMidmw2UUdQPNL_=w1080-h1350";
   const secRef = useRef<HTMLElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
   const [inView, setInView] = useState(false);
+  const [openStory, setOpenStory] = useState(false);
 
   useEffect(() => {
     const el = secRef.current;
     if (!el) return;
-
     const io = new IntersectionObserver(
       ([entry]) => setInView(entry.isIntersecting),
-      { root: null, threshold: 0.25 } // muncul saat >=25% section kelihatan
+      { root: null, threshold: 0.5 }
     );
     io.observe(el);
     return () => io.disconnect();
   }, []);
 
+  // Biar autoplay jalan di mobile: play saat inView, pause saat keluar
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (inView) {
+      const tryPlay = async () => {
+        try {
+          // penting untuk iOS
+          v.muted = true;
+          v.playsInline = true as any;
+          await v.play();
+        } catch (e) {
+          // autoplay kadang pending sampai canplay/canplaythrough
+        }
+      };
+      tryPlay();
+    } else {
+      v.pause();
+    }
+  }, [inView]);
+
+  const handleCanPlay = () => {
+    if (inView) videoRef.current?.play().catch(() => {});
+  };
+
   return (
     <section
       ref={secRef}
       id="informasi-mempelai"
-      className="relative isolate snap-start w-full min-h-screen"
+      className="relative isolate snap-start w-full min-h-[100dvh] bg-[#f6eee7]" // pastikan minimal setinggi layar
       aria-label="Informasi Mempelai"
     >
-      {/* GRID BG */}
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10 pointer-events-none"
-        style={{
-          backgroundColor: "#f6eee7",
-          backgroundImage: `
-            linear-gradient(to right, rgba(103,85,83,0.08) 2px, transparent 2px),
-            linear-gradient(to bottom, rgba(103,85,83,0.08) 2px, transparent 2px)
-          `,
-          backgroundSize: "40px 40px",
-        }}
+      {/* === VIDEO FIXED KE LAYAR (bukan ke section) === */}
+      <video
+        ref={videoRef}
+        className={[
+          // fixed = menempel ke viewport; 100dvh cocok untuk mobile address bar
+          "fixed inset-0 -z-20 min-w-full h-[110dvh] object-contain",
+          // hanya nampak saat section ini in-view
+          "transition-opacity duration-300 ease-linear pointer-events-none select-none",
+          inView ? "opacity-100" : "opacity-0"
+        ].join(" ")}
+        // sumber video (boleh pakai <source> ganda webm+mp4 kalau mau)
+        src={bgVideoSrc}
+        muted
+        playsInline
+        autoPlay
+        loop
+        preload="auto"
+        aria-hidden="true"
+        onCanPlay={handleCanPlay}
       />
 
-      {/* === STICKY OVERLAY (nempel di viewport) === */}
-        <div className="sticky top-0 h-screen pointer-events-none z-0">
-        {/* taruh elemen langsung absolut ke pojok layar */}
-        {/* TOP-RIGHT (pojok kanan atas) */}
-        <div className="absolute top-50 right-0 translate-x-6 -translate-y-6">
-            <div className="base-rotate-tr">
-            <img
-                src={iconlink}
-                alt=""
-                className="sway drop-shadow w-[280px] sm:w-[340px] md:w-[380px] h-auto"
-            />
-            </div>
-        </div>
-
-        {/* BOTTOM-LEFT (pojok kiri bawah) */}
-        <div className="absolute bottom-[-90px] left-0 -translate-x-6 translate-y-6">
-            <div className="base-rotate-bl">
-            <img
-                src={iconlink}
-                alt=""
-                className="sway drop-shadow w-[280px] sm:w-[340px] md:w-[380px] h-auto"
-            />
-            </div>
-        </div>
-        </div>
-
       {/* KONTEN */}
-      <div className="relative z-10 mx-auto max-w-[520px] px-4 py-10">
-        {/* ... konten mempelai ... */}
-        {/* <div className="h-8" />
-        <div className="h-8" />
-        <p>haihahai</p>
-        <div className="h-8" />
-        <div className="h-8" />
-        <div className="h-8" />
-        <div className="h-8" />
-        <p>haihahai</p>
-        <div className="h-8" />
-        <div className="h-8" />
-        <div className="h-8" />
-        <div className="h-8" />
-        <div className="h-8" />
-        <p>haihahai</p>
-        <div className="h-8" />
-        <div className="h-8" />
-        <div className="h-8" />
-        <div className="h-8" />
-        <p>haihahai</p>
-        <div className="h-8" /> */}
+      <div className="h-14 center" />
+      <div className="relative z-10 mx-auto max-w-[520px] flex flex-col items-center space-y-2">
+        <div className="pembuka">
+          <i className="salam">Assalamu‘alaikum Warahmatullahi Wabarakaatuh</i>
+          <div className="katakata">
+            <p className="kata">Mahasuci Allah ﷻ</p>
+            <p className="kata">yang telah mensyariatkan pernikahan dan menciptakan pasangan bagi setiap hambaNya.</p>
+            <p className="kata">InsyaaAllah, akan dilakanakan pernikahan antara:</p>
+          </div>
+        </div>
+
+        <PhotoWithRing
+            frameSrc={borderlink}    
+            photoSrc={brlink}         
+            size={320}                
+            ringPadding={24}       
+            photoZoom={1.35}         
+            photoOffsetY={12}        
+            frameOffsetY={15}
+        />
+
+        <div className="brides">
+          <div className="name">{fullbride}</div>
+          <div className={`fam ${libre.className}`}>Putri dari Bapak {fbride} dan Ibu {mbride}</div>
+        </div>
+
+        <div className="dengan">&</div>
+
+        <PhotoWithRing
+            frameSrc={borderlink}    
+            photoSrc={grlink}         
+            size={320}                
+            ringPadding={24}       
+            photoZoom={1.5}         
+            photoOffsetY={35}
+            photoOffsetX={15}        
+            frameOffsetY={15}
+        />
+
+        <div className="groom">
+          <div className="name">{fullgroom}</div>
+          <div className={`fam ${libre.className}`}>Putra dari Bapak {fgroom} dan Ibu {mgroom}</div>
+        </div>
+
       </div>
+
+      <div className="mt-16 flex justify-center">
+          <Button className="animate-bob" onClick={() => setOpenStory(true)}>Our Story</Button>
+      </div>
+
+      <OurStoryOverlay open={openStory} onClose={() => setOpenStory(false)} />
+      
+      <div className="h-[150px]" />
 
       <style jsx>{`
         .base-rotate-tr { transform: rotate(-128.79deg); transform-origin: 50% 8%; }
@@ -548,8 +609,129 @@ function MempelaiSection() {
         .drop-shadow { filter: drop-shadow(0 8px 16px rgba(0,0,0,0.15)); }
 
         @media (prefers-reduced-motion: reduce) { .sway { animation: none !important; } }
+
+        .salam {
+            // position: absolute;
+            top: 0px;
+            left: 0px;
+            line-height: 17px;
+            font-size: 14px;
+        }
+        .kata {
+            margin: 0;
+        }
+        .katakata {
+            // position: absolute;
+            top: 43px;
+            left: 3px;
+            font-size: 12px;
+            line-height: 17px;
+            display: inline-block;
+            width: 313px;
+        }
+        .pembuka {
+            width: 100%;
+            color: #675553;
+            font-family: 'Libre Baskerville';
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: flex-start;
+            text-align: center;
+            gap: 12px;         
+            top: 43px;
+            left: 3px;
+        }
+
+        .name {
+            font-family: 'Berkshire Swash';
+            font-size: 32px;
+            max-width: 300px;
+            text-align: center;
+            display: inline-block;
+            line-height: 1.2;
+            }
+
+        .fam {
+            margin-top: 5px;
+            top: 44px;
+            left: 13px;
+            font-size: 12px;
+            }
+
+        .brides {
+            margin-top: -20px;
+            width: 100%;
+            position: relative;
+            // height: 59px;
+            text-align: center;
+            color: #675553;
+         }
+
+        .groom {
+            margin-top: -20px;
+            width: 100%;
+            position: relative;
+            // height: 59px;
+            text-align: center;
+            color: #675553;
+        }
+
+        .dengan {
+            margin-top: 40px;
+            margin-bottom: -20px;
+            width: 43px;
+            position: relative;
+            font-size: 60px;
+            font-family: 'Meow Script';
+            color:  #675553;
+            text-align: center;
+            display: inline-block;
+        }
       `}</style>
     </section>
+  );
+}
+
+function OurStoryOverlay({
+  open,
+  onClose,
+}: { open: boolean; onClose: () => void }) {
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  return (
+    <div role="dialog" aria-modal="true" className="fixed inset-0 z-[999]">
+      {/* backdrop dims */}
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" onClick={onClose} />
+
+      {/* centered panel */}
+      <div className="absolute inset-0 grid place-items-center p-4" onClick={(e) => e.stopPropagation()}>
+        <div className="relative">
+          <Template1Timeline />
+
+          {/* close button */}
+          <button
+            aria-label="Close Our Story"
+            onClick={onClose}
+            className="absolute top-6 right-6 grid h-8 w-8 place-items-center rounded-full bg-white/20 text-white hover:bg-white/30"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 

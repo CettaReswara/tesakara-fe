@@ -1,0 +1,154 @@
+.timelineStory {
+  position: relative;
+  width: min(387px, 92vw);
+  height: min(749px, 92svh);
+  text-align: center;
+  font-size: 32px;
+  color: #f6eee7;
+  font-family: 'Libre Baskerville', serif;
+  overflow-y: auto;    
+  scrollbar-width: thin;
+  scrollbar-color: #c0a896 transparent;
+}
+
+.timelineStory::-webkit-scrollbar {
+  width: 6px;
+}
+.timelineStory::-webkit-scrollbar-thumb {
+  background: #c0a896;
+  border-radius: 3px;
+}
+.timelineStory::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.popupBg {
+  position: absolute;
+  inset: 0;
+  border-radius: 52px;
+  background-color: #675553;
+}
+
+.ourStory {
+  position: absolute;
+  top: 48px;
+  left: 0;
+  right: 0;
+  font-style: italic;
+}
+
+.cardList {
+  position: absolute;
+  top: 105px;
+  left: 30px;
+  right: 20px;
+  bottom: 24px; 
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto; 
+  align-items: stretch; 
+
+  --fade: 40px;
+
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 calc(var(--fade) - 1px),
+    #000 calc(100% - var(--fade)),
+    transparent 100%
+  );
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 calc(var(--fade) - 1px),
+    #000 calc(100% - var(--fade)),
+    transparent 100%
+  );
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+
+  padding-top: var(--fade);
+  padding-bottom: var(--fade);
+}
+
+.cardItem {
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+}
+
+.card {
+  background: rgba(246, 238, 231, 0.3);
+  border-radius: 18px;
+  padding: 10px 14px;
+  backdrop-filter: blur(0.2px);
+  text-align: left;
+  width: 250px;
+}
+
+.cardTitle {
+  font-style: italic;
+  font-size: 20px;
+  line-height: 1.1;
+  color: #f6eee7;
+  margin-bottom: 6px;
+  margin-top: 15px;
+  margin-left: 14px;
+}
+
+.cardBody {
+  font-size: 12px;
+  line-height: 1.55;
+  color: #efe4df;
+  margin-left: 14px;
+  margin-bottom: 12px;
+}
+
+/* Dot */
+.dot {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  display: grid;
+  place-items: center;
+  margin-top: 6px;
+}
+.dot::before {
+  content: "";
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: #f6eee7;
+}
+.stem {
+  position: relative;
+  width: 2px;
+  background: #f6eee7;
+  margin-top: 8px;
+  display: flex;
+  place-items: center;
+  /* di atas: jarak dari bawah container dot ke bawah bulatan, supaya garis start pas di bawah lingkaran */
+
+  /* panjang garis */
+  flex: 1.5; 
+  bottom: -10px;
+}
+
+/* Hilangkan garis pada item terakhir */
+.cardItem:last-child .stem {
+  display: none;
+}
+
+.left {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 6px; /* 6px dari atas */
+  width: 50px;
+  /* tinggi kolom mengikuti tinggi kartu (flex) */
+}

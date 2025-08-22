@@ -28,7 +28,7 @@
 .o {
   	position: absolute;
   	top: -3px;
-  	left: 220px;
+  	left: 217px;
   	font-size: 40px;
   	font-family: 'Meow Script';
   	display: inline-block;
@@ -58,7 +58,8 @@
   	text-align: left;
   	font-size: 24px;
   	color: #675553;
-  	font-family: 'Libre Baskerville';
+  	font-family: 'Libre Baskerville', serif;
+    font-style: italic;
 }
 
 .name {

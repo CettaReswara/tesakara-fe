@@ -1,5 +1,9 @@
-import { Libre_Baskerville, Meow_Script, Poppins, Gulzar } from "next/font/google";
+import { Libre_Baskerville, Meow_Script, Poppins, Gulzar, Berkshire_Swash } from "next/font/google";
 
+export const berkshire = Berkshire_Swash({
+  weight: "400", 
+  subsets: ["latin"],
+});
 
 export const gulzar = Gulzar({
   subsets: ["arabic"], 
