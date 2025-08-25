@@ -1,6 +1,6 @@
 import * as React from "react";
 import clsx from "clsx";
-import styles from './index.module.css';
+import styles from './button.module.css';
 import { libre } from "@/app/font";
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {

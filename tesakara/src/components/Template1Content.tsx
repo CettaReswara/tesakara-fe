@@ -6,7 +6,9 @@ import Image from "next/image";
 import Countdown from "./ui/countdown";
 import { PhotoWithRing } from "./ui/photoring";
 import { Button } from "./ui/button";
+import AdabCarousel from "./ui/carousel";
 import Template1Timeline from "./Template1Timeline";
+import { Template1Akad, Template1Walimah, Template1Live } from "./Template1Acara";
 
 type Props = {
   bride: string;
@@ -142,7 +144,7 @@ export default function Template1Content({
         <section
           ref={dalilRef}
           id="dalil"
-          className="relative w-full h-screen snap-start bg-[#0b0b0b]"
+          className="relative w-full h-screen snap-start bg-[#0b0b0b] items-center justify-center"
         >
           <DalilSection />
           {/* Spacer acts as bottom sentinel inside Dalil
@@ -170,13 +172,48 @@ export default function Template1Content({
         {/* SECTION 5 — ACARA */}
         <section
             // ref={mempelaiRef}
-            id="acara"
-            className="relative isolate w-full h-screen snap-start snap-always m-0"
+            id="acara1"
+            className="relative w-full h-screen snap-start bg-[#0b0b0b] items-center justify-center"
         >
-          <p>pengacara</p>
+          <Template1Akad
+            // onOpenAkadMap={() => window.open("https://maps.google.com/?q=Masjid+Baitul+Muttaqin")}
+          />
+
         </section>
 
-        {/* Hidden YouTube iframe (audio) */}
+        <section
+            // ref={mempelaiRef}
+            id="acara2"
+            className="relative w-full h-screen snap-start bg-[#0b0b0b] items-center justify-center"
+        >
+
+          <Template1Walimah
+          />
+
+        </section>
+
+        <section
+            // ref={mempelaiRef}
+            id="acara3"
+            className="relative w-full h-auto snap-start bg-[#0b0b0b] items-center justify-center"
+        >
+
+          <Template1Live
+          />
+          <div className="h-[275px]" />
+          
+        </section>
+
+        {/* SECTION 6 — ADAB */}
+        <section
+            // ref={mempelaiRef}
+            id="adab"
+            className="relative w-full h-screen snap-start bg-[#f6eee7] items-center justify-center"
+        >
+          <Adab />
+        </section>
+
+        {/* YouTube iframe (audio) */}
         <iframe
           ref={ytRef}
           className="pointer-events-none"
@@ -469,7 +506,7 @@ function DalilSection() {
   );
 }
 
-function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom, brlink, grlink  }: { fullbride: string; fullgroom: string; fbride: string; fgroom: string; mbride: string; mgroom: string; brlink: string; grlink: string}) {
+function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom, brlink, grlink, }: { fullbride: string; fullgroom: string; fbride: string; fgroom: string; mbride: string; mgroom: string; brlink: string; grlink: string}) {
   const bgVideoSrc = "/videos/template1vidbg.mp4";
   //const iconlink = "https://lh3.googleusercontent.com/d/1FXIFbA7q056resWKB7SinkZ1az-kWSic=w1496-h992";
   const borderlink = "https://lh3.googleusercontent.com/d/1jNS6LOo6D5HjLkFN7wMidmw2UUdQPNL_=w1080-h1350";
@@ -518,29 +555,30 @@ function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom,
     <section
       ref={secRef}
       id="informasi-mempelai"
-      className="relative isolate snap-start w-full min-h-[100dvh] bg-[#f6eee7]" // pastikan minimal setinggi layar
+      className="relative isolate snap-start bg-[#f6eee7]" // pastikan minimal setinggi layar
       aria-label="Informasi Mempelai"
     >
-      {/* === VIDEO FIXED KE LAYAR (bukan ke section) === */}
-      <video
-        ref={videoRef}
-        className={[
-          // fixed = menempel ke viewport; 100dvh cocok untuk mobile address bar
-          "fixed inset-0 -z-20 min-w-full h-[110dvh] object-contain",
-          // hanya nampak saat section ini in-view
-          "transition-opacity duration-300 ease-linear pointer-events-none select-none",
-          inView ? "opacity-100" : "opacity-0"
-        ].join(" ")}
-        // sumber video (boleh pakai <source> ganda webm+mp4 kalau mau)
-        src={bgVideoSrc}
-        muted
-        playsInline
-        autoPlay
-        loop
-        preload="auto"
-        aria-hidden="true"
-        onCanPlay={handleCanPlay}
-      />
+      {/* === VIDEO  === */}
+      <div className="bg-fixed-vid">
+        <video
+          ref={videoRef}
+          className={[
+            // "-translate-y-3/32",
+            "fixed inset-0 -z-20 w-[470px] mx-auto h-auto object-cover overflow-hidden",
+            "transition-opacity duration-300 ease-linear pointer-events-none select-none",
+            inView ? "opacity-100" : "opacity-0"
+          ].join(" ")}
+          // sumber video (boleh pakai <source> ganda webm+mp4 kalau mau)
+          src={bgVideoSrc}
+          muted
+          playsInline
+          autoPlay
+          loop
+          preload="auto"
+          aria-hidden="true"
+          onCanPlay={handleCanPlay}
+        />
+      </div>
 
       {/* KONTEN */}
       <div className="h-14 center" />
@@ -593,7 +631,10 @@ function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom,
           <Button className="animate-bob" onClick={() => setOpenStory(true)}>Our Story</Button>
       </div>
 
-      <OurStoryOverlay open={openStory} onClose={() => setOpenStory(false)} />
+      <OurStoryOverlay 
+        open={openStory}
+        onClose={() => setOpenStory(false)} 
+      />
       
       <div className="h-[150px]" />
 
@@ -615,7 +656,7 @@ function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom,
             top: 0px;
             left: 0px;
             line-height: 17px;
-            font-size: 14px;
+            font-size: 12px;
         }
         .kata {
             margin: 0;
@@ -624,7 +665,7 @@ function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom,
             // position: absolute;
             top: 43px;
             left: 3px;
-            font-size: 12px;
+            font-size: 10px;
             line-height: 17px;
             display: inline-block;
             width: 313px;
@@ -719,7 +760,12 @@ function OurStoryOverlay({
       {/* centered panel */}
       <div className="absolute inset-0 grid place-items-center p-4" onClick={(e) => e.stopPropagation()}>
         <div className="relative">
-          <Template1Timeline />
+          <Template1Timeline 
+            taaruf="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus."
+            nadzor="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus."
+            khitbah="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus."
+            akad="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus."
+          />
 
           {/* close button */}
           <button
@@ -735,3 +781,89 @@ function OurStoryOverlay({
   );
 }
 
+function Adab() {
+  const ref = useRef<HTMLElement | null>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.2 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <section
+      ref={ref}
+      className="relative isolate snap-start w-full min-h-[100dvh] max-h-screen bg-[#f6eee7]"
+    >
+      {/* vidbg */}
+        <video
+          className={`-z-20 absolute inset-0  w-[470px] mx-auto overflow-hidden object-content transition-opacity duration-700 ${
+            inView ? "opacity-100 scale-100" : "opacity-0 scale-105"
+          }`}
+          src="/videos/template1flower.mp4"
+          muted
+          playsInline
+          autoPlay
+          loop
+        />
+      <div className="adab">
+        <div className="adabWalimah">Adab Walimah</div>
+          <div className="tanpaMengurangiRasaContainer">
+          <p className="tanpaMengurangiRasa">Tanpa mengurangi rasa hormat kami,</p>
+          <p className="tanpaMengurangiRasa">ada adab-adab seorang muslim yang harus diperhatikan ketika menghadiri walimah:</p>
+        </div>
+
+        <div className="carousel">
+          <AdabCarousel />
+        </div>
+      </div>
+
+      <style jsx>{`
+      .adabWalimah {
+        position: absolute;
+        top: 174px;
+        left: 130px;
+      }
+      .tanpaMengurangiRasa {
+        margin: 0;
+      }
+      .tanpaMengurangiRasaContainer {
+        position: absolute;
+        top: 239px;
+        left: 56px;
+        font-size: 12px;
+        font-family: 'Libre Baskerville';
+        display: inline-block;
+        width: 357px;
+      }
+
+      .adab {
+        width: 100%;
+        position: relative;
+        height: 905px;
+        overflow: hidden;
+        cursor: pointer;
+        text-align: center;
+        font-size: 40px;
+        color: #675553;
+        font-family: 'Meow Script';
+        margin-top: -240px;
+      }
+
+      .carousel {
+        width: 100%;
+        position: relative;
+        height: 303px;
+        margin-top: 300px;
+      }
+      `}</style>
+
+    </section>
+  );
+}

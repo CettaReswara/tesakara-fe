@@ -1,0 +1,195 @@
+.pembuka {
+    max-width: 313px;
+	margin: 0 auto;
+  	position: relative;
+  	font-size: 10px;
+  	line-height: 17px;
+  	font-family: 'Libre Baskerville';
+  	color: #675553;
+  	text-align: center;
+}
+
+.kad {
+  	position: relative;
+  	top: 25px;
+	left: -10px;
+	text-align: center;
+}
+
+.a {
+  	position: relative;
+  	top: 0px;
+  	left: 0px;
+  	font-size: 56px;
+  	font-family: 'Meow Script';
+  	display: inline-block;
+  	width: 47px;
+  	height: 49px;
+}
+.heading {
+	top: 30px;
+  	width: 100%;
+  	position: relative;
+  	height: 60px;
+  	text-align: left;
+  	font-size: 28px;
+  	color: #675553;
+  	font-family: 'Libre Baskerville';
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.dateBox {
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  width: fit-content;
+  margin-bottom: 10px;
+  z-index: 2;
+}
+
+.day, .datemonth, .year {
+  font-family: 'Libre Baskerville', sans-serif;
+  font-weight: 300;
+  text-align: center;
+  align-items: center;
+  margin: 0 17px;
+  color: #BB959D;
+}
+
+.date {
+  margin-top: -15px;
+  font-size: 40px;
+  font-weight: 700;
+  top: 10px;
+  left: -5px;
+  margin-left: -6px;
+}
+
+.month {
+  font-size: 20px;
+  margin-top: -10px;
+  bottom: -10px;
+  margin-left: -3px;
+}
+
+.year {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.day {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.decorationIcon {
+  margin-top: -122px;
+  /* max-width: 64%; */
+  position: relative;
+  overflow: hidden;
+  max-height: 140px;
+  z-index: 1;
+}
+
+.time {
+  	position: relative;
+  	font-size: 16px;
+  	font-family: 'Libre Baskerville';
+  	color: #675553;
+	margin-top: 40px;
+}
+
+.location {
+	margin-top: 10px;
+	width: 100%;
+	position: relative;
+	height: 198px;
+	text-align: center;
+	font-size: 14px;
+	color: #675553;
+	font-family: 'Libre Baskerville';
+	font-weight: 700;
+}
+
+.address {
+	position: relative;
+	font-size: 12px;
+	max-width: 230px;;
+	margin-top: 5px;
+	margin: 0 auto;
+	font-weight: 300;
+}
+
+.mapIcon{
+	margin-top: 60px;
+  	position: relative;
+  	max-width: 8%;
+  	overflow: hidden;
+  	object-fit: cover;
+}
+
+.mapbutton {
+	width: 170px;
+	position: relative;
+	height: 30px;
+	text-align: center;
+	font-size: 14px;
+	color:#fff;
+	background-color: #675553;
+	font-family: 'Libre Baskerville';
+	font-weight: 300;
+}
+
+.w {
+	width: 47px;
+	position: relative;
+	font-size: 56px;
+	font-family: 'Meow Script';
+	color: #675553;
+	text-align: left;
+	height: 49px;
+}
+
+.alimat {
+  	position: relative;
+  	font-size: 28px;
+  	font-family: 'Libre Baskerville';
+  	color: #675553;
+  	text-align: left;
+	top: 20px;
+	left: 20px;
+}
+
+.livebutton {
+	width: 200px;
+	position: relative;
+	height: 30px;
+	text-align: center;
+	font-size: 14px;
+	color:#fff;
+	background-color: #675553;
+	font-family: 'Libre Baskerville';
+	font-weight: 300;
+	margin-top: -90px;
+}
+
+.ive {
+  	position: relative;
+  	font-size: 28px;
+  	font-family: 'Libre Baskerville';
+  	color: #675553;
+  	text-align: left;
+	top: 24px;
+	left: 5px;
+}

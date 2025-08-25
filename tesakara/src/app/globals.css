@@ -72,3 +72,24 @@ body {
 .animate-bob {
   animation: bob 3.6s ease-in-out infinite;
 }
+
+/* html, body {
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
+} */
+/* 
+body { touch-action: pan-y; }
+
+.bg-fixed-vid {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;      
+  z-index: -20;
+  pointer-events: none;  
+  overflow: hidden; 
+}
+
+@supports (height: 100svh) {
+  .bg-fixed-vid { height: 100svh; }
+} */

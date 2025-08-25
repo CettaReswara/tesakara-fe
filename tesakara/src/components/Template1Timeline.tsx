@@ -1,7 +1,19 @@
 import styles from "./Template1Timeline.module.css";
 import React from "react";
 
-export default function Template1Timeline() {
+type Details = {
+  taaruf: string;    
+  nadzor: string;   
+  khitbah: string;  
+  akad: string; 
+}
+
+export default function Template1Timeline({
+  taaruf,    
+  nadzor,   
+  khitbah, 
+  akad,
+}: Details) {
   return (
     <div className={styles.timelineStory}>
       <div className={styles.popupBg} />
@@ -17,7 +29,7 @@ export default function Template1Timeline() {
           <div className={styles.card}>
             <div className={styles.cardTitle}>Ta’aruf</div>
             <p className={styles.cardBody}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus. 
+              {taaruf} 
             </p>
           </div>
         </li>
@@ -30,7 +42,7 @@ export default function Template1Timeline() {
           <div className={styles.card}>
             <div className={styles.cardTitle}>Nadzor</div>
             <p className={styles.cardBody}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus.
+              {nadzor}
             </p>
           </div>
         </li>
@@ -43,7 +55,7 @@ export default function Template1Timeline() {
           <div className={styles.card}>
             <div className={styles.cardTitle}>Khitbah</div>
             <p className={styles.cardBody}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus.
+              {khitbah}
             </p>
           </div>
         </li>
@@ -53,7 +65,7 @@ export default function Template1Timeline() {
           <div className={styles.card}>
             <div className={styles.cardTitle}>Akad</div>
             <p className={styles.cardBody}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus.
+              {akad}
             </p>
           </div>
         </li>
