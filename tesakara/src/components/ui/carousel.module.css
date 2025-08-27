@@ -1,17 +1,27 @@
-.wrapper {
+.wrapperl,
+.wrapper,
+.wrapperr {
   position: relative;
-  width: 300px;
-  height: 300px;
+  width: 300px; 
+  height: 300px; 
   overflow: hidden; 
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
-  border-radius: 30px; /* If you want rounded corners to match the image */
-  margin-top: 30px;
-  margin-bottom: 30px;
+  border-radius: 30px;
+  margin-top: 50px;
+}
+
+.wrapperl {
+  left: 130px;
+}
+
+.wrapperr {
+  right: 130px; 
 }
 
 .current {
-  width: 300px;
+  width: 300px; 
   height: 300px;
+  object-fit: cover; 
   border-radius: 30px;
-  object-fit: cover;
+  transition: filter 0.5s ease, opacity 0.5s ease;
 }

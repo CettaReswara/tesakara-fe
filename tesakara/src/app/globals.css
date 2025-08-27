@@ -93,3 +93,5 @@ body { touch-action: pan-y; }
 @supports (height: 100svh) {
   .bg-fixed-vid { height: 100svh; }
 } */
+
+@import "tailwindcss";

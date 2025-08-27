@@ -23,31 +23,50 @@ const AdabCarousel = () => {
   useEffect(() => {
     const interval = setInterval(nextIndex, 5000); 
     return () => clearInterval(interval);
-  }, [currentIndex, nextIndex]);
+  }, [currentIndex]);
+
+  const prevSlideIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+  const nextSlideIndex = (currentIndex + 1) % totalSlides;
 
   return (
     <div className="relative w-full overflow-hidden">
       {/* Carousel Body */}
       <div
-        className="flex transition-transform duration-500 ease-linear"
-        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+        className="flex transition-transform duration-500 ease-linear justify-center"
+        // style={{ transform: `translateX(-${currentIndex * 300}%)` }}
       >
-        {slides.map((slide, index) => (
-          <div
-            key={index}
-            className="w-full flex-shrink-0 flex justify-center items-center"
-          >
-            <div
-              className={`${styles.wrapper} h-80 w-full flex justify-center items-center`}
-            >
-              <img
-                src={slide}
-                alt={`Adab ${index + 1}`}
-                className={`${styles.current} max-h-full max-w-full object-contain`}
-              />
-            </div>
+        <div className="flex-shrink-0 w-full flex justify-center items-center">
+          <div className={`${styles.wrapperl} h-80`}>
+            <img
+              src={slides[prevSlideIndex]}
+              alt={`Previous Slide`}
+              className={`${styles.current} object-cover`}
+              style={{ filter: 'blur(2px)', opacity: 0.5 }}
+            />
           </div>
-        ))}
+        </div>
+
+        <div className="flex-shrink-0 w-full flex justify-center items-center">
+          <div className={`${styles.wrapper} h-80`}>
+            <img
+              src={slides[currentIndex]}
+              alt={`Current Slide`}
+              className={`${styles.current} object-cover`}
+              style={{ filter: 'none', opacity: 1 }}
+            />
+          </div>
+        </div>
+
+        <div className="flex-shrink-0 w-full flex justify-center items-center">
+          <div className={`${styles.wrapperr} h-80`}>
+            <img
+              src={slides[nextSlideIndex]}
+              alt={`Next Slide`}
+              className={`${styles.current} object-cover`}
+              style={{ filter: 'blur(2px)', opacity: 0.5 }}
+            />
+          </div>
+        </div>
       </div>
 
       {/* Previous Slide Button */}

@@ -1,4 +1,11 @@
-import { Libre_Baskerville, Meow_Script, Poppins, Gulzar, Berkshire_Swash } from "next/font/google";
+import { Libre_Baskerville, Meow_Script, Poppins, Gulzar, Berkshire_Swash, Lexend } from "next/font/google";
+
+export const lexend = Lexend({
+  subsets: ["latin"],
+  weight: ["200", "400", "700"],
+  variable: "--font-lexend",
+  display: "swap",
+})
 
 export const berkshire = Berkshire_Swash({
   weight: "400", 

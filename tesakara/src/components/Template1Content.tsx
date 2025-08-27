@@ -2,13 +2,13 @@
 import React, { useEffect, useRef, useCallback, useState } from "react";
 import { poppins, libre, gulzar } from "@/app/font";
 import Snow from "./Snow";
-import Image from "next/image";
 import Countdown from "./ui/countdown";
 import { PhotoWithRing } from "./ui/photoring";
 import { Button } from "./ui/button";
 import AdabCarousel from "./ui/carousel";
 import Template1Timeline from "./Template1Timeline";
 import { Template1Akad, Template1Walimah, Template1Live } from "./Template1Acara";
+import { Template1RSVP } from "./Template1RSVP";
 
 type Props = {
   bride: string;
@@ -43,7 +43,7 @@ export default function Template1Content({
   const bottomSentinelRef = useRef<HTMLDivElement | null>(null);
   const [lockFirst, setLockFirst] = useState(false);
 
-  // PostMessage helper for YouTube
+  // PostMessage helper YouTube
   const sendYT = useCallback((func: "playVideo" | "pauseVideo" | "mute" | "unMute" | "stopVideo") => {
     const iframe = ytRef.current;
     if (!iframe) return;
@@ -173,7 +173,7 @@ export default function Template1Content({
         <section
             // ref={mempelaiRef}
             id="acara1"
-            className="relative w-full h-screen snap-start bg-[#0b0b0b] items-center justify-center"
+            className="relative w-full snap-start bg-[#0b0b0b] items-center justify-center"
         >
           <Template1Akad
             // onOpenAkadMap={() => window.open("https://maps.google.com/?q=Masjid+Baitul+Muttaqin")}
@@ -184,7 +184,7 @@ export default function Template1Content({
         <section
             // ref={mempelaiRef}
             id="acara2"
-            className="relative w-full h-screen snap-start bg-[#0b0b0b] items-center justify-center"
+            className="relative w-full snap-start bg-[#0b0b0b] items-center justify-center"
         >
 
           <Template1Walimah
@@ -200,7 +200,7 @@ export default function Template1Content({
 
           <Template1Live
           />
-          <div className="h-[275px]" />
+          <div className="h-[230px]" />
           
         </section>
 
@@ -208,10 +208,36 @@ export default function Template1Content({
         <section
             // ref={mempelaiRef}
             id="adab"
-            className="relative w-full h-screen snap-start bg-[#f6eee7] items-center justify-center"
+            className="relative w-full min-h-screen snap-start bg-[#f6eee7] items-center justify-center"
         >
           <Adab />
         </section>
+
+        {/* SECTION 7 — DOA */}
+         <section
+            // ref={mempelaiRef}
+            id="doa"
+            className="relative w-full min-h-screen snap-start bg-[#f6eee7] items-center justify-center"
+        >
+          <DoaMempelai />
+        </section>
+
+        {/* SECTION 8 — KONFIRMASI & UCAPAN */}
+        <section
+            // ref={mempelaiRef}
+            id="konfirmasi"
+            className="relative w-full min-h-screen snap-start bg-[#f6eee7] items-center justify-center"
+        >
+          <Template1RSVP 
+            maxValue={5} 
+            name={to} 
+        />
+
+        </section>
+
+        {/* SECTION 9 — HADIAH */}
+
+        {/* SECTION 10 — PENUTUP */}
 
         {/* YouTube iframe (audio) */}
         <iframe
@@ -436,10 +462,78 @@ function CountdownSection({ bride, groom, date }: { bride: string; groom: string
 }
 
 function DalilSection() {
-  const iconlink = "https://lh3.googleusercontent.com/d/1FXIFbA7q056resWKB7SinkZ1az-kWSic=w748-h496";
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [isVideoPlayed, setIsVideoPlayed] = useState(false);
+  const [isMusicPlayed, setIsMusicPlayed] = useState(false);
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
+
+  useEffect(() => {
+    // Create the YouTube Player when the section is in view
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        
+        if (entry.isIntersecting && !isMusicPlayed) {
+          // Play the main video (muted) when the section is in view
+          if (videoRef.current) {
+            videoRef.current.play(); // Play main video (muted)
+            videoRef.current.muted = true; // Ensure the main video is muted
+            setIsVideoPlayed(true);
+          }
+
+          // Load and play the YouTube music
+          if (!iframeRef.current) {
+            const iframe = document.createElement("iframe");
+            iframe.src = "https://www.youtube.com/embed/m24kZjhq3Cw?autoplay=1&loop=1&mute=0"; // Replace with your YouTube video URL
+            iframe.width = "1";
+            iframe.height = "1";
+            iframe.style.position = "absolute";
+            iframe.style.visibility = "hidden"; // Hide the iframe
+            iframe.style.pointerEvents = "none"; // Disable interactions with the iframe
+            iframeRef.current = iframe;
+
+            // Append the iframe to the body or a hidden div
+            document.body.appendChild(iframe);
+            setIsMusicPlayed(true); // Mark that music is now playing
+          }
+        } else if (!entry.isIntersecting && isMusicPlayed) {
+          // Stop the video and music when the section is not in view
+          if (videoRef.current) {
+            videoRef.current.pause();
+          }
+
+          if (iframeRef.current) {
+            // Get the YouTube player using the API and stop the music
+            const player = new window.YT.Player(iframeRef.current, {
+              events: {
+                onReady: (event: { target: { playVideo: () => void; }; }) => {
+                  event.target.playVideo(); // Play video
+                },
+              },
+            });
+            setIsMusicPlayed(false); // Mark that the music is stopped
+          }
+        }
+      },
+      {
+        threshold: 0.3, // Ensure 100% visibility for playback
+      }
+    );
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current);
+    }
+
+    return () => {
+      if (videoRef.current) {
+        observer.disconnect();
+      }
+    };
+  }, [isMusicPlayed]);
+  
   return (
-    <div className="relative isolate h-full w-[470px] flex flex-col items-center justify-center">
-      {/* background */}
+    <div className="relative isolate h-screen w-[470px] flex flex-col items-center justify-center overflow-hidden">
+      {/* Background */}
       <div
         aria-hidden
         className="absolute inset-0 -z-10 pointer-events-none"
@@ -453,56 +547,17 @@ function DalilSection() {
         }}
       />
 
-      {/* content */}
-      <div className="relative w-[374px] h-[248px] overflow-hidden mx-auto">
-        <Image
-            src={iconlink}
-            alt="time"
-            // width={488}
-            // height={340}
-            fill
-            priority
-            className="object-cover"
+      {/* Video content */}
+      <div className="relative w-[470px] max-h-screen overflow-hidden mx-auto">
+        <video
+          ref={videoRef}
+          src="/videos/template1dalil.mp4"
+          autoPlay
+          muted
+          className="object-cover w-full h-full"
         />
       </div>
-
-      <div className="h-8" />
-      
-      <div className="relative z-10 max-w-[340px] text-center space-y-5">
-        <p
-            className={`${gulzar.className} text-xl leading-[3rem] text-[#675553]`}
-            dir="rtl"
-            lang="ar"
-            >
-            وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِّنْ أَنْفُسِكُمْ أَزْوَاجًا
-            لِتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَوَدَّةً وَرَحْمَةً ۚ
-            إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ
-            <span className="ml-2">٢١</span>
-        </p>
-
-        <p className="translate">
-          “Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu
-          sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan
-          sayang. Sungguh, pada yang demikian itu benar-benar terdapat tanda-tanda bagi kaum yang berpikir.”
-        </p>
-
-        <p className="translate" style={{ fontSize: "7px" }}>(Q.S. Ar‑Rūm: 21)</p>
       </div>
-
-      {/* local styles */}
-      <style jsx>{`
-        .translate {
-          width: 359px;
-          position: relative;
-          font-size: 10px;
-          line-height: 17px;
-          font-family: 'Libre Baskerville';
-          color: #675553;
-          text-align: center;
-          display: inline-block;
-        }
-      `}</style>
-    </div>
   );
 }
 
@@ -865,5 +920,71 @@ function Adab() {
       `}</style>
 
     </section>
+  );
+}
+
+function DoaMempelai() {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [isVideoPlayed, setIsVideoPlayed] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting && !isVideoPlayed && videoRef.current) {
+          videoRef.current.play();
+          setIsVideoPlayed(true);
+        } else if (!entry.isIntersecting && isVideoPlayed && videoRef.current) {
+          videoRef.current.pause();
+          setIsVideoPlayed(false);
+        }
+      },
+      { threshold: 0.5 } 
+    );
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [isVideoPlayed]);
+
+  const handleStopPreview = () => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+      setIsVideoPlayed(false);
+    }
+  };
+
+  return (
+      <div className="relative isolate h-full w-[470px] flex flex-col items-center justify-center">
+      {/* Background */}
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10 pointer-events-none"
+        style={{
+          backgroundColor: "#f6eee7",
+          backgroundImage: `
+            linear-gradient(to right, rgba(103,85,83,0.05) 2px, transparent 2px),
+            linear-gradient(to bottom, rgba(103,85,83,0.05) 2px, transparent 2px)
+          `,
+          backgroundSize: "40px 40px",
+        }}
+      />
+
+      {/* Video content */}
+      <div className="relative w-[470px] h-screen overflow-hidden mx-auto">
+        <video
+          ref={videoRef}
+          src="/videos/template1doa.mp4/"
+          autoPlay
+          muted
+          className="object-cover w-full h-full"
+        />
+      </div>
+      </div>
   );
 }

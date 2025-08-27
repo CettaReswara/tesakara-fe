@@ -99,6 +99,7 @@ export function Template1Akad() {
             <Button className={`${styles.mapbutton} animate-bob`} onClick={onOpenAkadMap}>
               Buka Maps
             </Button>
+            <div className="h-[150px]" />
           </div>
         </div>
       </div>
@@ -199,6 +200,7 @@ export function Template1Walimah() {
             <Button className={`${styles.mapbutton} animate-bob`} onClick={onOpenWalimahMap}>
               Buka Maps
             </Button>
+            <div className="h-[250px]" />
           </div>
         </div>
       </div>

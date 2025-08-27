@@ -1,0 +1,296 @@
+.bg {
+  	position: absolute;
+  	top: 0px;
+  	left: 0px;
+  	background-color: #f6eee7;
+}
+.bgPicIcon {
+  	position: absolute;
+  	object-fit: cover;
+	width: 470px;
+	height: auto;
+}
+.wishes {
+  	position: absolute;
+  	top: 0px;
+  	left: 61px;
+  	letter-spacing: -0.1em;
+  	line-height: 74px;
+}
+.onfirmasi {
+  	position: absolute;
+  	top: 19px;
+  	left: 53px;
+  	display: inline-block;
+  	width: 185px;
+  	height: 35px;
+}
+
+.formMask {
+	width: 100%;
+	position: relative;
+	box-shadow: 0px 4px 19px rgba(0, 0, 0, 0.25);
+	border-radius: 9px;
+	background-color: rgba(252, 250, 248, 0.7);
+	height: 130px;
+	overflow: hidden;
+	font-family: 'Lexend';
+	font-weight: 200;
+}
+
+.k {
+  	position: absolute;
+  	top: 0px;
+  	left: 0px;
+  	font-size: 48px;
+  	font-family: 'Meow Script';
+  	display: inline-block;
+  	width: 47px;
+  	height: 49px;
+}
+.konfirmasi {
+  	position: absolute;
+  	top: 17px;
+  	left: 0px;
+  	width: 238px;
+  	height: 54px;
+}
+.div {
+  	position: absolute;
+  	top: -5px;
+  	left: 150px;
+  	font-size: 96px;
+  	font-family: 'Meow Script';
+  	display: inline-block;
+  	width: 79px;
+  	height: 90px;
+}
+.oa {
+  	position: absolute;
+  	top: 16px;
+  	left: 50px;
+  	display: inline-block;
+  	width: 31px;
+  	height: 35px;
+}
+.doa {
+  	position: absolute;
+  	top: 20px;
+  	left: 202px;
+  	width: 81px;
+  	height: 51px;
+}
+.sub {
+  	position: absolute;
+  	top: 36px;
+  	left: 0px;
+  	width: 283px;
+  	height: 90px;
+  	text-align: left;
+  	font-size: 24px;
+}
+.header {
+  	position: absolute;
+  	top: 94px;
+  	left: 86px;
+  	width: 283px;
+  	height: 126px;
+  	font-size: 64px;
+}
+.form {
+  	position: absolute;
+  	top: 19.95px;
+  	left: 0px;
+  	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  	border-radius: 13px;
+  	background-color: #fdf8f2;
+  	width: 367px;
+  	height: 50px;
+	font-family: 'Lexend';
+	font-weight: 200;
+}
+.formTitle {
+  	position: absolute;
+  	top: 0px;
+  	left: 109px;
+  	display: inline-block;
+  	width: 149px;
+  	height: 20px;
+	font-family: 'Lexend';
+	font-weight: 400;
+	margin-bottom: 4px;
+}
+.formUser {
+  	position: absolute;
+  	top: 240px;
+  	left: 52px;
+  	width: 367px;
+  	height: 70px;
+}
+.formTitle1 {
+  	position: absolute;
+  	top: 0px;
+  	left: 95px;
+  	display: inline-block;
+  	width: 178px;
+  	height: 20px;
+	font-family: 'Lexend';
+	font-weight: 400;
+	margin-bottom: 4px;
+}
+.buttonDownIcon {
+  	position: absolute;
+  	top: 37px;
+  	left: 335px;
+  	width: 17px;
+  	height: 15px;
+  	object-fit: contain;
+}
+.formUser1 {
+  	position: absolute;
+  	top: 318px;
+  	left: 52px;
+  	width: 367px;
+  	height: 70px;
+}
+.formUser2 {
+  	position: absolute;
+  	top: 396px;
+  	left: 52px;
+  	width: 367px;
+  	height: 70px;
+}
+.form3 {
+  	position: absolute;
+  	top: 20px;
+  	left: 0px;
+  	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  	border-radius: 13px;
+  	background-color: #fdf8f2;
+  	width: 367px;
+  	height: 101px;
+	resize: none;
+	font-family: 'Lexend';
+	font-weight: 200;
+}
+.formUser3 {
+  	position: absolute;
+  	top: 474px;
+  	left: 52px;
+  	width: 367px;
+  	height: 121px;
+}
+.form4 {
+  	position: absolute;
+  	top: 0px;
+  	left: 0px;
+  	box-shadow: 0px 4px 19px rgba(0, 0, 0, 0.25);
+  	border-radius: 9px;
+  	background-color: rgba(243, 235, 228, 0.5);
+  	width: 357px;
+  	height: 130px;
+}
+.form5 {
+  	position: absolute;
+  	top: 0px;
+  	left: 0px;
+  	background-color: #fdf8f2;
+  	width: 357px;
+  	height: 30px;
+}
+.formTitle4 {
+  	position: absolute;
+  	top: 7px;
+  	left: 17px;
+  	display: inline-block;
+  	/* width: 149px; */
+	width: 235px;
+	white-space: nowrap; 
+	overflow: hidden;
+	text-overflow: ellipsis; 
+  	height: 16px;
+	margin-bottom: 4px;
+}
+.formTitle5 {
+  	position: absolute;
+  	top: 41px;
+  	left: 17px;
+  	display: inline-block;
+  	width: 315px;
+  	height: 75px;
+	font-weight: 200;
+	overflow-y: scroll;
+	text-overflow: clip;
+	white-space: normal;
+	overflow-x: hidden;
+	word-wrap: break-word;
+}
+.floatingMessageChild {
+  	position: absolute;
+  	top: 6px;
+  	left: 255px;
+  	border-radius: 9px;
+  	background-color: #c4c3c3;
+  	width: 90px;
+  	height: 19px;
+}
+.formTitle6 {
+  	position: absolute;
+  	top: 7px;
+  	left: 265px;
+  	font-size: 11px;
+  	display: inline-block;
+  	text-align: center;
+  	width: 68px;
+  	height: 11px;
+}
+.floatingMessage {
+  	position: absolute;
+  	top: 679px;
+  	left: 55px;
+  	width: 357px;
+  	height: 130px;
+  	text-align: left;
+  	font-size: 13px;
+  	color: #2d2016;
+  	font-family: 'Lexend';
+}
+.buttonBg {
+  	position: absolute;
+  	top: 0px;
+  	left: 0px;
+  	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  	border-radius: 11px;
+  	background-color: #e0b39c;
+  	width: 170px;
+  	height: 27px;
+}
+.buttonText {
+  	position: absolute;
+  	top: 5px;
+  	left: 54px;
+  	display: inline-block;
+  	width: 63px;
+  	height: 14px;
+	font-family: 'Lexend';
+	font-weight: 400;
+}
+.button {
+  	position: absolute;
+  	top: 614px;
+  	left: 149px;
+  	width: 170px;
+  	height: 27px;
+  	cursor: pointer;
+}
+
+.ucapan {
+  	width: 100%;
+  	position: relative;
+  	height: 905px;
+  	overflow: hidden;
+  	text-align: center;
+  	font-size: 14px;
+  	color: #675553;
+  	font-family: 'Libre Baskerville';
+}
