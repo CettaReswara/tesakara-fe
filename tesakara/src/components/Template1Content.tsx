@@ -8,7 +8,8 @@ import { Button } from "./ui/button";
 import AdabCarousel from "./ui/carousel";
 import Template1Timeline from "./Template1Timeline";
 import { Template1Akad, Template1Walimah, Template1Live } from "./Template1Acara";
-import { Template1RSVP } from "./Template1RSVP";
+import { Template1RSVP, Template1Selamat } from "./Template1RSVP";
+import { Template1Hadiah } from "./Template1Hadiah";
 
 type Props = {
   bride: string;
@@ -86,6 +87,12 @@ export default function Template1Content({
         el.style.scrollBehavior = prevBehavior || "";  // contoh awalnya "smooth"
     }, 50);
   }, []);
+
+  // dummy bank
+  const bank = [
+    { bank: "Bank Jago Syariah", atasNama: "John Doe", noRekening: "123456789" },
+    { bank: "Bank BSI", atasNama: "Jane Smith", noRekening: "987654321" },
+  ];
 
   // Unmute the audio on the first user interaction (once)
   useEffect(() => {
@@ -235,7 +242,32 @@ export default function Template1Content({
 
         </section>
 
+        <section
+            // ref={mempelaiRef}
+            id="ucapan"
+            className="relative w-full min-h-screen snap-start bg-[#f6eee7] items-center justify-center"
+        >
+          <Template1Selamat
+          />
+
+        </section>
+
         {/* SECTION 9 — HADIAH */}
+
+        <section
+            // ref={mempelaiRef}
+            id="ucapan"
+            className="relative w-full min-h-screen snap-start bg-[#f6eee7] items-center justify-center"
+        >
+          
+          <Template1Hadiah
+            dataRekening={bank} 
+            isAlamat={true} 
+            penerima="Keluarga Handoko"
+            alamat="Jl. Tengah Kota Jauh Dari Kabupaten Kota Baru, Indonesia"
+          />
+
+        </section>
 
         {/* SECTION 10 — PENUTUP */}
 

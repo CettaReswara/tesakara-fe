@@ -1,0 +1,62 @@
+/* Shared base with customizable CSS variables */
+.buttonBase {
+  --btn-bg: #675553;       
+  --btn-text: #ffffff;      
+  --btn-font: 'Libre Baskerville', serif;
+
+  position: relative;
+  display: inline-block;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--btn-font);
+  color: var(--btn-text);
+}
+
+.buttonBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: var(--btn-bg);
+  border-radius: 15px;
+}
+
+.buttonText {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+/* ===== Large ===== */
+.large {
+  width: 170px;
+  height: 40px;
+  font-size: 16px;
+  line-height: 1;
+}
+.large .buttonBg {
+  width: 170px;
+  height: 40px;
+}
+.large .buttonText {
+  top: 12px;
+  font-style: italic;          
+}
+
+/* ===== Small ===== */
+.small {
+  width: 62px;
+  height: 21px;
+  font-size: 12px;
+  line-height: 1;
+}
+.small .buttonBg {
+  width: 62px;
+  height: 21px;
+}
+.small .buttonText {
+  top: 5px;  
+  font-style: italic;                       
+}

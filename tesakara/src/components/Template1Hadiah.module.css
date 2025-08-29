@@ -1,0 +1,139 @@
+.kado {
+  width: 470px;
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  cursor: pointer;
+  color: #675553;
+  font-family: 'Libre Baskerville';
+
+  display: flex;     
+  text-align: center;
+  flex-direction: column;
+}
+
+.header {
+    position: relative;
+    justify-content: center;
+    top: 66px;
+    height: 312px;
+    font-size: 64px;
+    margin: 0 auto;
+}
+
+.wedding {
+    position: relative;
+    top: 82px;
+    font-size: 64px;
+    letter-spacing: -0.1em;
+}
+
+.gift {
+    position: relative;
+    top: 40px;
+    font-size: 66px;
+    font-family: 'Meow Script';
+    width: 121px;
+    height: 49px;
+    margin: 0 auto;
+}
+
+.asetIcon {
+    position: relative;
+    top: -140px;
+    width: 249px;
+    height: 312px;
+    object-fit: cover;
+    margin: 0 auto;
+}
+
+.subContainer {
+    top: 20px;
+    position: relative;
+    justify-content: center;
+    text-align: center;
+    line-height: 20px;
+    max-width: 320px;
+    height: auto;
+    font-size: 12px;
+    margin: 0 auto;
+}
+
+.sub {
+    font-style: italic;
+    white-space: normal; 
+    margin: 0;
+    overflow-wrap: break-word;
+}
+
+.wrapperAlamat {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin-top: 50px;
+}
+
+.pengirimanKado {
+    width: 300px;
+    z-index: 10;
+    margin: 40px auto 8px;
+    position: relative;
+    font-size: 12px;
+    line-height: 20px;
+}
+
+.judulpengirimanKado { 
+    font-size: 16px; 
+    line-height: 1.1;
+}
+
+.atau {
+    position: relative;
+    font-size: 12px;
+}
+
+.rumahPenerima {
+    margin-top: 9px;
+    max-width: 260px;
+    line-height: 1.5;
+}
+
+.alamat {
+    max-width: 320px;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.buttonAlamat{
+    margin-top: 26px;
+}
+
+.atau {
+    margin-top: 44px;
+    font-style: normal;
+}
+
+.noAlamatShift {
+   margin-top: 35px; 
+}
+
+.terimaKasih {
+    position: relative;
+    justify-content: center;
+    /* top: 80px; */
+    font-size: 32px;
+    letter-spacing: -0.1em;
+    /* line-height: 74px; */
+    margin-top: 40px;
+    font-style: italic;
+}
+
+.jazaakumullahuKhayran {
+    position: relative;
+    margin-top: -20px;
+    font-size: 32px;
+    font-family: 'Meow Script';
+    margin-left: 50px;
+    width: 334px;
+    height: 49px;
+}

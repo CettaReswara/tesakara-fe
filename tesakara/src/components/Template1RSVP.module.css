@@ -55,7 +55,7 @@
   	width: 238px;
   	height: 54px;
 }
-.div {
+/* .div {
   	position: absolute;
   	top: -5px;
   	left: 150px;
@@ -64,7 +64,22 @@
   	display: inline-block;
   	width: 79px;
   	height: 90px;
+} */
+
+.div {
+  	width: 47px;
+  	position: relative;
+	top: 10px;
+	left: 165px;
+  	font-size: 60px;
+  	font-family: 'Meow Script';
+  	color: #675553;
+  	text-align: left;
+  	display: inline-block;
+  	height: 49px;
 }
+
+
 .oa {
   	position: absolute;
   	top: 16px;
@@ -293,4 +308,195 @@
   	font-size: 14px;
   	color: #675553;
   	font-family: 'Libre Baskerville';
+}
+
+/* SELAMAT */
+
+.selamat {
+  	width: 100%;
+  	position: relative;
+  	height: 905px;
+  	overflow: hidden;
+  	text-align: left;
+  	font-size: 13px;
+  	color: #2d2016;
+  	font-family: 'Lexend';
+	font-weight: 200;
+}
+.dbg {
+  	position: absolute;
+  	top: 0px;
+  	left: 0px;
+  	background-color: #f6eee7;
+  	width: 509px;
+  	height: 904px;
+}
+.dbgPicIcon {
+  	position: absolute;
+  	top: -1px;
+  	left: -21px;
+  	width: 509px;
+  	height: 904px;
+  	object-fit: cover;
+}
+
+.dheader {
+position: absolute;
+top: 122px;
+left: 80px;
+width: 319px;
+height: 93px;
+text-align: center;
+font-size: 56px;
+color: #675553;
+font-family: 'Libre Baskerville';
+}
+
+.dbarakallahu {
+position: absolute;
+top: 0px;
+left: 0px;
+letter-spacing: -0.1em;
+line-height: 74px;
+}
+
+.dlakumaa {
+position: absolute;
+top: 44px;
+left: 120px;
+font-size: 55px;
+font-family: 'Meow Script';
+text-align: left;
+display: inline-block;
+width: 199px;
+height: 49px;
+}
+
+.floatingMessage1 {
+  	position: absolute;
+  	top: 554px;
+  	left: 55px;
+  	width: 357px;
+  	height: 130px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	box-shadow: 0px 4px 19px rgba(0, 0, 0, 0.25);
+	border-radius: 9px;
+	background-color: rgba(243, 235, 228, 0.5);
+	animation: popupAnimation 0.6s ease-out forwards;
+}
+.design1 {
+  	position: absolute;
+  	top: 0px;
+  	left: 0px;
+  	box-shadow: 0px 4px 19px rgba(0, 0, 0, 0.25);
+  	border-radius: 9px;
+  	background-color: rgba(243, 235, 228, 0.5);
+  	width: 357px;
+  	height: 130px;
+}
+.designa1 {
+  	position: absolute;
+  	top: 0px;
+  	left: 0px;
+  	background-color: #fdf8f2;
+  	width: 357px;
+  	height: 30px;
+}
+.Title1 {
+  	position: absolute;
+  	top: 7px;
+  	left: 17px;
+  	display: inline-block;
+  	width: 235px;
+  	height: 16px;
+	white-space: nowrap; 
+	overflow: hidden;
+	text-overflow: ellipsis; 
+  	height: 16px;
+	margin-bottom: 4px;
+}
+
+.Caption1 {
+  	position: absolute;
+  	top: 41px;
+  	left: 17px;
+  	display: inline-block;
+  	width: 315px;
+  	height: 64px;
+	overflow-y: scroll;
+	text-overflow: clip;
+	white-space: normal;
+	overflow-x: hidden;
+	word-wrap: break-word;
+}
+.designChild1 {
+  	position: absolute;
+  	top: 6px;
+  	left: 255px;
+  	border-radius: 9px;
+  	background-color: #d9b9b1;
+  	width: 90px;
+  	height: 19px;
+}
+
+.status1 {
+  	position: absolute;
+  	top: 7px;
+  	left: 265px;
+  	font-size: 11px;
+  	display: inline-block;
+  	text-align: center;
+  	width: 68px;
+  	height: 11px;
+}
+
+.floatingMessage2 {
+  	position: absolute;
+  	top: 256px;
+  	left: 55px;
+  	width: 357px;
+  	height: 130px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	box-shadow: 0px 4px 19px rgba(0, 0, 0, 0.25);
+	border-radius: 9px;
+	background-color: rgba(243, 235, 228, 0.5);
+	animation: popupAnimation 0.6s ease-out forwards;
+}
+.floatingMessage3 {
+  	position: absolute;
+  	top: 405px;
+  	left: 55px;
+  	width: 357px;
+  	height: 130px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	box-shadow: 0px 4px 19px rgba(0, 0, 0, 0.25);
+	border-radius: 9px;
+	background-color: rgba(243, 235, 228, 0.5);
+	animation: popupAnimation 0.6s ease-out forwards;
+}
+.dsub {
+  	position: absolute;
+  	top: 168px;
+  	left: 99px;
+  	width: 242px;
+  	height: 56px;
+  	font-size: 24px;
+  	color: #675553;
+  	font-family: 'Libre Baskerville';
+}
+.dkonfirmasi {
+  	position: absolute;
+  	top: 1px;
+  	left: 0px;
+  	width: 123px;
+  	height: 53px;
 }

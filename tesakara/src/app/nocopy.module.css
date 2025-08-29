@@ -1,0 +1,11 @@
+.nocopy {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none; /* iOS long-press menu */
+}
+
+/* Re-enable selection/cursor in interactive elements */
+.nocopy :is(input, textarea, select, button, a, [contenteditable="true"]) {
+  user-select: text;
+  -webkit-user-select: text;
+}

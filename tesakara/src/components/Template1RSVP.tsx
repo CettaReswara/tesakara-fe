@@ -1,6 +1,30 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Image from "next/image";
 import styles from './Template1RSVP.module.css';
+
+const data = [
+  { sender: "Fulanah", text: "Selamat yaa, barakallahu laka wa baraka ‘alaikuma wa jama’a bayna kumaa fii khayr. Semoga senantiasa diberikan sakinah, mawaddah, wa rahmah. Dari sahabat kamu.", status: "Hadir" },
+  { sender: "Siti", text: "Semoga Allah memberikan berkah yang melimpah pada pernikahan kalian. Selamat ya!", status: "Hadir" },
+  { sender: "Ahmad", text: "Barakallahu lakuma wa jama’a baynakuma fii khayr. Semoga hidup kalian selalu bahagia.", status: "Tidak Hadir" },
+  { sender: "Ali", text: "Selamat menempuh hidup baru! Semoga kalian berdua selalu dalam lindungan Allah dan selalu diberkahi.", status: "Hadir" },
+  { sender: "Nisa", text: "Barakallah fii umrikuma. Semoga setiap langkah kalian dipenuhi kebahagiaan dan kebaikan.", status: "Tidak Hadir" },
+  { sender: "Rina", text: "Selamat yaa, semoga Allah memberi kebahagiaan dunia dan akhirat pada kalian berdua. Sakinah mawadah warahmah!", status: "Hadir" },
+  { sender: "Zahra", text: "Minal aidin wal faidzin. Semoga pernikahan kalian menjadi sakinah dan penuh berkah.", status: "Hadir" },
+  { sender: "Yusuf", text: "Selamat atas pernikahannya, semoga kalian senantiasa dalam keberkahan Allah.", status: "Hadir" },
+  { sender: "Lina", text: "Barakallahu lakuma wa baraka 'alaikum wa jama'a baynakuma fii khayr. Semoga selalu diberikan kebahagiaan bersama.", status: "Hadir" },
+  { sender: "Tariq", text: "Selamat ya, semoga menjadi pasangan yang penuh kasih sayang dan selalu diberikan keberkahan.", status: "Tidak Hadir" },
+  { sender: "Fatimah", text: "Barakallahu lakuma wa baraka 'alaikum. Semoga Allah selalu menjaga kebahagiaan kalian.", status: "Hadir" },
+  { sender: "Salim", text: "Selamat atas pernikahannya! Semoga cinta kalian selalu tumbuh dan berkembang.", status: "Tidak Hadir" },
+  { sender: "Amina", text: "Selamat menempuh hidup baru! Semoga kalian selalu diberikan rahmat dan keberkahan oleh Allah.", status: "Hadir" },
+  { sender: "Zainab", text: "Barakallah fi umrikuma. Semoga hidup bersama selalu penuh kebahagiaan dan berkah.", status: "Tidak Hadir" },
+  { sender: "Maya", text: "Semoga Allah senantiasa memberikan petunjuk dan keberkahan dalam hidup kalian berdua. Barakallah!", status: "Hadir" },
+  { sender: "Jamilah", text: "Selamat yaa, semoga pernikahan kalian penuh dengan kedamaian dan kebahagiaan abadi.", status: "Hadir" },
+  { sender: "Fahad", text: "Semoga Allah memberkati kalian berdua dan memberikan kebahagiaan yang tak terhingga.", status: "Tidak Hadir" },
+  { sender: "Rami", text: "Selamat menempuh hidup baru! Semoga kalian selalu saling mendukung dan bahagia bersama.", status: "Hadir" },
+  { sender: "Mira", text: "Barakallahu lakuma, semoga Allah memberikan kalian kesabaran dan kebahagiaan dalam hidup bersama.", status: "Hadir" },
+  { sender: "Dina", text: "Selamat atas pernikahan kalian. Semoga pernikahan ini selalu diberkahi dan penuh cinta.", status: "Tidak Hadir" },
+  { sender: "Ibrahim", text: "Selamat ya, semoga cinta kalian tumbuh semakin kuat setiap harinya. Barakallah fi umrikuma!", status: "Hadir" }
+];
 
 interface RSVPProps {
   maxValue: number;
@@ -93,7 +117,7 @@ export function Template1RSVP({ maxValue, name }: RSVPProps) {
                             onChange={handleInputChange}
                             className={`${styles.form} block appearance-none w-full px-4 pt-2 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline`}
                         >
-                            <option selected>Pilih status kehadiran</option>
+                            <option value="">Pilih status kehadiran</option>
           					<option value="hadir">Hadir</option>
           					<option value="tidak_hadir">Tidak Hadir</option>
                         </select>
@@ -184,4 +208,125 @@ export function Template1RSVP({ maxValue, name }: RSVPProps) {
                 </div>
     		</div>
     );
+};
+
+export function Template1Selamat() {
+    const [currentMessage1, setCurrentMessage1] = useState(0);
+    const [currentMessage2, setCurrentMessage2] = useState(1);
+    const [currentMessage3, setCurrentMessage3] = useState(2);
+    
+    useEffect(() => {
+
+    const interval1 = setInterval(() => {
+      setCurrentMessage1((prev) => (prev + 3) % data.length);
+    }, 4000); 
+
+    const interval2 = setTimeout(() => {
+      setInterval(() => {
+        setCurrentMessage2((prev) => (prev + 3) % data.length);
+      }, 4000);
+    }, 1000); 
+
+    const interval3 = setTimeout(() => {
+      setInterval(() => {
+        setCurrentMessage3((prev) => (prev + 3) % data.length);
+      }, 4000); 
+    }, 2000); 
+
+    return () => {
+      clearInterval(interval1);
+      clearTimeout(interval2);
+      clearTimeout(interval3);
+    };
+  }, []);
+
+    return (
+    <div className={styles.selamat}>
+        <div className={`${styles.bg} relative isolate h-full w-[470px] flex flex-col items-center justify-center`}>
+      	<Image className={styles.bgPicIcon} fill alt="" src="/svg/template1paper.png" />
+        
+        <div className={styles.dheader}>
+            <i className={styles.dbarakallahu}>Barakallahu</i>
+            <div className={styles.dlakumaa}>Lakumaa!</div>
+        </div>
+        </div>
+        
+        <div className={styles.floatingMessage1}>
+            <div className={styles.formMask}>
+            <div className={styles.design1} />
+            <div className={styles.designa1} />
+            <div className={styles.Title1}>
+                <span>{`Ucapan dari `}</span>
+                <b>{data[currentMessage1].sender}</b>
+            </div>
+            <div className={styles.Caption1}>
+                 {data[currentMessage1].text}
+            </div>
+            <div 
+                className={styles.designChild1} 
+                style={{
+                        backgroundColor:
+                        data[currentMessage1].status === "Hadir"
+                        ? "#D9D4B1" 
+                        : data[currentMessage1].status === "Tidak Hadir"
+                        ? "#D9B9B1"
+                        : "#c4c3c3",
+                        }}
+            />
+            <b className={styles.status1}>{data[currentMessage1].status}</b>
+            </div>
+        </div>
+
+        <div className={styles.floatingMessage2}>
+            <div className={styles.formMask}>
+            <div className={styles.design1} />
+            <div className={styles.designa1} />
+            <div className={styles.Title1}>
+                <span>{`Ucapan dari `}</span>
+                <b>{data[currentMessage2].sender}</b>
+            </div>
+            <div className={styles.Caption1}>
+                {data[currentMessage2].text}
+            </div>
+            <div 
+                className={styles.designChild1} 
+                style={{
+                        backgroundColor:
+                        data[currentMessage2].status === "Hadir"
+                        ? "#D9D4B1" 
+                        : data[currentMessage2].status === "Tidak Hadir"
+                        ? "#D9B9B1"
+                        : "#c4c3c3",
+                        }}
+            />
+            <b className={styles.status1}>{data[currentMessage2].status}</b>
+            </div>
+        </div>
+
+        <div className={styles.floatingMessage3} >
+            <div className={styles.formMask}>
+            <div className={styles.design1} />
+            <div className={styles.designa1} />
+            <div className={styles.Title1}>
+                <span>{`Ucapan dari `}</span>
+                <b>{data[currentMessage3].sender}</b>
+            </div>
+            <div className={styles.Caption1}>
+                {data[currentMessage3].text}
+            </div>
+            <div 
+                className={styles.designChild1} 
+                style={{
+                        backgroundColor:
+                        data[currentMessage3].status === "Hadir"
+                        ? "#D9D4B1" 
+                        : data[currentMessage3].status === "Tidak Hadir"
+                        ? "#D9B9B1"
+                        : "#c4c3c3",
+                        }}
+            />
+            <b className={styles.status1}>{data[currentMessage3].status}</b>
+            </div>
+        </div>
+    </div>);
 };
