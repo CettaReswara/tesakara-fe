@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Image from "next/image";
 import styles from './Template1RSVP.module.css';
+import { RevealGroup } from "./reveal/reveal";
+import { AnimatePresence, motion, Variants } from "framer-motion";
 
 const data = [
   { sender: "Fulanah", text: "Selamat yaa, barakallahu laka wa baraka ‘alaikuma wa jama’a bayna kumaa fii khayr. Semoga senantiasa diberikan sakinah, mawaddah, wa rahmah. Dari sahabat kamu.", status: "Hadir" },
@@ -25,6 +27,12 @@ const data = [
   { sender: "Dina", text: "Selamat atas pernikahan kalian. Semoga pernikahan ini selalu diberkahi dan penuh cinta.", status: "Tidak Hadir" },
   { sender: "Ibrahim", text: "Selamat ya, semoga cinta kalian tumbuh semakin kuat setiap harinya. Barakallah fi umrikuma!", status: "Hadir" }
 ];
+
+const cardVariants: Variants = {
+  enter:  { opacity: 0, y: 8 },
+  center: { opacity: 1, y: 0 },
+  exit:   { opacity: 0, y: -8 },
+};
 
 interface RSVPProps {
   maxValue: number;
@@ -84,6 +92,7 @@ export function Template1RSVP({ maxValue, name }: RSVPProps) {
             </div>
 
             {/* header */}
+            <RevealGroup direction="down" amount={0.3} duration={10} stagger={0.12}>
             <div className={`${styles.header} z-10`}>
                 <i className={styles.wishes}>Wishes</i>
                 <div className={styles.sub}>
@@ -98,8 +107,10 @@ export function Template1RSVP({ maxValue, name }: RSVPProps) {
                     </div>
                 </div>
             </div>
+            </RevealGroup>
 
             {/* form */}
+            <RevealGroup direction="none" amount={0.3} duration={6} stagger={0.12}>
             <form className={`${styles.formUser} z-10`}>
                 <b className={styles.formTitle}>Nama</b>
                 <div className={styles.position}>
@@ -162,15 +173,19 @@ export function Template1RSVP({ maxValue, name }: RSVPProps) {
                     />
                 </div>
             </form>
+            </RevealGroup>
 
             {/* kirim */}
+            <RevealGroup direction="down" amount={0.3} duration={6} stagger={0.12}>
             <div className={`${styles.button} z-10`} onClick={onButtonContainerClick}>
                 <div className={styles.buttonBg} />
                 <div className={styles.buttonText}>Kirim</div>
             </div>
+            </RevealGroup>
 
             {/* UCAPAN */}
             {!submitted ? (
+            <RevealGroup direction="up" amount={0.3} duration={4} stagger={0.12}>
             <div className={styles.container}>
                 <div className={styles.floatingMessage}>
                     <div className={styles.formMask}>
@@ -186,7 +201,9 @@ export function Template1RSVP({ maxValue, name }: RSVPProps) {
                     </div>
                 </div>
             </div>
+            </RevealGroup>
             ):(
+                <RevealGroup direction="up" amount={0.3} duration={4} stagger={0.12}>
                 <div className={styles.container}>
                 <div className={styles.floatingMessage}>
                     <div className={styles.formMask}>
@@ -218,6 +235,7 @@ export function Template1RSVP({ maxValue, name }: RSVPProps) {
                     </div>
                 </div>
                 </div>
+                </RevealGroup>
             )
             }
              <div className='h-20'/>
@@ -240,13 +258,13 @@ export function Template1Selamat() {
         setInterval(() => {
         setCurrentMessage2((prev) => (prev + 3) % data.length);
         }, 4000);
-    }, 1000); 
+    },); 
 
     const interval3 = setTimeout(() => {
         setInterval(() => {
         setCurrentMessage3((prev) => (prev + 3) % data.length);
         }, 4000); 
-    }, 2000); 
+    },); 
 
     return () => {
         clearInterval(interval1);
@@ -263,14 +281,32 @@ export function Template1Selamat() {
             </div>
 
             {/* header */}
+            <RevealGroup direction="zoom" amount={0.3} duration={6} stagger={0.12}>
             <div className={`${styles.dheader} z-10`}>
                 <i className={styles.dbarakallahu}>Barakallahu</i>
                 <div className={styles.dlakumaa}>Lakumaa!</div>
             </div>
+            </RevealGroup>
 
             {/* floatingMessage1 */}
             <div className={styles.container1}>
                 <div className={`${styles.floatingMessage1} z-10`}>
+                    <AnimatePresence mode="wait" initial={false}>
+                    <motion.div
+                        key={currentMessage1}
+                        variants={iosPopVariants}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
+                        style={{
+                        position: "absolute",
+                        inset: 0,
+                        // pop feels like it comes from the top edge of the card
+                        transformOrigin: "50% 10%",
+                        // optional: ensure GPU acceleration
+                        willChange: "transform, opacity, filter",
+                        }}
+                    >
                     <div className={styles.formMask}>
                     <div className={styles.design1} />
                     <div className={styles.designa1} />
@@ -294,12 +330,30 @@ export function Template1Selamat() {
                     />
                     <b className={styles.status1}>{data[currentMessage1].status}</b>
                     </div>
+                    </motion.div>
+                    </AnimatePresence>
                 </div>
             </div>
 
             {/* floatingMessage2 */}
             <div className={styles.container2}>
                 <div className={styles.floatingMessage2}>
+                    <AnimatePresence mode="wait" initial={false}>
+                    <motion.div
+                        key={currentMessage1}
+                        variants={iosPopVariants}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
+                        style={{
+                        position: "absolute",
+                        inset: 0,
+                        // pop feels like it comes from the top edge of the card
+                        transformOrigin: "50% 10%",
+                        // optional: ensure GPU acceleration
+                        willChange: "transform, opacity, filter",
+                        }}
+                    >
                     <div className={styles.formMask}>
                     <div className={styles.design1} />
                     <div className={styles.designa1} />
@@ -323,12 +377,30 @@ export function Template1Selamat() {
                     />
                     <b className={styles.status1}>{data[currentMessage2].status}</b>
                     </div>
+                    </motion.div>
+                    </AnimatePresence>
                 </div>
             </div>
 
-            {/* floatingMessage2 */}
+            {/* floatingMessage3 */}
             <div className={styles.container3}>
                 <div className={styles.floatingMessage3} >
+                    <AnimatePresence mode="wait" initial={false}>
+                    <motion.div
+                        key={currentMessage1}
+                        variants={iosPopVariants}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
+                        style={{
+                        position: "absolute",
+                        inset: 0,
+                        // pop feels like it comes from the top edge of the card
+                        transformOrigin: "50% 10%",
+                        // optional: ensure GPU acceleration
+                        willChange: "transform, opacity, filter",
+                        }}
+                    >
                     <div className={styles.formMask}>
                     <div className={styles.design1} />
                     <div className={styles.designa1} />
@@ -352,6 +424,8 @@ export function Template1Selamat() {
                     />
                     <b className={styles.status1}>{data[currentMessage3].status}</b>
                     </div>
+                    </motion.div>
+                    </AnimatePresence>
                 </div>
             </div>
 
@@ -359,4 +433,37 @@ export function Template1Selamat() {
 
         </div>
     );
+};
+
+const iosPopVariants: Variants = {
+  enter: {
+    opacity: 0,
+    y: 10,
+    scale: 0.98,
+    filter: "blur(2px)",
+    boxShadow: "0 0 0 rgba(0,0,0,0)",
+  },
+  center: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    filter: "blur(0px)",
+    boxShadow: "0 12px 24px rgba(0,0,0,0.12)",
+    transition: {
+      // snappy spring with a tiny bounce
+      y: { type: "spring", stiffness: 700, damping: 32, mass: 0.9 },
+      scale: { type: "spring", stiffness: 700, damping: 34, mass: 0.9 },
+      opacity: { duration: 0.16 },
+      filter: { duration: 0.16 },
+      boxShadow: { duration: 0.2 },
+    },
+  },
+  exit: {
+    opacity: 0,
+    y: -8,
+    scale: 0.985,
+    filter: "blur(2px)",
+    boxShadow: "0 0 0 rgba(0,0,0,0)",
+    transition: { duration: 0.18 },
+  },
 };

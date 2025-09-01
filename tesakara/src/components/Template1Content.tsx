@@ -11,6 +11,7 @@ import { Template1Akad, Template1Walimah, Template1Live } from "./Template1Acara
 import { Template1RSVP, Template1Selamat } from "./Template1RSVP";
 import { Template1Hadiah } from "./Template1Hadiah";
 import { RevealGroup } from "./reveal/reveal";
+import style from "./Template1Content.module.css";
 
 type BankInfo = {
   bank: string;
@@ -99,62 +100,33 @@ export default function Template1Content({
 
   // Smooth scroll to Section 2 when the hero video ends (no DOM swaps => no jitter)
   const handleVideoEnded = useCallback(() => {
-    const el = scrollerRef.current;
-    if (!el) return;
+  const el = scrollerRef.current;
+  if (!el) return;
 
-    // Matikan scroll-snap & smooth sejenak biar nggak kelihatan scroll
-    const prevSnap = el.style.scrollSnapType;
-    const prevBehavior = el.style.scrollBehavior;
-    el.style.scrollSnapType = "none";
-    el.style.scrollBehavior = "auto";
+  // Turn off snap briefly to avoid any visible jump during layout change
+  const prevSnap = el.style.scrollSnapType;
+  el.style.scrollSnapType = "none";
 
-    document.getElementById("segment-after-video")
-    ?.classList.add("section2--revealed");
+  // Collapse S1 so the layout is final
+  setLockFirst(true);
 
-    // Collapse S1 first so layout is final
-    setLockFirst(true);
+  // After React commits the collapse, set scroll and reveal S2 with blur-in
+  requestAnimationFrame(() => {
+    const s2 = document.getElementById("segment-after-video");
 
-    // After React commits the collapse, position the scroll at S2
+    // Make sure we’re at the top of the container post-collapse
+    el.scrollTop = 0;
+
+    // Trigger the blur-in
+    s2?.classList.add("section2--revealed");
+
+    // If you still use snap elsewhere, re-enable it next frame.
+    // If you want snap permanently off after this, delete these two lines.
     requestAnimationFrame(() => {
-      const s2 = document.getElementById("segment-after-video");
-      if (s2) {
-        // After S1 collapses, S2 is at top (offsetTop ~ 0)
-        el.scrollTop = s2.offsetTop;
-      } else {
-        // Fallback: ensure at least top
-        el.scrollTop = 0;
-      }
-
-      // Re-enable snap + smooth on the next frame (layout settled)
-      requestAnimationFrame(() => {
-        el.style.scrollSnapType = prevSnap || "";
-        el.style.scrollBehavior = prevBehavior || "";
-      });
+      el.style.scrollSnapType = prevSnap || "";
     });
+  });
 }, []);
-
-  //   // Langsung lompat ke Section 2
-  //   const pageHeight = el.clientHeight;
-  //   el.scrollTop = pageHeight; // <-- no animation
-
-  //   // Pastikan Section 2 langsung fade-in (kalau IO belum sempat nembak)
-  //   const s2 = document.getElementById("segment-after-video");
-  //   s2?.classList.add("section2--revealed");
-
-  //   setLockFirst(true);
-
-  //   // Pastikan setelah collapse tetap stay di Section 2
-  //   requestAnimationFrame(() => {
-  //       const el2 = scrollerRef.current;
-  //       if (el2) el2.scrollTop = el2.clientHeight;
-  //   });
-
-  //   // Balikin setting setelah 1 frame
-  //   setTimeout(() => {
-  //       el.style.scrollSnapType = prevSnap || "";      // contoh awalnya "y mandatory"
-  //       el.style.scrollBehavior = prevBehavior || "";  // contoh awalnya "smooth"
-  //   }, 50);
-  // }, []);
 
   // Unmute the audio on the first user interaction (once)
   useEffect(() => {

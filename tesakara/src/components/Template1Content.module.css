@@ -1,0 +1,34 @@
+#segment-after-video {
+  opacity: 1;
+  filter: blur(14px);
+  transform: translateY(8px);
+  transition:
+    opacity 360ms ease,
+    filter 360ms ease,
+    transform 360ms ease;
+  will-change: opacity, filter, transform;
+  pointer-events: none; 
+}
+
+/* When revealed */
+#segment-after-video.section2--revealed {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+  pointer-events: auto;
+}
+
+/* Optional: stagger children for a nicer entrance */
+#segment-after-video.section2--revealed > * {
+  transition-delay: 60ms; /* tiny delay for child elements */
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  #segment-after-video {
+    transition: none;
+    filter: none;
+    transform: none;
+    opacity: 1;
+  }
+}
