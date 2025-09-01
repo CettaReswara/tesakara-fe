@@ -25,7 +25,7 @@ export default function Template1Intro({
   return (
     <div
       className={`
-        relative w-[470px] h-[905px] overflow-hidden rounded-2xl
+        relative w-screen max-w-[470px] h-[905px] overflow-hidden rounded-2xl
         bg-white shadow-xl border border-rose-200
       `}
     >

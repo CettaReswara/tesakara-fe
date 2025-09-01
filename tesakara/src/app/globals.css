@@ -87,3 +87,7 @@ html, body {
   height: auto;
   display: block;
 }
+
+.no-horizontal-scroll {
+  overflow-x: hidden;
+}

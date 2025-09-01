@@ -4,14 +4,55 @@ import { useState } from "react";
 import Template1Intro from "@/components/Template1Intro";
 import Template1Content from "./Template1Content";
 
+type Details = {
+  fullbride: string;
+  fullgroom: string;
+  fbride: string;
+  mbride: string;
+  fgroom: string;
+  mgroom: string;
+  brillust: string;
+  grillust: string;
+  akad: AlamatProp;
+  walimah: AlamatProp;
+  live: LiveProps;
+  maxhadir: number;
+  alamat: AddressBlock;
+}
+
+type BankInfo = {
+  bank: string;
+  atasNama: string;
+  noRekening: string;
+};
+
+type AlamatProp = {
+  namatempat: string;
+  alamat: string;
+  link: string;
+  mulai: string; //00.00
+  selesai: string; //00.00
+}
+
+type LiveProps = {
+  link: string;
+}
+
+type AddressBlock =
+  { isAlamat: boolean; 
+    penerima: string; //kalo false "" 
+    alamat: string } //kalo false ""
+    
 type InviteProps = {
     bride: string;
     groom: string;
     to: string;
     date: string;
+    bank: BankInfo[];
+    detaildata: Details;
 };
 
-export default function Template1View({ bride, groom, to, date}: InviteProps) {
+export default function Template1View({ bride, groom, to, date, bank, detaildata}: InviteProps) {
   const [opened, setOpened] = useState(false);
 
   if (!opened) {
@@ -31,6 +72,8 @@ export default function Template1View({ bride, groom, to, date}: InviteProps) {
             groom={groom} 
             to={to} 
             date={date}
+            bank = {bank}
+            detail = {detaildata}
             youtubeId="lNB8iwiQb9k?si=P7GdtHb9eCpMKYnt" 
             bgVideoSrc="/videos/template1vid.mp4" />;
 }

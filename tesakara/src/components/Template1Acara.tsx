@@ -1,11 +1,27 @@
 import styles from "./Template1Acara.module.css";
+import { extractFromDmy, type Extracted } from "@/lib/date";
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "./ui/button";
+import { Reveal, RevealGroup } from "./reveal/reveal";
 
-export function Template1Akad() {
+type AlamatProp = {
+  namatempat: string;
+  alamat: string;
+  link: string;
+  mulai: string; //00.00
+  selesai: string; //00.00
+  date: string; // "dd-mm-yyyy"
+}
+
+type LiveProps = {
+  link: string;
+}
+
+export function Template1Akad({namatempat, alamat, link, mulai, selesai, date}: AlamatProp) {
   const ref = useRef<HTMLElement | null>(null);
   const [inView, setInView] = useState(false);
+  const out = extractFromDmy(date);
 
   useEffect(() => {
     const el = ref.current;
@@ -19,7 +35,7 @@ export function Template1Akad() {
   }, []);
 
   const onOpenAkadMap = () => {
-    const mapLink = "https://maps.app.goo.gl/5iZJUTi2iPXJ1wVT8";
+    const mapLink = link;
     window.open(mapLink, "_blank");
 
   };
@@ -30,8 +46,9 @@ export function Template1Akad() {
       className="relative isolate snap-start w-full min-h-[100dvh] bg-[#f6eee7]"
     >
       {/* vidbg */}
+      <div className="bg-scroll z-0" aria-hidden="true">
         <video
-          className={`-z-20 absolute inset-0  w-[470px] mx-auto overflow-hidden object-content transition-opacity duration-700 ${
+          className={`-z-20 absolute inset-0 w-screen max-w-[470px] mx-auto overflow-hidden object-cover transition-opacity duration-700 ${
             inView ? "opacity-100 scale-100" : "opacity-0 scale-105"
           }`}
           src="/videos/template1shade.mp4"
@@ -40,32 +57,39 @@ export function Template1Akad() {
           autoPlay
           loop
         />
+      </div>
 
       {/* Konten */}
       <div className="h-14 center" />
-      <div className="relative z-10 mx-auto max-w-[520px] flex flex-col items-center justify-center space-y-2">
+      <div className="relative z-10 mx-auto max-w-[470px] flex flex-col items-center justify-center space-y-2">
       
       <div className={`${styles.content} item-center`}>
+
+        <RevealGroup direction="up" amount={0.7} duration={10} stagger={0.12}>
         <div className={styles.pembuka}>
           Dengan memohon taufik dan rahmat Allah ﷻ, kami bermaksud mengundang
           Bapak/Ibu/Saudara/i untuk menghadiri rangkaian pernikahan kami yang
           akan diselenggarakan pada:
         </div>
+        </RevealGroup>
 
         {/* AKAD */}
+        <RevealGroup direction="down" amount={0.3} duration={6} stagger={0.12}>
         <div className={`${styles.heading} item-center`}>
             <span className={styles.a}>A</span>
             <i className={styles.kad}>kad Nikah</i>
         </div>
-
+        </RevealGroup>
+        
+        <RevealGroup direction="down" amount={0.3} duration={6} stagger={0.12}>
          <div className={styles.container}>
           <div className={styles.dateBox}>
-            <div className={styles.day}>Selasa</div>
+            <div className={styles.day}>{out.day}</div>
             <div className={styles.datemonth}>
-              <div className={styles.date}>1</div>
-              <div className={styles.month}>Desember</div>
+              <div className={styles.date}>{out.date}</div>
+              <div className={styles.month}>{out.month}</div>
             </div>
-            <div className={styles.year}>2025</div>
+            <div className={styles.year}>{out.year}</div>
           </div>
           <Image 
             className={styles.decorationIcon} 
@@ -76,12 +100,17 @@ export function Template1Akad() {
             src="/svg/template1date.svg" 
           />
         </div>
+        </RevealGroup>
 
+        <RevealGroup direction="zoom" amount={0.3} duration={6} stagger={0.12}>
         <div className={styles.container}>
-          <div className={styles.time}>08.00 s.d. 09.00</div>
+          <div className={styles.time}>{mulai} s.d. {selesai}</div>
         </div>
+        </RevealGroup>
 
         <div className={styles.container}>
+          <RevealGroup direction="zoom" amount={0.3} duration={6}>
+          <div className={styles.container}>
           <Image 
             className={styles.mapIcon} 
             width={364} 
@@ -90,16 +119,24 @@ export function Template1Akad() {
             alt="Decoration" 
             src="/svg/template1place.png" 
           />
+          </div>
+          </RevealGroup>
           <div className={styles.location}>
-            <div>Masjid Al-Ukhuwwah</div>
+            <Reveal direction="zoom" amount={0.3} duration={6}>
+            <div>{namatempat}</div>
+            </Reveal>
+            <Reveal direction="zoom" amount={0.3} duration={6}>
             <div className={styles.address}>
-              <div>Jl. Wastukencana No.27, Babakan Ciamis, Kec. Sumur Bandung, Kota Bandung, Jawa Barat 40117</div>
+              <div>{alamat}</div>
             </div>
+            </Reveal>
             <div className="h-4 center"/>
+            <Reveal direction="zoom" amount={0.3} duration={6}>
             <Button className={`${styles.mapbutton} animate-bob`} onClick={onOpenAkadMap}>
               Buka Maps
             </Button>
-            <div className="h-[150px]" />
+            </Reveal>
+            {/* <div className="h-[150px]" /> */}
           </div>
         </div>
       </div>
@@ -108,9 +145,10 @@ export function Template1Akad() {
   );
 }
 
-export function Template1Walimah() {
+export function Template1Walimah({namatempat, alamat, link, mulai, selesai, date}: AlamatProp) {
   const ref = useRef<HTMLElement | null>(null);
   const [inView, setInView] = useState(false);
+  const out = extractFromDmy(date);
 
   useEffect(() => {
     const el = ref.current;
@@ -124,7 +162,7 @@ export function Template1Walimah() {
   }, []);
 
   const onOpenWalimahMap = () => {
-    const mapLink = "https://maps.app.goo.gl/qpbCVwvsjoj3FbTg8";
+    const mapLink = link;
     window.open(mapLink, "_blank");
 
   };
@@ -148,25 +186,28 @@ export function Template1Walimah() {
 
       {/* Konten */}
       <div className="h-14 center" />
-      <div className="relative z-10 mx-auto max-w-[520px] flex flex-col items-center justify-center space-y-2">
+      <div className="relative z-10 mx-auto max-w-[470px] flex flex-col items-center justify-center space-y-2">
       
       <div className={`${styles.content} item-center`}>
         <div className="h-14 center" />
 
         {/* AKAD */}
+        <RevealGroup direction="down" amount={0.3} duration={6} stagger={0.12}>
         <div className={`${styles.heading} item-center`}>
             <span className={styles.w}>W</span>
             <i className={styles.alimat}>alimatul ‘Ursy</i>
         </div>
+        </RevealGroup>
 
+        <RevealGroup direction="down" amount={0.3} duration={6} stagger={0.12}>
          <div className={styles.container}>
           <div className={styles.dateBox}>
-            <div className={styles.day}>Selasa</div>
+            <div className={styles.day}>{out.day}</div>
             <div className={styles.datemonth}>
-              <div className={styles.date}>1</div>
-              <div className={styles.month}>Desember</div>
+              <div className={styles.date}>{out.date}</div>
+              <div className={styles.month}>{out.month}</div>
             </div>
-            <div className={styles.year}>2025</div>
+            <div className={styles.year}>{out.year}</div>
           </div>
           <Image 
             className={styles.decorationIcon} 
@@ -177,12 +218,17 @@ export function Template1Walimah() {
             src="/svg/template1date.svg" 
           />
         </div>
+        </RevealGroup>
 
+        <RevealGroup direction="zoom" amount={0.3} duration={6} stagger={0.12}>
         <div className={styles.container}>
-          <div className={styles.time}>13.00 s.d. 17.00</div>
+          <div className={styles.time}>{mulai} s.d. {selesai}</div>
         </div>
+        </RevealGroup>
 
         <div className={styles.container}>
+          <RevealGroup direction="zoom" amount={0.3} duration={6}>
+          <div className={styles.container}>
           <Image 
             className={styles.mapIcon} 
             width={364} 
@@ -191,15 +237,23 @@ export function Template1Walimah() {
             alt="Decoration" 
             src="/svg/template1place.png" 
           />
+          </div>
+          </RevealGroup>
           <div className={styles.location}>
-            <div>Intercontinental Dago Pakar</div>
+            <Reveal direction="zoom" amount={0.3} duration={6}>
+            <div>{namatempat}</div>
+            </Reveal>
+            <Reveal direction="zoom" amount={0.3} duration={6}>
             <div className={styles.address}>
-              <div>Jalan Resor Dago Pakar Raya 2B Resor Dago Pakar, Mekarsaluyu, Kec. Cimenyan, Kota Bandung, Jawa Barat 40198</div>
+              <div>{alamat}</div>
             </div>
+            </Reveal>
             <div className="h-4 center"/>
+            <Reveal direction="zoom" amount={0.3} duration={6}>
             <Button className={`${styles.mapbutton} animate-bob`} onClick={onOpenWalimahMap}>
               Buka Maps
             </Button>
+            </Reveal>
             <div className="h-[250px]" />
           </div>
         </div>
@@ -209,7 +263,7 @@ export function Template1Walimah() {
   );
 }
 
-export function Template1Live() {
+export function Template1Live({ link }: LiveProps) {
   const ref = useRef<HTMLElement | null>(null);
   const [inView, setInView] = useState(false);
 
@@ -225,7 +279,7 @@ export function Template1Live() {
   }, []);
 
   const onOpenLivestram = () => {
-    const mapLink = "https://www.youtube.com/live/e85tJVzKwDU?si=aNFciZUgg0SqKhZB";
+    const mapLink = link;
     window.open(mapLink, "_blank");
 
   };
@@ -249,18 +303,20 @@ export function Template1Live() {
 
       {/* Konten */}
       <div className="h-14 center" />
-      <div className="relative z-10 mx-auto max-w-[520px] flex flex-col items-center justify-center space-y-2">
+      <div className="relative z-10 mx-auto max-w-[470px] flex flex-col items-center justify-center space-y-2">
       
       <div className={`${styles.content} item-center`}>
         <div className="h-48 center" />
 
         {/* AKAD */}
+        <RevealGroup direction="down" amount={0.3} duration={6} stagger={0.12}>
         <div className={`${styles.heading} item-center`}>
             <span className={styles.w}>L</span>
             <i className={styles.ive}>ive Streaming</i>
         </div>
+        </RevealGroup>
 
-
+        <RevealGroup direction="down" amount={0.3} duration={6} stagger={0.25}>
         <div className={styles.container}>
             <div className={styles.location}>
               <div className="h-12 center" />
@@ -271,7 +327,8 @@ export function Template1Live() {
             <Button className={`${styles.livebutton} animate-bob`} onClick={onOpenLivestram}>
               Ikuti Siaran Langsung
             </Button>
-          </div>
+         </div>
+         </RevealGroup>
         </div>
       </div>
     </section>

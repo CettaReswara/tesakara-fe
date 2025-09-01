@@ -1,5 +1,6 @@
 .kado {
-  width: 470px;
+  width: screen;
+  max-width: 470px;
   position: relative;
   min-height: 100vh;
   overflow: hidden;

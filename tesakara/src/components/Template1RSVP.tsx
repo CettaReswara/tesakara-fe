@@ -33,19 +33,19 @@ interface RSVPProps {
 
 export function Template1RSVP({ maxValue, name }: RSVPProps) {
     const [submitted, setSubmitted] = useState(false);
-
-  	// State for handling form input
-  	const [formData, setFormData] = useState({
+    
+    // State for handling form input
+    const [formData, setFormData] = useState({
         nama: name || '',
-    	kehadiran: '',
-    	jumlahTamu: '',
-    	ucapan: ''
-  	});
+        kehadiran: '',
+        jumlahTamu: '',
+        ucapan: ''
+    });
 
-  	// Handle input change for form fields
-  	const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
-    	const { name, value } = e.target;
-    	if (name === 'jumlahTamu') {
+    // Handle input change for form fields
+    const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
+        const { name, value } = e.target;
+        if (name === 'jumlahTamu') {
         // Automatically set the jumlahTamu to maxValue if the value exceeds maxValue
         const updatedValue = Number(value) > maxValue ? maxValue : value;
         setFormData((prev) => ({
@@ -58,7 +58,7 @@ export function Template1RSVP({ maxValue, name }: RSVPProps) {
             [name]: value,
         }));
         }
-  	};
+    };
 
     const [submittedData, setSubmittedData] = useState({
         nama: name || '',
@@ -75,138 +75,153 @@ export function Template1RSVP({ maxValue, name }: RSVPProps) {
 
         // send submitted data to server
     }, [formData]);
+    
+    return (
+        <div className={styles.selamat}>
+            {/* background */}
+            <div className="bg-scroll z-0" aria-hidden="true">
+                <Image className={styles.bgPicIcon} fill alt="" src="/svg/template1paper.png" priority />
+            </div>
 
-  	return (
-    		<div className={styles.ucapan}>
-      			<div className={`${styles.bg} relative isolate h-full w-[470px] flex flex-col items-center justify-center`}>
-      			<Image className={styles.bgPicIcon} fill alt="" src="/svg/template1paper.png" />
-      			<div className={styles.header}>
-        				<i className={styles.wishes}>Wishes</i>
-        				<div className={styles.sub}>
-          					<div className={styles.konfirmasi}>
-            						<div className={styles.onfirmasi}>onfirmasi</div>
-            						<div className={styles.k}>K</div>
-          					</div>
-          					<div className={styles.div}>{`&`}</div>
-          					<div className={styles.doa}>
-            						<div className={styles.oa}>oa</div>
-            						<div className={styles.k}>D</div>
-          					</div>
-        				</div>
-      			</div>
-
-                {/* FORM */}
-      			<form className={styles.formUser}>
-        				<b className={styles.formTitle}>Nama</b>
-        				<input 
-          					type="text" 
-          					name="nama" 
-          					value={formData.nama} 
-          					onChange={handleInputChange} 
-          					className={`${styles.form} py-2 px-3 focus:outline-none `}
-          					placeholder="Tulis nama Anda" 
-                            readOnly
-        				/>
-      				</form>
-
-                    <form className={`${styles.formUser1} inline-block relative w-64`}>
-                        <label className={styles.formTitle1}>Konfirmasi Kehadiran</label>
-                        <select 
-                            name="kehadiran"
-                            value={formData.kehadiran}
-                            onChange={handleInputChange}
-                            className={`${styles.form} block appearance-none w-full px-4 pt-2 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline`}
-                        >
-                            <option value="">Pilih status kehadiran</option>
-          					<option value="hadir">Hadir</option>
-          					<option value="tidak_hadir">Tidak Hadir</option>
-                        </select>
-                        <div className="pt-5 tpointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                            <svg className="fill-current h-full w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                        </div>
-                    </form>
-
-      				<form className={styles.formUser2}>
-        				<b className={styles.formTitle1}>Jumlah Tamu</b>
-        				<input 
-          					type="number" 
-          					name="jumlahTamu" 
-          					value={formData.jumlahTamu} 
-          					onChange={handleInputChange} 
-          					className={`${styles.form} py-2 px-3 focus:outline-none `}
-          					placeholder={`Jumlah pengunjung (maksimal ${maxValue})`}
-                            min="0"
-                            max={maxValue}
-        				/>
-      				</form>
-
-      				<form className={styles.formUser3}>
-        				<b className={styles.formTitle}>Ucapan</b>
-        				<textarea 
-          					name="ucapan" 
-          					value={formData.ucapan} 
-          					onChange={handleInputChange} 
-          					className={`${styles.form3} py-2 px-3 pt-2 focus:outline-none `}
-          					placeholder="Tuliskan pesan dan doa Anda untuk mempelai" 
-        				/>
-      				</form>
-
-                {/* KIRIM */}
-                
-                <div className={styles.button} onClick={onButtonContainerClick}>
-        				<div className={styles.buttonBg} />
-        				<div className={styles.buttonText}>Kirim</div>
-      			</div>
-
-                {/* UCAPAN */}
-                {!submitted ? (
-      			<div className={styles.floatingMessage}>
-                    <div className={styles.formMask}>
-        				<div className={styles.form4} />
-        				<div className={styles.form5} />
-        				<div className={styles.formTitle4}>
-          					<span>{`Ucapan dari `}</span>
-          					<b>Fulanah</b>
-        				</div>
-        				<div className={styles.formTitle5}>Kirim ucapanmu untuk mempelai!</div>
-        				<div className={styles.floatingMessageChild} />
-        				<b className={styles.formTitle6}>Konfirmasi!</b>
+            {/* header */}
+            <div className={`${styles.header} z-10`}>
+                <i className={styles.wishes}>Wishes</i>
+                <div className={styles.sub}>
+                    <div className={styles.konfirmasi}>
+                        <div className={styles.k}>K</div>
+                        <div className={styles.onfirmasi}>onfirmasi</div>
                     </div>
-      			</div>
-                ):(
-                    <div className={styles.floatingMessage}>
-                        <div className={styles.formMask}>
-                        <div className={styles.form4} />
-                        <div className={styles.form5} />
-                        <div className={styles.formTitle4}>
-                            <span>{`Ucapan dari `}</span>
-                            <b>{submittedData.nama}</b>
-                        </div>
-                        <div className={styles.formTitle5}>{submittedData.ucapan}</div>
-                        <div 
-                            className={styles.floatingMessageChild} 
-                            style={{
-                                backgroundColor:
-                                submittedData.kehadiran === "hadir"
-                                    ? "#D9D4B1" 
-                                    : submittedData.kehadiran === "tidak_hadir"
-                                    ? "#D9B9B1"
-                                    : "#c4c3c3",
-                            }}
-                        />
-                        <div className={styles.formTitle6}>
-                            {submittedData.kehadiran === "hadir"
-                            ? "Hadir"
-                            : submittedData.kehadiran === "tidak_hadir"
-                            ? "Tidak Hadir"
-                            : ""}
-                        </div>
-                        </div>
+                    <div className={styles.div}>{`&`}</div>
+                    <div className={styles.doa}>
+                        <div className={styles.k}>D</div>
+                        <div className={styles.oa}>oa</div>
                     </div>
-                )
-                }
                 </div>
-    		</div>
+            </div>
+
+            {/* form */}
+            <form className={`${styles.formUser} z-10`}>
+                <b className={styles.formTitle}>Nama</b>
+                <div className={styles.position}>
+                    <input 
+                        type="text" 
+                        name="nama" 
+                        value={formData.nama} 
+                        onChange={handleInputChange} 
+                        className={`${styles.form} py-2 px-3 focus:outline-none `}
+                        placeholder="Tulis nama Anda" 
+                        readOnly
+                    />
+                    </div>
+            </form>
+
+            <form className={`${styles.formUser} z-10`}>
+                <label className={styles.formTitle}>Konfirmasi Kehadiran</label>
+                <div className={styles.position}>
+                    <select 
+                        name="kehadiran"
+                        value={formData.kehadiran}
+                        onChange={handleInputChange}
+                        className={`${styles.form} block appearance-none w-full px-4 pt-2 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline`}
+                    >
+                        <option value="">Pilih status kehadiran</option>
+                        <option value="hadir">Hadir</option>
+                        <option value="tidak_hadir">Tidak Hadir</option>
+                    </select>
+                    <div className="pt-5 tpointer-events-none absolute inset-y-0 right-3 sm:right-10 md:right-10 lg:right-10 top-[-15] flex items-center px-6 text-gray-700">
+                        <svg className="fill-current h-full w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    </div>
+                </div>
+            </form>
+
+            <form className={`${styles.formUser} z-10`}>
+                <b className={styles.formTitle1}>Jumlah Tamu</b>
+                <div className={styles.position}>
+                    <input 
+                        type="number" 
+                        name="jumlahTamu" 
+                        value={formData.jumlahTamu} 
+                        onChange={handleInputChange} 
+                        className={`${styles.form} py-2 px-3 focus:outline-none `}
+                        placeholder={`Jumlah pengunjung (maksimal ${maxValue})`}
+                        min="0"
+                        max={maxValue}
+                    />
+                </div>
+            </form>
+
+            <form className={`${styles.formUser} z-10`}>
+                <b className={styles.formTitle}>Ucapan</b>
+                <div className={styles.position}>
+                    <textarea 
+                        name="ucapan" 
+                        value={formData.ucapan} 
+                        onChange={handleInputChange} 
+                        className={`${styles.formlong} py-2 px-3 pt-2 focus:outline-none `}
+                        placeholder="Tuliskan pesan dan doa Anda untuk mempelai" 
+                    />
+                </div>
+            </form>
+
+            {/* kirim */}
+            <div className={`${styles.button} z-10`} onClick={onButtonContainerClick}>
+                <div className={styles.buttonBg} />
+                <div className={styles.buttonText}>Kirim</div>
+            </div>
+
+            {/* UCAPAN */}
+            {!submitted ? (
+            <div className={styles.container}>
+                <div className={styles.floatingMessage}>
+                    <div className={styles.formMask}>
+                        <div className={styles.design1} />
+                        <div className={styles.designa1} />
+                        <div className={styles.Title1}>
+                            <span>{`Ucapan dari `}</span>
+                            <b>Fulanah</b>
+                        </div>
+                        <div className={styles.Caption1}>Kirim ucapanmu untuk mempelai!</div>
+                        <div className={styles.designChild1} />
+                        <b className={styles.status1}>Konfirmasi!</b>
+                    </div>
+                </div>
+            </div>
+            ):(
+                <div className={styles.container}>
+                <div className={styles.floatingMessage}>
+                    <div className={styles.formMask}>
+                        <div className={styles.design1} />
+                        <div className={styles.designa1} />
+                        <div className={styles.Title1}>
+                        <span>{`Ucapan dari `}</span>
+                        <b>{submittedData.nama}</b>
+                    </div>
+                    <div className={styles.Caption1}>{submittedData.ucapan}</div>
+                    <div 
+                        className={styles.designChild1} 
+                        style={{
+                            backgroundColor:
+                            submittedData.kehadiran === "hadir"
+                                ? "#D9D4B1" 
+                                : submittedData.kehadiran === "tidak_hadir"
+                                ? "#D9B9B1"
+                                : "#c4c3c3",
+                        }}
+                    />
+                    <div className={styles.status1}>
+                        {submittedData.kehadiran === "hadir"
+                        ? "Hadir"
+                        : submittedData.kehadiran === "tidak_hadir"
+                        ? "Tidak Hadir"
+                        : ""}
+                    </div>
+                    </div>
+                </div>
+                </div>
+            )
+            }
+             <div className='h-20'/>
+        </div>
     );
 };
 
@@ -218,115 +233,130 @@ export function Template1Selamat() {
     useEffect(() => {
 
     const interval1 = setInterval(() => {
-      setCurrentMessage1((prev) => (prev + 3) % data.length);
+        setCurrentMessage1((prev) => (prev + 3) % data.length);
     }, 4000); 
 
     const interval2 = setTimeout(() => {
-      setInterval(() => {
+        setInterval(() => {
         setCurrentMessage2((prev) => (prev + 3) % data.length);
-      }, 4000);
+        }, 4000);
     }, 1000); 
 
     const interval3 = setTimeout(() => {
-      setInterval(() => {
+        setInterval(() => {
         setCurrentMessage3((prev) => (prev + 3) % data.length);
-      }, 4000); 
+        }, 4000); 
     }, 2000); 
 
     return () => {
-      clearInterval(interval1);
-      clearTimeout(interval2);
-      clearTimeout(interval3);
+        clearInterval(interval1);
+        clearTimeout(interval2);
+        clearTimeout(interval3);
     };
-  }, []);
+    }, []);
 
     return (
-    <div className={styles.selamat}>
-        <div className={`${styles.bg} relative isolate h-full w-[470px] flex flex-col items-center justify-center`}>
-      	<Image className={styles.bgPicIcon} fill alt="" src="/svg/template1paper.png" />
-        
-        <div className={styles.dheader}>
-            <i className={styles.dbarakallahu}>Barakallahu</i>
-            <div className={styles.dlakumaa}>Lakumaa!</div>
-        </div>
-        </div>
-        
-        <div className={styles.floatingMessage1}>
-            <div className={styles.formMask}>
-            <div className={styles.design1} />
-            <div className={styles.designa1} />
-            <div className={styles.Title1}>
-                <span>{`Ucapan dari `}</span>
-                <b>{data[currentMessage1].sender}</b>
+        <div className={styles.selamat}>
+            {/* background */}
+            <div className="bg-scroll z-0" aria-hidden="true">
+                <Image className={styles.bgPicIcon} fill alt="" src="/svg/template1paper.png" priority />
             </div>
-            <div className={styles.Caption1}>
-                 {data[currentMessage1].text}
-            </div>
-            <div 
-                className={styles.designChild1} 
-                style={{
-                        backgroundColor:
-                        data[currentMessage1].status === "Hadir"
-                        ? "#D9D4B1" 
-                        : data[currentMessage1].status === "Tidak Hadir"
-                        ? "#D9B9B1"
-                        : "#c4c3c3",
-                        }}
-            />
-            <b className={styles.status1}>{data[currentMessage1].status}</b>
-            </div>
-        </div>
 
-        <div className={styles.floatingMessage2}>
-            <div className={styles.formMask}>
-            <div className={styles.design1} />
-            <div className={styles.designa1} />
-            <div className={styles.Title1}>
-                <span>{`Ucapan dari `}</span>
-                <b>{data[currentMessage2].sender}</b>
+            {/* header */}
+            <div className={`${styles.dheader} z-10`}>
+                <i className={styles.dbarakallahu}>Barakallahu</i>
+                <div className={styles.dlakumaa}>Lakumaa!</div>
             </div>
-            <div className={styles.Caption1}>
-                {data[currentMessage2].text}
-            </div>
-            <div 
-                className={styles.designChild1} 
-                style={{
-                        backgroundColor:
-                        data[currentMessage2].status === "Hadir"
-                        ? "#D9D4B1" 
-                        : data[currentMessage2].status === "Tidak Hadir"
-                        ? "#D9B9B1"
-                        : "#c4c3c3",
-                        }}
-            />
-            <b className={styles.status1}>{data[currentMessage2].status}</b>
-            </div>
-        </div>
 
-        <div className={styles.floatingMessage3} >
-            <div className={styles.formMask}>
-            <div className={styles.design1} />
-            <div className={styles.designa1} />
-            <div className={styles.Title1}>
-                <span>{`Ucapan dari `}</span>
-                <b>{data[currentMessage3].sender}</b>
+            {/* floatingMessage1 */}
+            <div className={styles.container1}>
+                <div className={`${styles.floatingMessage1} z-10`}>
+                    <div className={styles.formMask}>
+                    <div className={styles.design1} />
+                    <div className={styles.designa1} />
+                    <div className={styles.Title1}>
+                        <span>{`Ucapan dari `}</span>
+                        <b>{data[currentMessage1].sender}</b>
+                    </div>
+                    <div className={styles.Caption1}>
+                        {data[currentMessage1].text}
+                    </div>
+                    <div 
+                        className={styles.designChild1} 
+                        style={{
+                                backgroundColor:
+                                data[currentMessage1].status === "Hadir"
+                                ? "#D9D4B1" 
+                                : data[currentMessage1].status === "Tidak Hadir"
+                                ? "#D9B9B1"
+                                : "#c4c3c3",
+                                }}
+                    />
+                    <b className={styles.status1}>{data[currentMessage1].status}</b>
+                    </div>
+                </div>
             </div>
-            <div className={styles.Caption1}>
-                {data[currentMessage3].text}
+
+            {/* floatingMessage2 */}
+            <div className={styles.container2}>
+                <div className={styles.floatingMessage2}>
+                    <div className={styles.formMask}>
+                    <div className={styles.design1} />
+                    <div className={styles.designa1} />
+                    <div className={styles.Title1}>
+                        <span>{`Ucapan dari `}</span>
+                        <b>{data[currentMessage2].sender}</b>
+                    </div>
+                    <div className={styles.Caption1}>
+                        {data[currentMessage2].text}
+                    </div>
+                    <div 
+                        className={styles.designChild1} 
+                        style={{
+                                backgroundColor:
+                                data[currentMessage2].status === "Hadir"
+                                ? "#D9D4B1" 
+                                : data[currentMessage2].status === "Tidak Hadir"
+                                ? "#D9B9B1"
+                                : "#c4c3c3",
+                                }}
+                    />
+                    <b className={styles.status1}>{data[currentMessage2].status}</b>
+                    </div>
+                </div>
             </div>
-            <div 
-                className={styles.designChild1} 
-                style={{
-                        backgroundColor:
-                        data[currentMessage3].status === "Hadir"
-                        ? "#D9D4B1" 
-                        : data[currentMessage3].status === "Tidak Hadir"
-                        ? "#D9B9B1"
-                        : "#c4c3c3",
-                        }}
-            />
-            <b className={styles.status1}>{data[currentMessage3].status}</b>
+
+            {/* floatingMessage2 */}
+            <div className={styles.container3}>
+                <div className={styles.floatingMessage3} >
+                    <div className={styles.formMask}>
+                    <div className={styles.design1} />
+                    <div className={styles.designa1} />
+                    <div className={styles.Title1}>
+                        <span>{`Ucapan dari `}</span>
+                        <b>{data[currentMessage3].sender}</b>
+                    </div>
+                    <div className={styles.Caption1}>
+                        {data[currentMessage3].text}
+                    </div>
+                    <div 
+                        className={styles.designChild1} 
+                        style={{
+                                backgroundColor:
+                                data[currentMessage3].status === "Hadir"
+                                ? "#D9D4B1" 
+                                : data[currentMessage3].status === "Tidak Hadir"
+                                ? "#D9B9B1"
+                                : "#c4c3c3",
+                                }}
+                    />
+                    <b className={styles.status1}>{data[currentMessage3].status}</b>
+                    </div>
+                </div>
             </div>
+
+            <div className='h-20'/>
+
         </div>
-    </div>);
+    );
 };

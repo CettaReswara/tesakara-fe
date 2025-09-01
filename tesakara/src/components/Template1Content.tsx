@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useCallback, useState } from "react";
-import { poppins, libre, gulzar } from "@/app/font";
+import { poppins, libre } from "@/app/font";
 import Snow from "./Snow";
 import Countdown from "./ui/countdown";
 import { PhotoWithRing } from "./ui/photoring";
@@ -10,12 +10,54 @@ import Template1Timeline from "./Template1Timeline";
 import { Template1Akad, Template1Walimah, Template1Live } from "./Template1Acara";
 import { Template1RSVP, Template1Selamat } from "./Template1RSVP";
 import { Template1Hadiah } from "./Template1Hadiah";
+import { RevealGroup } from "./reveal/reveal";
+
+type BankInfo = {
+  bank: string;
+  atasNama: string;
+  noRekening: string;
+};
+
+type AlamatProp = {
+  namatempat: string;
+  alamat: string;
+  link: string;
+  mulai: string; //00.00
+  selesai: string; //00.00
+}
+
+type LiveProps = {
+  link: string;
+}
+
+type AddressBlock =
+  { isAlamat: boolean; 
+    penerima: string; //kalo false "" 
+    alamat: string } //kalo false ""
+
+type Details = {
+  fullbride: string;
+  fullgroom: string;
+  fbride: string;
+  mbride: string;
+  fgroom: string;
+  mgroom: string;
+  brillust: string;
+  grillust: string;
+  akad: AlamatProp;
+  walimah: AlamatProp;
+  live: LiveProps;
+  maxhadir: number;
+  alamat: AddressBlock;
+};
 
 type Props = {
   bride: string;
   groom: string;
   to: string;
   date: string;             // "dd-mm-yyyy"
+  bank: BankInfo[];
+  detail: Details;
   youtubeId: string;        // "dQw4w9WgXcQ"
   bgVideoSrc: string;       // "/videos/bg.mp4"
 };
@@ -32,6 +74,8 @@ export default function Template1Content({
   groom,
   to,
   date,
+  bank,
+  detail,
   youtubeId,
   bgVideoSrc,
 }: Props) {
@@ -41,7 +85,6 @@ export default function Template1Content({
   const section2Ref = useRef<HTMLElement | null>(null);
   const dalilRef = useRef<HTMLElement | null>(null);
   const mempelaiRef = useRef<HTMLElement | null>(null);
-  const bottomSentinelRef = useRef<HTMLDivElement | null>(null);
   const [lockFirst, setLockFirst] = useState(false);
 
   // PostMessage helper YouTube
@@ -65,34 +108,53 @@ export default function Template1Content({
     el.style.scrollSnapType = "none";
     el.style.scrollBehavior = "auto";
 
-    // Langsung lompat ke Section 2
-    const pageHeight = el.clientHeight;
-    el.scrollTop = pageHeight; // <-- no animation
+    document.getElementById("segment-after-video")
+    ?.classList.add("section2--revealed");
 
-    // Pastikan Section 2 langsung fade-in (kalau IO belum sempat nembak)
-    const s2 = document.getElementById("segment-after-video");
-    s2?.classList.add("section2--revealed");
-
+    // Collapse S1 first so layout is final
     setLockFirst(true);
 
-    // Pastikan setelah collapse tetap stay di Section 2
+    // After React commits the collapse, position the scroll at S2
     requestAnimationFrame(() => {
-        const el2 = scrollerRef.current;
-        if (el2) el2.scrollTop = el2.clientHeight;
+      const s2 = document.getElementById("segment-after-video");
+      if (s2) {
+        // After S1 collapses, S2 is at top (offsetTop ~ 0)
+        el.scrollTop = s2.offsetTop;
+      } else {
+        // Fallback: ensure at least top
+        el.scrollTop = 0;
+      }
+
+      // Re-enable snap + smooth on the next frame (layout settled)
+      requestAnimationFrame(() => {
+        el.style.scrollSnapType = prevSnap || "";
+        el.style.scrollBehavior = prevBehavior || "";
+      });
     });
+}, []);
 
-    // Balikin setting setelah 1 frame
-    setTimeout(() => {
-        el.style.scrollSnapType = prevSnap || "";      // contoh awalnya "y mandatory"
-        el.style.scrollBehavior = prevBehavior || "";  // contoh awalnya "smooth"
-    }, 50);
-  }, []);
+  //   // Langsung lompat ke Section 2
+  //   const pageHeight = el.clientHeight;
+  //   el.scrollTop = pageHeight; // <-- no animation
 
-  // dummy bank
-  const bank = [
-    { bank: "Bank Jago Syariah", atasNama: "John Doe", noRekening: "123456789" },
-    { bank: "Bank BSI", atasNama: "Jane Smith", noRekening: "987654321" },
-  ];
+  //   // Pastikan Section 2 langsung fade-in (kalau IO belum sempat nembak)
+  //   const s2 = document.getElementById("segment-after-video");
+  //   s2?.classList.add("section2--revealed");
+
+  //   setLockFirst(true);
+
+  //   // Pastikan setelah collapse tetap stay di Section 2
+  //   requestAnimationFrame(() => {
+  //       const el2 = scrollerRef.current;
+  //       if (el2) el2.scrollTop = el2.clientHeight;
+  //   });
+
+  //   // Balikin setting setelah 1 frame
+  //   setTimeout(() => {
+  //       el.style.scrollSnapType = prevSnap || "";      // contoh awalnya "y mandatory"
+  //       el.style.scrollBehavior = prevBehavior || "";  // contoh awalnya "smooth"
+  //   }, 50);
+  // }, []);
 
   // Unmute the audio on the first user interaction (once)
   useEffect(() => {
@@ -110,11 +172,11 @@ export default function Template1Content({
   }, [sendYT]);
 
   return (
-    <div className="w-full flex justify-center bg-black text-white">
+    <div className="w-full flex justify-center bg-black text-white no-horizontal-scroll">
       <Snow color="#382e2dff" />
       <div
         ref={scrollerRef}
-        className="relative w-[470px] h-screen overflow-y-auto snap-y snap-mandatory scroll-smooth [scrollbar-gutter:stable]"
+        className="relative w-screen max-w-[470px] h-screen overflow-y-auto overflow-x-hidden"
       >
         {/* SECTION 1 — HERO VIDEO */}
         <section
@@ -165,14 +227,14 @@ export default function Template1Content({
             className="relative isolate snap-start snap-always w-full auto min-h-dvh"
         >
             <MempelaiSection 
-              fullbride="Tesa Azzahra, S.Pd."
-              fullgroom="dr. Muhammad Kara Haritsah, Sp.PD."
-              fbride="Fulan"
-              fgroom="Fulan"
-              mbride="Fulanah"
-              mgroom="Fulanah"
-              brlink="https://lh3.googleusercontent.com/d/1K22HWbR2mY5TLISQYVsjMvwNifNUG24D"
-              grlink="https://lh3.googleusercontent.com/d/1IMFbAWc3nNbnaDup7OTcpU6PLzaftaHv"
+              fullbride={detail.fullbride}
+              fullgroom={detail.fullgroom}
+              fbride={detail.fbride}
+              mbride={detail.mbride}
+              fgroom={detail.fgroom}
+              mgroom={detail.mgroom}
+              brlink={detail.brillust}
+              grlink={detail.grillust}
             />
         </section>
 
@@ -183,7 +245,12 @@ export default function Template1Content({
             className="relative w-full snap-start bg-[#0b0b0b] items-center justify-center"
         >
           <Template1Akad
-            // onOpenAkadMap={() => window.open("https://maps.google.com/?q=Masjid+Baitul+Muttaqin")}
+            namatempat={detail.akad.namatempat}
+            alamat={detail.akad.alamat}
+            link={detail.akad.link}
+            mulai={detail.akad.mulai}
+            selesai={detail.akad.selesai}
+            date={date}
           />
 
         </section>
@@ -195,6 +262,12 @@ export default function Template1Content({
         >
 
           <Template1Walimah
+            namatempat={detail.walimah.namatempat}
+            alamat={detail.walimah.alamat}
+            link={detail.walimah.link}
+            mulai={detail.walimah.mulai}
+            selesai={detail.walimah.selesai}
+            date={date}
           />
 
         </section>
@@ -206,6 +279,7 @@ export default function Template1Content({
         >
 
           <Template1Live
+            link={detail.live.link}
           />
           <div className="h-[230px]" />
           
@@ -236,7 +310,7 @@ export default function Template1Content({
             className="relative w-full min-h-screen snap-start bg-[#f6eee7] items-center justify-center"
         >
           <Template1RSVP 
-            maxValue={5} 
+            maxValue={detail.maxhadir} 
             name={to} 
         />
 
@@ -256,20 +330,25 @@ export default function Template1Content({
 
         <section
             // ref={mempelaiRef}
-            id="ucapan"
+            id="hadiah"
             className="relative w-full min-h-screen snap-start bg-[#f6eee7] items-center justify-center"
         >
           
           <Template1Hadiah
             dataRekening={bank} 
-            isAlamat={true} 
-            penerima="Keluarga Handoko"
-            alamat="Jl. Tengah Kota Jauh Dari Kabupaten Kota Baru, Indonesia"
+            isAlamat={detail.alamat.isAlamat}
+            penerima={detail.alamat.penerima}
+            alamat={detail.alamat.alamat}
           />
 
         </section>
 
         {/* SECTION 10 — PENUTUP */}
+        <section
+            // ref={mempelaiRef}
+            id="penutup"
+            className="relative w-full min-h-screen snap-start bg-[#f6eee7] items-center justify-center"
+        ></section>
 
         {/* YouTube iframe (audio) */}
         <iframe
@@ -328,7 +407,7 @@ function CountdownSection({ bride, groom, date }: { bride: string; groom: string
   const [dd, mm, yyyy] = date.split("-");
 
   return (
-    <section className="relative w-[470px] h-full">
+    <section className="relative w-screen max-w-[470px] h-full">
       {/* soft grid background */}
       <div
         className="bg"
@@ -348,42 +427,50 @@ function CountdownSection({ bride, groom, date }: { bride: string; groom: string
       <div className="relative h-full flex flex-col items-center px-8">
         <div className="h-40" />
         {/* “The Wedding Of” */}
-        <div className="flex justify-center">
-          <div className="wedding" style={{ width: 256 }}>
-            <div className="t">T</div>
-            <div className="he">he</div>
-            <div className="w">W</div>
-            <div className="edding">edding</div>
-            <div className="o">O</div>
-            <div className="f">f</div>
+        <RevealGroup direction="zoom" amount={0.3} duration={1.2}>
+          <div className="flex justify-center">
+            <div className="wedding" style={{ width: 256 }}>
+              <div className="t">T</div>
+              <div className="he">he</div>
+              <div className="w">W</div>
+              <div className="edding">edding</div>
+              <div className="o">O</div>
+              <div className="f">f</div>
+            </div>
           </div>
-        </div>
+        </RevealGroup>
 
         {/* Names */}
-        <div className="name">
-          <span className="bride">{bride}</span>
-          <span className="div">&</span>
-          <span className="groom">{groom}</span>
-        </div>
+        <RevealGroup direction="zoom" amount={0.3} duration={1.2}>
+          <div className="name">
+            <span className="bride">{bride}</span>
+            <span className="div">&</span>
+            <span className="groom">{groom}</span>
+          </div>
+        </RevealGroup>
 
         <div className="h-4" />
 
         {/* Date */}
-        <div className={`flex gap-6 mt-6 mb-8 text-[#bb959d] ${libre.className} font-bold text-2xl`}>
-          <span>{dd}</span>
-          <span className="relative -top-1">.</span>
-          <span>{mm}</span>
-          <span className="relative -top-1">.</span>
-          <span>{yyyy.slice(2)}</span>
-        </div>
+        <RevealGroup direction="zoom" amount={0.3} duration={1.6}>
+          <div className={`flex gap-6 mt-6 mb-8 text-[#bb959d] ${libre.className} font-bold text-2xl`}>
+            <span>{dd}</span>
+            <span className="relative -top-1">.</span>
+            <span>{mm}</span>
+            <span className="relative -top-1">.</span>
+            <span>{yyyy.slice(2)}</span>
+          </div>
+        </RevealGroup>
 
-        <Countdown
-          date={date}
-          boxColor="bg-[#bb959d]"
-          textColor="text-[#bb959d]"
-          fontFamily={poppins.className}
-          extralight
-        />
+        <RevealGroup direction="zoom" amount={0.3} duration={1.6}>
+          <Countdown
+            date={date}
+            boxColor="bg-[#bb959d]"
+            textColor="text-[#bb959d]"
+            fontFamily={poppins.className}
+            extralight
+          />
+        </RevealGroup>
       </div>
 
       {/* local styles */}
@@ -535,15 +622,8 @@ function DalilSection() {
           }
 
           if (iframeRef.current) {
-            // Get the YouTube player using the API and stop the music
-            const player = new window.YT.Player(iframeRef.current, {
-              events: {
-                onReady: (event: { target: { playVideo: () => void; }; }) => {
-                  event.target.playVideo(); // Play video
-                },
-              },
-            });
-            setIsMusicPlayed(false); // Mark that the music is stopped
+            if (!iframeRef?.current) return;
+            setIsMusicPlayed(false);
           }
         }
       },
@@ -564,7 +644,7 @@ function DalilSection() {
   }, [isMusicPlayed]);
   
   return (
-    <div className="relative isolate h-screen w-[470px] flex flex-col items-center justify-center overflow-hidden">
+    <div className="relative isolate h-screen w-screen max-w-[470px] flex flex-col items-center justify-center overflow-hidden">
       {/* Background */}
       <div
         aria-hidden
@@ -580,12 +660,13 @@ function DalilSection() {
       />
 
       {/* Video content */}
-      <div className="relative w-[470px] max-h-screen overflow-hidden mx-auto">
+      <div className="relative w-screen max-w-[470px] max-h-screen overflow-hidden mx-auto">
         <video
           ref={videoRef}
           src="/videos/template1dalil.mp4"
           autoPlay
           muted
+          playsInline 
           className="object-cover w-full h-full"
         />
       </div>
@@ -607,7 +688,7 @@ function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom,
     if (!el) return;
     const io = new IntersectionObserver(
       ([entry]) => setInView(entry.isIntersecting),
-      { root: null, threshold: 0.5 }
+      { root: null, threshold: 0.2 }
     );
     io.observe(el);
     return () => io.disconnect();
@@ -651,7 +732,7 @@ function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom,
           ref={videoRef}
           className={[
             // "-translate-y-3/32",
-            "fixed inset-0 -z-20 w-[470px] mx-auto h-auto object-cover overflow-hidden",
+            "fixed inset-0 -z-20 w-screen max-w-[470px] mx-auto h-auto object-cover overflow-hidden",
             "transition-opacity duration-300 ease-linear pointer-events-none select-none",
             inView ? "opacity-100" : "opacity-0"
           ].join(" ")}
@@ -669,7 +750,8 @@ function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom,
 
       {/* KONTEN */}
       <div className="h-14 center" />
-      <div className="relative z-10 mx-auto max-w-[520px] flex flex-col items-center space-y-2">
+      <div className="relative z-10 mx-auto w-screen max-w-[470px] flex flex-col items-center space-y-2">
+        <RevealGroup direction="zoom" amount={0.8} duration={4}>
         <div className="pembuka">
           <i className="salam">Assalamu‘alaikum Warahmatullahi Wabarakaatuh</i>
           <div className="katakata">
@@ -678,7 +760,9 @@ function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom,
             <p className="kata">InsyaaAllah, akan dilakanakan pernikahan antara:</p>
           </div>
         </div>
+        </RevealGroup>
 
+        <RevealGroup direction="zoom" amount={0.8} duration={4} stagger={0.1}>
         <PhotoWithRing
             frameSrc={borderlink}    
             photoSrc={brlink}         
@@ -688,14 +772,20 @@ function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom,
             photoOffsetY={12}        
             frameOffsetY={15}
         />
+        </RevealGroup>
 
+        <RevealGroup direction="up" amount={0.8} duration={4} stagger={0.1}>
         <div className="brides">
           <div className="name">{fullbride}</div>
           <div className={`fam ${libre.className}`}>Putri dari Bapak {fbride} dan Ibu {mbride}</div>
         </div>
+        </RevealGroup>
 
+        <RevealGroup direction="zoom" amount={0.8} duration={7} stagger={0.1}>
         <div className="dengan">&</div>
+        </RevealGroup>
 
+        <RevealGroup direction="zoom" amount={0.8} duration={4} stagger={0.1}>
         <PhotoWithRing
             frameSrc={borderlink}    
             photoSrc={grlink}         
@@ -706,17 +796,21 @@ function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom,
             photoOffsetX={15}        
             frameOffsetY={15}
         />
+        </RevealGroup>
 
+        <RevealGroup direction="up" amount={0.8} duration={4} stagger={0.1}>
         <div className="groom">
           <div className="name">{fullgroom}</div>
           <div className={`fam ${libre.className}`}>Putra dari Bapak {fgroom} dan Ibu {mgroom}</div>
         </div>
-
+        </RevealGroup>
       </div>
 
+      <RevealGroup direction="down" amount={0.8} duration={4} stagger={0.1}>
       <div className="mt-16 flex justify-center">
           <Button className="animate-bob" onClick={() => setOpenStory(true)}>Our Story</Button>
       </div>
+      </RevealGroup>
 
       <OurStoryOverlay 
         open={openStory}
@@ -726,17 +820,6 @@ function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom,
       <div className="h-[150px]" />
 
       <style jsx>{`
-        .base-rotate-tr { transform: rotate(-128.79deg); transform-origin: 50% 8%; }
-        .base-rotate-bl { transform: rotate(51.21deg);   transform-origin: 50% 8%; }
-
-        .sway { animation: sway 8s ease-in-out infinite alternate; will-change: transform; }
-        @keyframes sway {
-          0% { transform: translateX(-6px) rotate(-4deg); }
-          100% { transform: translateX(6px) rotate(4deg); }
-        }
-        .drop-shadow { filter: drop-shadow(0 8px 16px rgba(0,0,0,0.15)); }
-
-        @media (prefers-reduced-motion: reduce) { .sway { animation: none !important; } }
 
         .salam {
             // position: absolute;
@@ -848,10 +931,14 @@ function OurStoryOverlay({
       <div className="absolute inset-0 grid place-items-center p-4" onClick={(e) => e.stopPropagation()}>
         <div className="relative">
           <Template1Timeline 
-            taaruf="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus."
-            nadzor="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus."
-            khitbah="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus."
-            akad="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus."
+          taaruf="15 Agustus 2024"
+          nadzor="15 Januari 2025"
+          khitbah="15 Maret 2025"
+          akad="15 September 2025"
+            // taaruf="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus."
+            // nadzor="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus."
+            // khitbah="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus."
+            // akad="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at libero ut augue fermentum ullamcorper lacus."
           />
 
           {/* close button */}
@@ -890,7 +977,7 @@ function Adab() {
     >
       {/* vidbg */}
         <video
-          className={`-z-20 absolute inset-0  w-[470px] mx-auto overflow-hidden object-content transition-opacity duration-700 ${
+          className={`-z-20 absolute inset-0 w-screen max-w-[470px]  mx-auto overflow-hidden object-content transition-opacity duration-700 ${
             inView ? "opacity-100 scale-100" : "opacity-0 scale-105"
           }`}
           src="/videos/template1flower.mp4"
@@ -899,6 +986,8 @@ function Adab() {
           autoPlay
           loop
         />
+      
+      <RevealGroup direction="up" amount={0.3} duration={6} stagger={0.12}>
       <div className="adab">
         <div className="adabWalimah">Adab Walimah</div>
           <div className="tanpaMengurangiRasaContainer">
@@ -910,6 +999,7 @@ function Adab() {
           <AdabCarousel />
         </div>
       </div>
+      </RevealGroup>
 
       <style jsx>{`
       .adabWalimah {
@@ -992,7 +1082,7 @@ function DoaMempelai() {
   };
 
   return (
-      <div className="relative isolate h-full w-[470px] flex flex-col items-center justify-center">
+      <div className="relative isolate h-full w-screen max-w-[470px] flex flex-col items-center justify-center">
       {/* Background */}
       <div
         aria-hidden
@@ -1008,12 +1098,13 @@ function DoaMempelai() {
       />
 
       {/* Video content */}
-      <div className="relative w-[470px] h-screen overflow-hidden mx-auto">
+      <div className="relative w-screen max-w-[470px] h-screen overflow-hidden mx-auto">
         <video
           ref={videoRef}
           src="/videos/template1doa.mp4/"
           autoPlay
           muted
+          playsInline 
           className="object-cover w-full h-full"
         />
       </div>

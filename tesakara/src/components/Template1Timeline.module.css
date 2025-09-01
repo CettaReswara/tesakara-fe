@@ -1,5 +1,7 @@
 .timelineStory {
   position: relative;
+  /* width: screen; */
+  /* max-width: 470px; */
   width: min(387px, 92vw);
   height: min(749px, 92svh);
   text-align: center;
