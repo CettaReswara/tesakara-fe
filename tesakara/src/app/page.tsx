@@ -1,67 +1,18 @@
 import Template1View from "@/components/Template1View";
 import NoCopy from "./nocopy";
 
-type BankInfo = {
-  bank: string;
-  atasNama: string;
-  noRekening: string;
-};
-
-type AlamatProp = {
-  namatempat: string;
-  alamat: string;
-  link: string;
-  mulai: string; // 00.00
-  selesai: string; // 00.00
-};
-
-type LiveProps = {
-  link: string;
-};
-
-type AddressBlock = {
-  isAlamat: boolean;
-  penerima: string; // if false, ""
-  alamat: string;   // if false, ""
-};
-
-type Details = {
-  fullbride: string;
-  fullgroom: string;
-  fbride: string;
-  mbride: string;
-  fgroom: string;
-  mgroom: string;
-  brillust: string;
-  grillust: string;
-  akad: AlamatProp;
-  walimah: AlamatProp;
-  live: LiveProps;
-  maxhadir: number;
-  alamat: AddressBlock;
-};
-
-export type InviteProps = {
-  bride: string;
-  groom: string;
-  to: string;
-  date: string;
-  bank: BankInfo[];
-  detaildata: Details;
-};
-
 export default function Home() {
   const bride = "Tesa".trim();
   const groom = "Kara".trim();
   const invitee = "Muhammad dan Pasangan".trim();
   const date = "21-09-2025";
 
-  const bank: BankInfo[] = [
+  const bank = [
     { bank: "Bank Jago Syariah", atasNama: "John Doe", noRekening: "123456789" },
     { bank: "Bank BSI", atasNama: "Jane Smith", noRekening: "987654321" },
   ];
 
-  const tempatAkad: AlamatProp = {
+  const tempatAkad = {
     namatempat: "Masjid Al-Ukhuwwah",
     alamat:
       "Jl. Wastukencana No.27, Babakan Ciamis, Kec. Sumur Bandung, Kota Bandung, Jawa Barat 40117",
@@ -70,7 +21,7 @@ export default function Home() {
     selesai: "09.00",
   };
 
-  const tempatWalimah: AlamatProp = {
+  const tempatWalimah = {
     namatempat: "Intercontinental Dago Pakar",
     alamat:
       "Jalan Resor Dago Pakar Raya 2B Resor Dago Pakar, Mekarsaluyu, Kec. Cimenyan, Kota Bandung, Jawa Barat 40198",
@@ -79,17 +30,17 @@ export default function Home() {
     selesai: "15.00",
   };
 
-  const live: LiveProps = {
+  const live = {
     link: "https://www.youtube.com/live/e85tJVzKwDU?si=aNFciZUgg0SqKhZB",
   };
 
-  const alamatNo: AddressBlock = {
+  const alamatNo = {
     isAlamat: false,
     penerima: "",
     alamat: "",
   };
 
-  const detaildata: Details = {
+  const detaildata = {
     fullbride: "Tesa Azzahra, S.Pd.",
     fullgroom: "dr. Muhammad Kara Haritsah, Sp.PD.",
     fbride: "Fulan",
