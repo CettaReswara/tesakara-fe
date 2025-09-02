@@ -51,14 +51,14 @@ export function Template1RSVP({ maxValue, name }: RSVPProps) {
     });
 
     // Handle input change for form fields
-    const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
+    const handleInputChange = (e: { target: { name: string; value: string; }; }) => {
         const { name, value } = e.target;
         if (name === 'jumlahTamu') {
         // Automatically set the jumlahTamu to maxValue if the value exceeds maxValue
         const updatedValue = Number(value) > maxValue ? maxValue : value;
         setFormData((prev) => ({
             ...prev,
-            [name]: updatedValue,
+            [name]: String(updatedValue),
         }));
         } else {
         setFormData((prev) => ({

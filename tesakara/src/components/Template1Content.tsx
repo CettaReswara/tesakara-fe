@@ -11,7 +11,6 @@ import { Template1Akad, Template1Walimah, Template1Live } from "./Template1Acara
 import { Template1RSVP, Template1Selamat } from "./Template1RSVP";
 import { Template1Hadiah } from "./Template1Hadiah";
 import { RevealGroup } from "./reveal/reveal";
-import style from "./Template1Content.module.css";
 
 type BankInfo = {
   bank: string;
@@ -63,9 +62,32 @@ type Props = {
   bgVideoSrc: string;       // "/videos/bg.mp4"
 };
 
+//TO CHECK
+
 declare global {
   interface Window {
-    YT: any;
+    YT: {
+      Player: new (
+        elementId: string,
+        options: {
+          videoId: string;
+          playerVars?: Record<string, any>;
+          events?: {
+            onReady?: (event: { target: any }) => void;
+            onStateChange?: (event: { data: number; target: any }) => void;
+            onError?: (event: { data: number }) => void;
+          };
+        }
+      ) => void;
+      PlayerState: {
+        UNSTARTED: -1;
+        ENDED: 0;
+        PLAYING: 1;
+        PAUSED: 2;
+        BUFFERING: 3;
+        CUED: 5;
+      };
+    };
     onYouTubeIframeAPIReady?: () => void;
   }
 }
@@ -675,7 +697,7 @@ function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom,
         try {
           // penting untuk iOS
           v.muted = true;
-          v.playsInline = true as any;
+          v.playsInline = true;
           await v.play();
         } catch (e) {
           // autoplay kadang pending sampai canplay/canplaythrough

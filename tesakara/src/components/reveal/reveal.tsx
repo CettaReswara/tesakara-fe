@@ -41,8 +41,8 @@ export function Reveal({
 
   const distance = 32; // px
 
-  const baseHidden: any = { opacity: 0 };
-  const baseVisible: any = { opacity: 1 };
+  const baseHidden: { opacity: number } = { opacity: 0 };
+  const baseVisible: { opacity: number } = { opacity: 1 };
 
   const variantsByDir: Record<string, Variants> = {
     none: {
