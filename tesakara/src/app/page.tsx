@@ -11,18 +11,19 @@ type AlamatProp = {
   namatempat: string;
   alamat: string;
   link: string;
-  mulai: string; //00.00
-  selesai: string; //00.00
-}
+  mulai: string; // 00.00
+  selesai: string; // 00.00
+};
 
 type LiveProps = {
   link: string;
-}
+};
 
-type AddressBlock =
-  { isAlamat: boolean; 
-    penerima: string; //kalo false "" 
-    alamat: string } //kalo false ""
+type AddressBlock = {
+  isAlamat: boolean;
+  penerima: string; // if false, ""
+  alamat: string;   // if false, ""
+};
 
 type Details = {
   fullbride: string;
@@ -38,94 +39,83 @@ type Details = {
   live: LiveProps;
   maxhadir: number;
   alamat: AddressBlock;
-}
+};
 
-
-type InviteProps = {
-    bride: string;
-    groom: string;
-    to: string;
-    date:string;
-    bank: BankInfo[];
-    detaildata: Details;
+export type InviteProps = {
+  bride: string;
+  groom: string;
+  to: string;
+  date: string;
+  bank: BankInfo[];
+  detaildata: Details;
 };
 
 export default function Home() {
-  const bride = ("Tesa").trim();
-  const groom = ("Kara").trim();
-  const invitee = ("Muhammad dan Pasangan").trim();
-  const date = "21-09-2025"
-  const bank = [
+  const bride = "Tesa".trim();
+  const groom = "Kara".trim();
+  const invitee = "Muhammad dan Pasangan".trim();
+  const date = "21-09-2025";
+
+  const bank: BankInfo[] = [
     { bank: "Bank Jago Syariah", atasNama: "John Doe", noRekening: "123456789" },
     { bank: "Bank BSI", atasNama: "Jane Smith", noRekening: "987654321" },
   ];
 
-  // akad: AlamatProp;
-  // walimah: AlamatProp;
-  // live: LiveProps;
-  // maxhadir: number;
-  // alamat: AddressBlock;
-  const tempatAkad = {
+  const tempatAkad: AlamatProp = {
     namatempat: "Masjid Al-Ukhuwwah",
-    alamat: "Jl. Wastukencana No.27, Babakan Ciamis, Kec. Sumur Bandung, Kota Bandung, Jawa Barat 40117",
+    alamat:
+      "Jl. Wastukencana No.27, Babakan Ciamis, Kec. Sumur Bandung, Kota Bandung, Jawa Barat 40117",
     link: "https://maps.app.goo.gl/5iZJUTi2iPXJ1wVT8",
     mulai: "08.00",
-    selesai: "09.00"
-  }
+    selesai: "09.00",
+  };
 
-  const tempatWalimah = {
+  const tempatWalimah: AlamatProp = {
     namatempat: "Intercontinental Dago Pakar",
-    alamat: "Jalan Resor Dago Pakar Raya 2B Resor Dago Pakar, Mekarsaluyu, Kec. Cimenyan, Kota Bandung, Jawa Barat 40198",
+    alamat:
+      "Jalan Resor Dago Pakar Raya 2B Resor Dago Pakar, Mekarsaluyu, Kec. Cimenyan, Kota Bandung, Jawa Barat 40198",
     link: "https://maps.app.goo.gl/qpbCVwvsjoj3FbTg8",
     mulai: "13.00",
-    selesai: "15.00"
-  }
+    selesai: "15.00",
+  };
 
-  const live = {
-    link:"https://www.youtube.com/live/e85tJVzKwDU?si=aNFciZUgg0SqKhZB"
-  }
+  const live: LiveProps = {
+    link: "https://www.youtube.com/live/e85tJVzKwDU?si=aNFciZUgg0SqKhZB",
+  };
 
-  const alamatYes = {
-    isAlamat: true,
-    penerima: "Keluarga Handoko",
-    alamat:
-      "Jl. Tengah Kota Jauh Dari Kabupaten Kota Baru, Indonesia",
-  }
-
-  const alamatNo = {
+  const alamatNo: AddressBlock = {
     isAlamat: false,
     penerima: "",
-    alamat: ""
-  }
+    alamat: "",
+  };
 
-  const detaildata = {
-   fullbride:"Tesa Azzahra, S.Pd.",
-   fullgroom:"dr. Muhammad Kara Haritsah, Sp.PD.",
-   fbride:"Fulan",
-   mbride:"Fulanah",
-   fgroom:"Fulan",
-   mgroom:"Fulanah",
-   brillust:"https://lh3.googleusercontent.com/d/1K22HWbR2mY5TLISQYVsjMvwNifNUG24D",
-   grillust:"https://lh3.googleusercontent.com/d/1IMFbAWc3nNbnaDup7OTcpU6PLzaftaHv",
-   akad: tempatAkad,
-   walimah: tempatWalimah,
-   live: live,
-   maxhadir: 5,
-   alamat: alamatNo,
-  }
+  const detaildata: Details = {
+    fullbride: "Tesa Azzahra, S.Pd.",
+    fullgroom: "dr. Muhammad Kara Haritsah, Sp.PD.",
+    fbride: "Fulan",
+    mbride: "Fulanah",
+    fgroom: "Fulan",
+    mgroom: "Fulanah",
+    brillust: "https://lh3.googleusercontent.com/d/1K22HWbR2mY5TLISQYVsjMvwNifNUG24D",
+    grillust: "https://lh3.googleusercontent.com/d/1IMFbAWc3nNbnaDup7OTcpU6PLzaftaHv",
+    akad: tempatAkad,
+    walimah: tempatWalimah,
+    live,
+    maxhadir: 5,
+    alamat: alamatNo,
+  };
 
   return (
     <NoCopy>
       <div className="no-horizontal-scroll">
-        <Template1View 
+        <Template1View
           bride={bride}
           groom={groom}
           to={invitee}
           date={date}
           bank={bank}
           detaildata={detaildata}
-        >
-        </Template1View>
+        />
       </div>
     </NoCopy>
   );
