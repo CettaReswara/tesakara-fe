@@ -50,7 +50,7 @@ type InviteProps = {
     detaildata: Details;
 };
 
-export default function Home({}: InviteProps) {
+export default function Home() {
   const bride = ("Tesa").trim();
   const groom = ("Kara").trim();
   const invitee = ("Muhammad dan Pasangan").trim();
