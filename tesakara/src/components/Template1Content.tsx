@@ -62,32 +62,9 @@ type Props = {
   bgVideoSrc: string;       // "/videos/bg.mp4"
 };
 
-//TO CHECK
-
 declare global {
   interface Window {
-    YT: {
-      Player: new (
-        elementId: string,
-        options: {
-          videoId: string;
-          playerVars?: Record<string, any>;
-          events?: {
-            onReady?: (event: { target: any }) => void;
-            onStateChange?: (event: { data: number; target: any }) => void;
-            onError?: (event: { data: number }) => void;
-          };
-        }
-      ) => void;
-      PlayerState: {
-        UNSTARTED: -1;
-        ENDED: 0;
-        PLAYING: 1;
-        PAUSED: 2;
-        BUFFERING: 3;
-        CUED: 5;
-      };
-    };
+     YT: typeof YT;
     onYouTubeIframeAPIReady?: () => void;
   }
 }
