@@ -11,6 +11,7 @@ import { Template1Akad, Template1Walimah, Template1Live } from "./Template1Acara
 import { Template1RSVP, Template1Selamat } from "./Template1RSVP";
 import { Template1Hadiah } from "./Template1Hadiah";
 import { RevealGroup } from "./reveal/reveal";
+import Image from "next/image";
 
 type BankInfo = {
   bank: string;
@@ -49,6 +50,10 @@ type Details = {
   live: LiveProps;
   maxhadir: number;
   alamat: AddressBlock;
+  pfbride: string;
+  pmbride: string;
+  pfgroom: string;
+  pmgroom: string;
 };
 
 type Props = {
@@ -252,7 +257,7 @@ export default function Template1Content({
           <Template1Live
             link={detail.live.link}
           />
-          <div className="h-[230px]" />
+          {/* <div className="h-[230px]" /> */}
           
         </section>
 
@@ -319,7 +324,18 @@ export default function Template1Content({
             // ref={mempelaiRef}
             id="penutup"
             className="relative w-full min-h-screen snap-start bg-[#f6eee7] items-center justify-center"
-        ></section>
+        >
+
+          <Closing
+            bride={bride}
+            groom={groom}
+            pfbride={detail.pfbride}
+            pmbride={detail.pmbride}
+            pfgroom={detail.pfgroom}
+            pmgroom={detail.pmgroom}
+          />
+
+        </section>
 
         {/* YouTube iframe (audio) */}
         <iframe
@@ -748,7 +764,10 @@ function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom,
         <RevealGroup direction="up" amount={0.8} duration={4} stagger={0.1}>
         <div className="brides">
           <div className="name">{fullbride}</div>
-          <div className={`fam ${libre.className}`}>Putri dari Bapak {fbride} dan Ibu {mbride}</div>
+          <div className={`fam ${libre.className}`}>
+            <span className="whitespace-nowrap">Putri dari Bapak {fbride}</span>{' '}
+            <span className="whitespace-nowrap">dan Ibu {mbride}</span>
+          </div>
         </div>
         </RevealGroup>
 
@@ -772,7 +791,10 @@ function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom,
         <RevealGroup direction="up" amount={0.8} duration={4} stagger={0.1}>
         <div className="groom">
           <div className="name">{fullgroom}</div>
-          <div className={`fam ${libre.className}`}>Putra dari Bapak {fgroom} dan Ibu {mgroom}</div>
+          <div className={`fam ${libre.className}`}>
+            <span className="whitespace-nowrap">Putra dari Bapak {fgroom}</span>{' '}
+            <span className="whitespace-nowrap">dan Ibu {mgroom}</span>
+          </div>
         </div>
         </RevealGroup>
       </div>
@@ -839,6 +861,7 @@ function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom,
             top: 44px;
             left: 13px;
             font-size: 12px;
+            max-width: 320px;
             }
 
         .brides {
@@ -958,12 +981,11 @@ function Adab() {
           loop
         />
       
-      <RevealGroup direction="up" amount={0.3} duration={6} stagger={0.12}>
-      <div className="adab">
+      <RevealGroup direction="zoom" amount={0.3} duration={10} stagger={0.2}>
+      <div className="adab z-10">
         <div className="adabWalimah">Adab Walimah</div>
           <div className="tanpaMengurangiRasaContainer">
-          <p className="tanpaMengurangiRasa">Tanpa mengurangi rasa hormat kami,</p>
-          <p className="tanpaMengurangiRasa">ada adab-adab seorang muslim yang harus diperhatikan ketika menghadiri walimah:</p>
+          <p className="tanpaMengurangiRasa">Tanpa mengurangi rasa hormat kami, ada adab-adab seorang muslim yang harus diperhatikan ketika menghadiri walimah:</p>
         </div>
 
         <div className="carousel">
@@ -974,47 +996,45 @@ function Adab() {
 
       <style jsx>{`
       .adabWalimah {
-        position: absolute;
-        top: 174px;
-        left: 130px;
+        position: relative;
+        margin-top: 150px;
       }
       .tanpaMengurangiRasa {
-        margin: 0;
+        max-width: 357px;
+        margin: 0 auto; 
       }
       .tanpaMengurangiRasaContainer {
-        position: absolute;
-        top: 239px;
-        left: 56px;
+        position: relative;
+        text-align: center;
         font-size: 12px;
         font-family: 'Libre Baskerville';
-        display: inline-block;
-        width: 357px;
       }
 
       .adab {
         width: 100%;
         position: relative;
-        height: 905px;
         overflow: hidden;
         cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         text-align: center;
         font-size: 40px;
         color: #675553;
         font-family: 'Meow Script';
-        margin-top: -240px;
       }
 
       .carousel {
         width: 100%;
         position: relative;
-        height: 303px;
-        margin-top: 300px;
+        margin-top: 30px;
       }
       `}</style>
 
     </section>
   );
 }
+
 
 function DoaMempelai() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -1080,5 +1100,180 @@ function DoaMempelai() {
         />
       </div>
       </div>
+  );
+}
+
+function Closing({ bride, groom, pfbride, pfgroom, pmbride, pmgroom}: { bride: string; groom: string; pfbride: string;pfgroom: string; pmbride: string; pmgroom: string}) {
+  return( 
+    <section className="close">
+      {/* background */}
+      <div
+        className="bg"
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 0,
+          backgroundImage: `
+            linear-gradient(to right, rgba(103,85,83,0.05) 2px, transparent 2px),
+            linear-gradient(to bottom, rgba(103,85,83,0.05) 2px, transparent 2px)
+          `,
+          backgroundSize: "40px 40px",
+        }}
+      />
+      {/* content */}
+      <div className="pengundang">
+      <RevealGroup direction="zoom" amount={0.3} duration={3}>
+      <div className="h-40"/>
+      <b className="prakata">Kami yang berbahagia</b>
+      </RevealGroup>
+      
+      <RevealGroup direction="up" amount={0.3} duration={2}>
+      <h1 className="names">
+        <span>{bride}</span> & <span>{groom}</span>
+      </h1>
+      </RevealGroup>
+
+      <RevealGroup direction="zoom" amount={0.3} duration={2}>
+      <div className="families">
+        <div className="family">
+          <div className="label">Keluarga Besar</div>
+          <p className="people">
+            Bapak {pfbride}<br />& Ibu {pmbride}
+          </p>
+        </div>
+
+        <div className="divider" aria-hidden="true" />
+
+        <div className="family">
+          <div className="label">Keluarga Besar</div>
+          <p className="people">
+            Bapak {pfgroom}<br />& Ibu {pmgroom}
+          </p>
+        </div>
+      </div>
+      </RevealGroup>
+      </div>
+      
+
+      <RevealGroup direction="up" amount={0.3} duration={2}>
+      <div className="brand">
+        <b className="by">Digital Invitation by</b>
+        <Image className="tesakaraLogoIcon" width={130} height={110} sizes="100vw" alt="" src="/img/tesakara-logo.png" />
+      </div>
+      </RevealGroup>
+
+      <style jsx>{`
+        .close{
+          /* full-height, centered, responsive */
+          min-height: 100svh;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: clamp(8px, 2.5vh, 24px);
+          padding: clamp(16px, 4vh, 48px) 16px;
+          text-align: center;
+          color: #675553;
+          font-family: 'Libre Baskerville', serif;
+          overflow: hidden;
+        }
+
+        .pengundang {
+          margin-block:auto; 
+          display:flex;
+          flex-direction:column;
+          align-items:center;
+          gap: clamp(8px, 2.5vh, 24px);
+        }
+
+
+        .prakata{
+          font-weight: 700;
+          font-size: 12px;
+        }
+
+        .names{
+          margin: 0;
+          line-height: 1.1;
+          font-size: 44px;
+          font-weight: 400;
+          color: #675553;
+        font-family: 'Meow Script', cursive; 
+        }
+
+        .families{
+          /* 3 columns: left | divider | right */
+          display: grid;
+          grid-template-columns: 1fr auto 1fr;
+          align-items: stretch;
+          gap: clamp(16px, 4vw, 40px);
+          width: 322px;
+          margin-top: clamp(8px, 2vh, 24px);
+        }
+
+        .divider{
+          width: 1px;
+          min-height: 96px; 
+          background: #675553;
+          justify-self: center;
+        }
+
+        .family{
+          display: grid;
+          justify-items: center;
+          gap: 12px;
+        }
+
+        .label{
+          font-weight: 300;
+          font-size: 12px;
+        }
+
+        .people{
+          margin: 0;
+          font-style: italic;
+          font-size: 14px;
+          line-height: 1.35;
+        }
+
+        .brand {
+          display:flex;
+          margin-top: 200px;
+          flex-direction:column;
+          align-items:center;
+          gap:8px;      
+        }
+
+        .by {
+          position: relative;
+          font-size: 12px;
+        }
+
+        .tesakaraLogoIcon {
+          width: 100%;
+          position: relative;
+          max-width: 100%;
+          overflow: hidden;
+          max-height: 100%;
+          object-fit: cover;
+        }
+
+
+        /* Stack vertically on very small screens */
+        @media (max-width: 360px){
+          .families{
+            grid-template-columns: 1fr;
+            gap: 16px;
+          }
+          .divider{
+            width: 100%;
+            height: 1px;
+            min-height: 1px;
+            align-self: stretch;
+          }
+        }
+      `}</style>
+    </section>
+
   );
 }

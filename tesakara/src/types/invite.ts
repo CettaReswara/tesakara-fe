@@ -36,6 +36,10 @@ type Details = {
   live: LiveProps;
   maxhadir: number;
   alamat: AddressBlock;
+pfbride: string;
+  pmbride: string;
+  pfgroom: string;
+  pmgroom: string;
 };
 
 export type InviteProps = {

@@ -40,210 +40,232 @@ interface RSVPProps {
 }
 
 export function Template1RSVP({ maxValue, name }: RSVPProps) {
-    const [submitted, setSubmitted] = useState(false);
-    
-    // State for handling form input
-    const [formData, setFormData] = useState({
-        nama: name || '',
-        kehadiran: '',
-        jumlahTamu: '',
-        ucapan: ''
-    });
+  const [submitted, setSubmitted] = useState(false);
 
-    // Handle input change for form fields
-    const handleInputChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-        ) => {
-        const { name, value } = e.target;
+  type FormState = {
+    nama: string;
+    kehadiran: string;
+    jumlahTamu: string; // string biar enak dikontrol
+    ucapan: string;
+  };
 
-        if (name === "jumlahTamu") {
-            const updatedValue = Number(value) > maxValue ? maxValue : value;
-            setFormData((prev) => ({
-            ...prev,
-            [name]: String(updatedValue),
-            }));
-        } else {
-            setFormData((prev) => ({
-            ...prev,
-            [name]: value,
-            }));
-        }
-    };
+  const [formData, setFormData] = useState<FormState>({
+    nama: name || "",
+    kehadiran: "",
+    jumlahTamu: "",
+    ucapan: "",
+  });
 
-    const [submittedData, setSubmittedData] = useState({
-        nama: name || '',
-        kehadiran: '',
-        jumlahTamu: '',
-        ucapan: ''
-    });
+  const [submittedData, setSubmittedData] = useState<FormState>({
+    nama: name || "",
+    kehadiran: "",
+    jumlahTamu: "",
+    ucapan: "",
+  });
 
-    // Handle form submission
-    const onButtonContainerClick = useCallback(() => {
-        setSubmitted(true);
-        setSubmittedData(formData); // Update submittedData only when submit button is clicked
-        console.log(submittedData); // Log the form data or send to the server
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
 
-        // send submitted data to server
-    }, [formData]);
-    
-    return (
-        <div className={styles.selamat}>
-            {/* background */}
-            <div className="bg-scroll z-0" aria-hidden="true">
-                <Image className={styles.bgPicIcon} fill alt="" src="/svg/template1paper.png" priority />
+    if (name === "jumlahTamu") {
+      // izinkan kosong saat mengetik; selain itu kunci 0..maxValue
+      const next =
+        value.trim() === ""
+          ? ""
+          : String(Math.min(Math.max(Number(value || 0), 0), maxValue));
+      setFormData((p) => ({ ...p, jumlahTamu: next }));
+      return;
+    }
+
+    setFormData((p) => ({ ...p, [name]: value }));
+  };
+
+  const onSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      setSubmitted(true);
+      setSubmittedData(formData);
+      console.log("Submitting:", formData);
+      // TODO: kirim ke server
+    },
+    [formData]
+  );
+
+  return (
+    <div className={styles.selamat}>
+      {/* background */}
+      <div className="bg-scroll z-0" aria-hidden="true">
+        <Image className={styles.bgPicIcon} fill alt="" src="/svg/template1paper.png" priority />
+      </div>
+
+      {/* header */}
+      <RevealGroup direction="down" amount={0.3} duration={10} stagger={0.12}>
+        <div className={`${styles.header} z-10`} style={{ pointerEvents: "auto" }}>
+          <i className={styles.wishes}>Wishes</i>
+          <div className={styles.sub}>
+            <div className={styles.konfirmasi}>
+              <div className={styles.k}>K</div>
+              <div className={styles.onfirmasi}>onfirmasi</div>
             </div>
-
-            {/* header */}
-            <RevealGroup direction="down" amount={0.3} duration={10} stagger={0.12}>
-            <div className={`${styles.header} z-10`}>
-                <i className={styles.wishes}>Wishes</i>
-                <div className={styles.sub}>
-                    <div className={styles.konfirmasi}>
-                        <div className={styles.k}>K</div>
-                        <div className={styles.onfirmasi}>onfirmasi</div>
-                    </div>
-                    <div className={styles.div}>{`&`}</div>
-                    <div className={styles.doa}>
-                        <div className={styles.k}>D</div>
-                        <div className={styles.oa}>oa</div>
-                    </div>
-                </div>
+            <div className={styles.div}>&</div>
+            <div className={styles.doa}>
+              <div className={styles.k}>D</div>
+              <div className={styles.oa}>oa</div>
             </div>
-            </RevealGroup>
-
-            {/* form */}
-            <RevealGroup direction="none" amount={0.3} duration={6} stagger={0.12}>
-            <form className={`${styles.formUser} z-10`}>
-                <b className={styles.formTitle}>Nama</b>
-                <div className={styles.position}>
-                    <input 
-                        type="text" 
-                        name="nama" 
-                        value={formData.nama} 
-                        onChange={handleInputChange} 
-                        className={`${styles.form} py-2 px-3 focus:outline-none `}
-                        placeholder="Tulis nama Anda" 
-                        readOnly
-                    />
-                    </div>
-            </form>
-
-            <form className={`${styles.formUser} z-10`}>
-                <label className={styles.formTitle}>Konfirmasi Kehadiran</label>
-                <div className={styles.position}>
-                    <select 
-                        name="kehadiran"
-                        value={formData.kehadiran}
-                        onChange={handleInputChange}
-                        className={`${styles.form} block appearance-none w-full px-4 pt-2 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline`}
-                    >
-                        <option value="">Pilih status kehadiran</option>
-                        <option value="hadir">Hadir</option>
-                        <option value="tidak_hadir">Tidak Hadir</option>
-                    </select>
-                    <div className="pt-5 pointer-events-none absolute inset-y-0 right-3 sm:right-10 md:right-10 lg:right-10 top-[-15] flex items-center px-6 text-gray-700">
-                        <svg className="fill-current h-full w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                    </div>
-                </div>
-            </form>
-
-            <form className={`${styles.formUser} z-10`}>
-                <b className={styles.formTitle1}>Jumlah Tamu</b>
-                <div className={styles.position}>
-                    <input 
-                        type="number" 
-                        name="jumlahTamu" 
-                        value={formData.jumlahTamu} 
-                        onChange={handleInputChange} 
-                        className={`${styles.form} py-2 px-3 focus:outline-none `}
-                        placeholder={`Jumlah pengunjung (maksimal ${maxValue})`}
-                        min="0"
-                        max={maxValue}
-                    />
-                </div>
-            </form>
-
-            <form className={`${styles.formUser} z-10`}>
-                <b className={styles.formTitle}>Ucapan</b>
-                <div className={styles.position}>
-                    <textarea 
-                        name="ucapan" 
-                        value={formData.ucapan} 
-                        onChange={handleInputChange} 
-                        className={`${styles.formlong} py-2 px-3 pt-2 focus:outline-none `}
-                        placeholder="Tuliskan pesan dan doa Anda untuk mempelai" 
-                    />
-                </div>
-            </form>
-            </RevealGroup>
-
-            {/* kirim */}
-            <RevealGroup direction="down" amount={0.3} duration={6} stagger={0.12}>
-            <div className={`${styles.button} z-10`} onClick={onButtonContainerClick}>
-                <div className={styles.buttonBg} />
-                <div className={styles.buttonText}>Kirim</div>
-            </div>
-            </RevealGroup>
-
-            {/* UCAPAN */}
-            {!submitted ? (
-            <RevealGroup direction="up" amount={0.3} duration={4} stagger={0.12}>
-            <div className={styles.container}>
-                <div className={styles.floatingMessage}>
-                    <div className={styles.formMask}>
-                        <div className={styles.design1} />
-                        <div className={styles.designa1} />
-                        <div className={styles.Title1}>
-                            <span>{`Ucapan dari `}</span>
-                            <b>Fulanah</b>
-                        </div>
-                        <div className={styles.Caption1}>Kirim ucapanmu untuk mempelai!</div>
-                        <div className={styles.designChild1} />
-                        <b className={styles.status1}>Konfirmasi!</b>
-                    </div>
-                </div>
-            </div>
-            </RevealGroup>
-            ):(
-                <RevealGroup direction="up" amount={0.3} duration={4} stagger={0.12}>
-                <div className={styles.container}>
-                <div className={styles.floatingMessage}>
-                    <div className={styles.formMask}>
-                        <div className={styles.design1} />
-                        <div className={styles.designa1} />
-                        <div className={styles.Title1}>
-                        <span>{`Ucapan dari `}</span>
-                        <b>{submittedData.nama}</b>
-                    </div>
-                    <div className={styles.Caption1}>{submittedData.ucapan}</div>
-                    <div 
-                        className={styles.designChild1} 
-                        style={{
-                            backgroundColor:
-                            submittedData.kehadiran === "hadir"
-                                ? "#D9D4B1" 
-                                : submittedData.kehadiran === "tidak_hadir"
-                                ? "#D9B9B1"
-                                : "#c4c3c3",
-                        }}
-                    />
-                    <div className={styles.status1}>
-                        {submittedData.kehadiran === "hadir"
-                        ? "Hadir"
-                        : submittedData.kehadiran === "tidak_hadir"
-                        ? "Tidak Hadir"
-                        : ""}
-                    </div>
-                    </div>
-                </div>
-                </div>
-                </RevealGroup>
-            )
-            }
-             <div className='h-20'/>
+          </div>
         </div>
-    );
-};
+      </RevealGroup>
+
+      {/* === SINGLE FORM === */}
+      <RevealGroup direction="none" amount={0.3} duration={6} stagger={0.12}>
+        <form className="z-10" onSubmit={onSubmit} style={{ pointerEvents: "auto" }}>
+          {/* Nama (read-only) */}
+          <div className={styles.formUser}>
+            <b className={styles.formTitle}>Nama</b>
+            <div className={styles.position}>
+              <input
+                type="text"
+                name="nama"
+                value={formData.nama}
+                onChange={handleInputChange}
+                className={`${styles.form} py-2 px-3 focus:outline-none`}
+                placeholder="Tulis nama Anda"
+                readOnly
+              />
+            </div>
+          </div>
+
+          {/* Kehadiran */}
+          <div className={styles.formUser}>
+            <label className={styles.formTitle}>Konfirmasi Kehadiran</label>
+            <div className={styles.position} style={{ position: "relative" }}>
+              <select
+                name="kehadiran"
+                value={formData.kehadiran}
+                onChange={handleInputChange}
+                className={`${styles.form} block appearance-none w-full px-4 pt-2 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline`}
+              >
+                <option value="" disabled>
+                  Pilih status kehadiran
+                </option>
+                <option value="hadir">Hadir</option>
+                <option value="tidak_hadir">Tidak Hadir</option>
+              </select>
+              {/* caret tidak menghalangi klik */}
+              <div className="pointer-events-none absolute inset-y-0 right-3 sm:right-10 md:right-10 lg:right-10 flex items-center px-6 text-gray-700">
+                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          {/* Jumlah Tamu */}
+          <div className={styles.formUser}>
+            <b className={styles.formTitle1}>Jumlah Tamu</b>
+            <div className={styles.position}>
+              <input
+                type="number"
+                name="jumlahTamu"
+                value={formData.jumlahTamu}
+                onChange={handleInputChange}
+                className={`${styles.form} py-2 px-3 focus:outline-none`}
+                placeholder={`Jumlah pengunjung (maksimal ${maxValue})`}
+                min={0}
+                max={maxValue}
+                inputMode="numeric"
+                pattern="\d*"
+              />
+            </div>
+          </div>
+
+          {/* Ucapan */}
+          <div className={styles.formUser}>
+            <b className={styles.formTitle}>Ucapan</b>
+            <div className={styles.position}>
+              <textarea
+                name="ucapan"
+                value={formData.ucapan}
+                onChange={handleInputChange}
+                className={`${styles.formlong} py-2 px-3 pt-2 focus:outline-none`}
+                placeholder="Tuliskan pesan dan doa Anda untuk mempelai"
+              />
+            </div>
+          </div>
+
+          {/* Kirim */}
+          {/* <RevealGroup direction="down" amount={0.3} duration={6} stagger={0.12}> */}
+          <div className="flex justify-center">
+            <button type="submit" className={`${styles.button} z-10`} style={{ pointerEvents: "auto" }}>
+              <div className={styles.buttonBg} />
+              <div className={styles.buttonText}>Kirim</div>
+            </button>
+          </div>
+          {/* </RevealGroup> */}
+        </form>
+      </RevealGroup>
+
+      {/* UCAPAN */}
+      {!submitted ? (
+        <RevealGroup direction="up" amount={0.3} duration={4} stagger={0.12}>
+          <div className={styles.container}>
+            <div className={styles.floatingMessage}>
+              <div className={styles.formMask}>
+                <div className={styles.design1} />
+                <div className={styles.designa1} />
+                <div className={styles.Title1}>
+                  <span>Ucapan dari </span>
+                  <b>Fulanah</b>
+                </div>
+                <div className={styles.Caption1}>Kirim ucapanmu untuk mempelai!</div>
+                <div className={styles.designChild1} />
+                <b className={styles.status1}>Konfirmasi!</b>
+              </div>
+            </div>
+          </div>
+        </RevealGroup>
+      ) : (
+        <RevealGroup direction="up" amount={0.3} duration={4} stagger={0.12}>
+          <div className={styles.container}>
+            <div className={styles.floatingMessage}>
+              <div className={styles.formMask}>
+                <div className={styles.design1} />
+                <div className={styles.designa1} />
+                <div className={styles.Title1}>
+                  <span>Ucapan dari </span>
+                  <b>{submittedData.nama}</b>
+                </div>
+                <div className={styles.Caption1}>{submittedData.ucapan}</div>
+                <div
+                  className={styles.designChild1}
+                  style={{
+                    backgroundColor:
+                      submittedData.kehadiran === "hadir"
+                        ? "#D9D4B1"
+                        : submittedData.kehadiran === "tidak_hadir"
+                        ? "#D9B9B1"
+                        : "#c4c3c3",
+                  }}
+                />
+                <div className={styles.status1}>
+                  {submittedData.kehadiran === "hadir"
+                    ? "Hadir"
+                    : submittedData.kehadiran === "tidak_hadir"
+                    ? "Tidak Hadir"
+                    : ""}
+                </div>
+              </div>
+            </div>
+          </div>
+        </RevealGroup>
+      )}
+
+      <div className="h-20" />
+    </div>
+  );
+}
+
 
 export function Template1Selamat() {
     const [currentMessage1, setCurrentMessage1] = useState(0);

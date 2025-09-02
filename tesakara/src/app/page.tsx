@@ -43,10 +43,14 @@ export default function Home() {
   const detaildata = {
     fullbride: "Tesa Azzahra, S.Pd.",
     fullgroom: "dr. Muhammad Kara Haritsah, Sp.PD.",
-    fbride: "Fulan",
-    mbride: "Fulanah",
-    fgroom: "Fulan",
-    mgroom: "Fulanah",
+    // fbride: "Fulan",
+    // mbride: "Fulanah",
+    // fgroom: "Fulan",
+    // mgroom: "Fulanah",
+    fbride: "Dr. Muhammad Fulan Ali",
+    mbride: "Fulanah Safira Azzahra",
+    fgroom: "Fulan Ramadhan, S.Pd., M.Pd.",
+    mgroom: "dr. Fulanah Raihanah, Sp.KK.",
     brillust: "https://lh3.googleusercontent.com/d/1K22HWbR2mY5TLISQYVsjMvwNifNUG24D",
     grillust: "https://lh3.googleusercontent.com/d/1IMFbAWc3nNbnaDup7OTcpU6PLzaftaHv",
     akad: tempatAkad,
@@ -54,6 +58,10 @@ export default function Home() {
     live,
     maxhadir: 5,
     alamat: alamatNo,
+    pfbride: "Fulan",
+    pmbride: "Fulanah",
+    pfgroom: "Fulan",
+    pmgroom: "Fulanah",
   };
 
   return (
