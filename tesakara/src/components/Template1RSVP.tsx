@@ -139,7 +139,7 @@ export function Template1RSVP({ maxValue, name }: RSVPProps) {
                         <option value="hadir">Hadir</option>
                         <option value="tidak_hadir">Tidak Hadir</option>
                     </select>
-                    <div className="pt-5 tpointer-events-none absolute inset-y-0 right-3 sm:right-10 md:right-10 lg:right-10 top-[-15] flex items-center px-6 text-gray-700">
+                    <div className="pt-5 pointer-events-none absolute inset-y-0 right-3 sm:right-10 md:right-10 lg:right-10 top-[-15] flex items-center px-6 text-gray-700">
                         <svg className="fill-current h-full w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                     </div>
                 </div>
