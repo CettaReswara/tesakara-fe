@@ -1,9 +1,7 @@
-:root {
-  --easing-out-quad: cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
 /* === Wrapper (tetap di seam) === */
 .scrapDivider {
+  --easing-out-quad: cubic-bezier(0.22, 0.61, 0.36, 1);
+  
   position: absolute;
   left: 50%;
   width: var(--scrap-w, 480px);

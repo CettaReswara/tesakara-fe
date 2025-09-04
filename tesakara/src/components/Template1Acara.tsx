@@ -43,10 +43,10 @@ export function Template1Akad({namatempat, alamat, link, mulai, selesai, date}: 
   return (
     <section
       ref={ref}
-      className="relative isolate snap-start w-full min-h-[100dvh] bg-[#f6eee7]"
+      className="relative isolate snap-start w-full min-h-[100dvh]"  //bg-[#f6eee7]
     >
       {/* vidbg */}
-      <div className="bg-scroll z-0" aria-hidden="true">
+      {/* <div className="bg-scroll z-0" aria-hidden="true">
         <video
           className={`-z-20 absolute inset-0 w-screen max-w-[470px] mx-auto overflow-hidden object-cover transition-opacity duration-700 ${
             inView ? "opacity-100 scale-100" : "opacity-0 scale-105"
@@ -57,21 +57,14 @@ export function Template1Akad({namatempat, alamat, link, mulai, selesai, date}: 
           autoPlay
           loop
         />
-      </div>
+      </div> */}
 
       {/* Konten */}
       <div className="h-14 center" />
       <div className="relative z-10 mx-auto max-w-[470px] flex flex-col items-center justify-center space-y-2">
       
       <div className={`${styles.content} item-center`}>
-
-        <RevealGroup direction="up" amount={0.7} duration={10} stagger={0.12}>
-        <div className={styles.pembuka}>
-          Dengan memohon taufik dan rahmat Allah ﷻ, kami bermaksud mengundang
-          Bapak/Ibu/Saudara/i untuk menghadiri rangkaian pernikahan kami yang
-          akan diselenggarakan pada:
-        </div>
-        </RevealGroup>
+        <div className="h-14 center" />
 
         {/* AKAD */}
         <RevealGroup direction="down" amount={0.3} duration={6} stagger={0.12}>
@@ -170,10 +163,10 @@ export function Template1Walimah({namatempat, alamat, link, mulai, selesai, date
   return (
     <section
       ref={ref}
-      className="relative isolate snap-start w-full min-h-[100dvh] bg-[#f6eee7]"
+      className="relative isolate snap-start w-full min-h-[100dvh]" //bg-[#f6eee7]
     >
       {/* vidbg */}
-        <video
+        {/* <video
           className={`-z-20 absolute inset-0  w-[470px] mx-auto overflow-hidden object-content transition-opacity duration-700 ${
             inView ? "opacity-100 scale-100" : "opacity-0 scale-105"
           }`}
@@ -182,7 +175,7 @@ export function Template1Walimah({namatempat, alamat, link, mulai, selesai, date
           playsInline
           autoPlay
           loop
-        />
+        /> */}
 
       {/* Konten */}
       <div className="h-14 center" />
@@ -287,10 +280,10 @@ export function Template1Live({ link }: LiveProps) {
   return (
     <section
       ref={ref}
-      className="relative isolate snap-start w-full min-h-[100dvh] min-h-screen bg-[#f6eee7]"
+      className="relative isolate snap-start w-full min-h-[100dvh] min-h-screen" //bg-[#f6eee7]
     >
       {/* vidbg */}
-        <video
+        {/* <video
           className={`-z-20 absolute inset-0  w-[470px] mx-auto overflow-hidden object-content transition-opacity duration-700 ${
             inView ? "opacity-100 scale-100" : "opacity-0 scale-105"
           }`}
@@ -299,7 +292,7 @@ export function Template1Live({ link }: LiveProps) {
           playsInline
           autoPlay
           loop
-        />
+        /> */}
 
       {/* Konten */}
       <div className="h-14 center" />

@@ -197,79 +197,27 @@ export default function Template1Content({
           <div ref={bottomSentinelRef} className="h-24" /> */}
         </section>
 
-       {/* SECTION 4 — MEMPELAI */}
+       {/* SECTION 4 & 5 — MEMPELAI & ACARA */}
         <section
             ref={mempelaiRef}
             id="mempelai"
             className="relative isolate snap-start snap-always w-full auto min-h-dvh"
         >
             <MempelaiSection 
-              fullbride={detail.fullbride}
-              fullgroom={detail.fullgroom}
-              fbride={detail.fbride}
-              mbride={detail.mbride}
-              fgroom={detail.fgroom}
-              mgroom={detail.mgroom}
-              brlink={detail.brillust}
-              grlink={detail.grillust}
+              detail={detail}
+              date={date}
             />
         </section>
 
-        {/* SECTION 5 — ACARA */}
-        <section
-            // ref={mempelaiRef}
-            id="acara1"
-            className="relative w-full snap-start bg-[#0b0b0b] items-center justify-center"
-        >
-          <Template1Akad
-            namatempat={detail.akad.namatempat}
-            alamat={detail.akad.alamat}
-            link={detail.akad.link}
-            mulai={detail.akad.mulai}
-            selesai={detail.akad.selesai}
-            date={date}
-          />
-
-        </section>
-
-        <section
-            // ref={mempelaiRef}
-            id="acara2"
-            className="relative w-full snap-start bg-[#0b0b0b] items-center justify-center"
-        >
-
-          <Template1Walimah
-            namatempat={detail.walimah.namatempat}
-            alamat={detail.walimah.alamat}
-            link={detail.walimah.link}
-            mulai={detail.walimah.mulai}
-            selesai={detail.walimah.selesai}
-            date={date}
-          />
-
-        </section>
-
-        <section
-            // ref={mempelaiRef}
-            id="acara3"
-            className="relative w-full h-auto snap-start bg-[#0b0b0b] items-center justify-center"
-        >
-
-          <Template1Live
-            link={detail.live.link}
-          />
-          {/* <div className="h-[230px]" /> */}
-          
-        </section>
-
         {/* SECTION 6 — ADAB */}
+
         <section
-            // ref={mempelaiRef}
-            id="adab"
-            className="relative w-full min-h-screen snap-start bg-[#f6eee7] items-center justify-center"
+            id="doa"
+            className="relative isolate snap-start snap-always w-full auto min-h-dvh"
         >
-          <Adab />
+            < Adab />
         </section>
+
 
         {/* SECTION 7 — DOA */}
          <section
@@ -668,7 +616,8 @@ function DalilSection() {
   );
 }
 
-function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom, brlink, grlink, }: { fullbride: string; fullgroom: string; fbride: string; fgroom: string; mbride: string; mgroom: string; brlink: string; grlink: string}) {
+function MempelaiSection({ detail, date }: { detail: Details; date: string}) {
+// function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom, brlink, grlink, }: { fullbride: string; fullgroom: string; fbride: string; fgroom: string; mbride: string; mgroom: string; brlink: string; grlink: string}) {
   const bgVideoSrc = "/videos/template1vidbg.mp4";
   //const iconlink = "https://lh3.googleusercontent.com/d/1FXIFbA7q056resWKB7SinkZ1az-kWSic=w1496-h992";
   const borderlink = "https://lh3.googleusercontent.com/d/1jNS6LOo6D5HjLkFN7wMidmw2UUdQPNL_=w1080-h1350";
@@ -682,7 +631,7 @@ function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom,
     if (!el) return;
     const io = new IntersectionObserver(
       ([entry]) => setInView(entry.isIntersecting),
-      { root: null, threshold: 0.2 }
+      { root: null, threshold: 0.02 }
     );
     io.observe(el);
     return () => io.disconnect();
@@ -717,7 +666,7 @@ function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom,
     <section
       ref={secRef}
       id="informasi-mempelai"
-      className="relative isolate snap-start bg-[#f6eee7]" // pastikan minimal setinggi layar
+      className="relative isolate snap-start bg-[#f6eee7]"
       aria-label="Informasi Mempelai"
     >
       {/* === VIDEO  === */}
@@ -726,7 +675,7 @@ function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom,
           ref={videoRef}
           className={[
             // "-translate-y-3/32",
-            "fixed inset-0 -z-20 w-screen max-w-[470px] mx-auto h-auto object-cover overflow-hidden",
+            "fixed inset-0 z-0 w-screen max-w-[470px] mx-auto h-auto object-cover overflow-hidden",
             "transition-opacity duration-300 ease-linear pointer-events-none select-none",
             inView ? "opacity-100" : "opacity-0"
           ].join(" ")}
@@ -759,7 +708,7 @@ function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom,
         <RevealGroup direction="zoom" amount={0.8} duration={4} stagger={0.1}>
         <PhotoWithRing
             frameSrc={borderlink}    
-            photoSrc={brlink}         
+            photoSrc={detail.brillust}         
             size={320}                
             ringPadding={24}       
             photoZoom={1.35}         
@@ -770,10 +719,10 @@ function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom,
 
         <RevealGroup direction="up" amount={0.8} duration={4} stagger={0.1}>
         <div className="brides">
-          <div className="name">{fullbride}</div>
+          <div className="name">{detail.fullbride}</div>
           <div className={`fam ${libre.className}`}>
-            <span className="whitespace-nowrap">Putri dari Bapak {fbride}</span>{' '}
-            <span className="whitespace-nowrap">dan Ibu {mbride}</span>
+            <span className="whitespace-nowrap">Putri dari Bapak {detail.fbride}</span>{' '}
+            <span className="whitespace-nowrap">dan Ibu {detail.mbride}</span>
           </div>
         </div>
         </RevealGroup>
@@ -785,7 +734,7 @@ function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom,
         <RevealGroup direction="zoom" amount={0.8} duration={4} stagger={0.1}>
         <PhotoWithRing
             frameSrc={borderlink}    
-            photoSrc={grlink}         
+            photoSrc={detail.grillust}         
             size={320}                
             ringPadding={24}       
             photoZoom={1.5}         
@@ -797,10 +746,10 @@ function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom,
 
         <RevealGroup direction="up" amount={0.8} duration={4} stagger={0.1}>
         <div className="groom">
-          <div className="name">{fullgroom}</div>
+          <div className="name">{detail.fullgroom}</div>
           <div className={`fam ${libre.className}`}>
-            <span className="whitespace-nowrap">Putra dari Bapak {fgroom}</span>{' '}
-            <span className="whitespace-nowrap">dan Ibu {mgroom}</span>
+            <span className="whitespace-nowrap">Putra dari Bapak {detail.fgroom}</span>{' '}
+            <span className="whitespace-nowrap">dan Ibu {detail.mgroom}</span>
           </div>
         </div>
         </RevealGroup>
@@ -812,15 +761,57 @@ function MempelaiSection({ fullbride, fullgroom, fbride, fgroom, mbride, mgroom,
       </div>
       </RevealGroup>
 
+      {/* detail acara */}
+      <div className="h-14 center" />
+
+      <RevealGroup direction="up" amount={0.7} duration={10} stagger={0.12}>
+        <div className="pembuka">
+          Dengan memohon taufik dan rahmat Allah ﷻ, kami bermaksud mengundang
+          Bapak/Ibu/Saudara/i untuk menghadiri rangkaian pernikahan kami yang
+          akan diselenggarakan pada:
+        </div>
+        </RevealGroup>
+
+      <Template1Akad
+        namatempat={detail.akad.namatempat}
+        alamat={detail.akad.alamat}
+        link={detail.akad.link}
+        mulai={detail.akad.mulai}
+        selesai={detail.akad.selesai}
+        date={date}
+      />
+
+      <Template1Walimah
+        namatempat={detail.walimah.namatempat}
+        alamat={detail.walimah.alamat}
+        link={detail.walimah.link}
+        mulai={detail.walimah.mulai}
+        selesai={detail.walimah.selesai}
+        date={date}
+      />
+
+      <Template1Live
+        link={detail.live.link}
+      />
+
       <OurStoryOverlay 
         open={openStory}
         onClose={() => setOpenStory(false)} 
       />
       
-      <div className="h-[150px]" />
+      {/* <div className="h-[150px]" /> */}
 
       <style jsx>{`
-
+        .pembuka {
+            max-width: 313px;
+            margin: 0 auto;
+            position: relative;
+            font-size: 10px;
+            line-height: 17px;
+            font-family: 'Libre Baskerville';
+            color: #675553;
+            text-align: center;
+        }
         .salam {
             // position: absolute;
             top: 0px;
@@ -974,11 +965,11 @@ function Adab() {
   return (
     <section
       ref={ref}
-      className="relative isolate snap-start w-full min-h-[100dvh] max-h-screen bg-[#f6eee7]"
+      className="relative w-full min-h-[100dvh] max-h-screen bg-[#f6eee7]"
     >
       {/* vidbg */}
         <video
-          className={`-z-20 absolute inset-0 w-screen max-w-[470px]  mx-auto overflow-hidden object-content transition-opacity duration-700 ${
+          className={`z-0 absolute inset-0 w-screen max-w-[470px]  mx-auto overflow-hidden object-contain transition-opacity duration-700 ${
             inView ? "opacity-100 scale-100" : "opacity-0 scale-105"
           }`}
           src="/videos/template1flower.mp4"
