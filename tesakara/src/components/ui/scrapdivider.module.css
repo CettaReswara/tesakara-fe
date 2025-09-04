@@ -1,0 +1,83 @@
+:root {
+  --easing-out-quad: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* === Wrapper (tetap di seam) === */
+.scrapDivider {
+  position: absolute;
+  left: 50%;
+  width: var(--scrap-w, 480px);
+  height: var(--scrap-h, 160px);
+  transform: translateX(-50%) rotate(var(--scrap-angle, -2deg));
+  transform-origin: 50% 50%;
+  z-index: 60;
+  pointer-events: none;
+  filter: drop-shadow(0 10px 24px rgba(0,0,0,0.35));
+  opacity: 0; /* revealed by .isInview */
+
+  /* Pindahkan MASK ke WRAPPER (tetap, tidak ikut goyang) */
+  -webkit-mask-image: var(--mask);
+  mask-image: var(--mask);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+/* Posisi */
+.scrapTop    { top: 0;    --y: -50%; transform: translate(-50%, var(--y)) rotate(var(--scrap-angle, -2deg)); }
+.scrapBottom { bottom: 0; --y:  50%; transform: translate(-50%, var(--y)) rotate(var(--scrap-angle, -2deg)); }
+
+/* === Kertas di dalam (yang di-animate) === */
+.scrapPaper {
+  position: absolute;
+  /* BLEED: lebih besar dari masker supaya tak pernah “bolong” */
+  inset: -12px;                 /* atau pakai scale(1.03) */
+  background-image: var(--paper);
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+
+  transform-origin: 50% 10%;
+  will-change: transform;
+}
+
+/* Reveal + wobble */
+.isInview {                       /* slap sekali, tahan pose */
+  animation: scrap-slap 800ms var(--easing-out-quad) forwards;
+}
+
+/* Wobble infinite di CHILD, balik ke posisi awal terus (yoyo) */
+.isInview .scrapPaper {
+  /* Opsi 1: alternate (bolak-balik halus) */
+  animation: scrap-wobble 6s ease-in-out 900ms infinite alternate;
+  /* Opsi 2 (yoyo tanpa 'alternate'):
+     animation: wobble-yoyo 6s ease-in-out 900ms infinite; */
+}
+
+/* === Keyframes === */
+@keyframes scrap-slap {
+  0%   { opacity: 0; transform: translate(-50%, calc(var(--y) * 1.2)) rotate(calc(var(--scrap-angle, -2deg) - 8deg)) scale(0.95); }
+  60%  { opacity: 1; transform: translate(-50%, calc(var(--y) * 0.96)) rotate(calc(var(--scrap-angle, -2deg) + 2.5deg)) scale(1.02); }
+  100% { opacity: 1; transform: translate(-50%, var(--y)) rotate(var(--scrap-angle, -2deg)) scale(1); }
+}
+
+/* Rotate only => tepi masker tidak ketarik, no gap */
+@keyframes scrap-wobble {
+  0%   { transform: rotate(-0.6deg); }
+  100% { transform: rotate(0.6deg); }
+}
+
+/* Alternatif yoyo 0→50→100 kembali ke awal tanpa 'alternate' */
+@keyframes wobble-yoyo {
+  0%   { transform: rotate(-0.6deg); }
+  50%  { transform: rotate( 0.6deg); }
+  100% { transform: rotate(-0.6deg); }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .isInview { animation: none !important; opacity: 1 !important;
+    transform: translate(-50%, var(--y)) rotate(var(--scrap-angle, -2deg)) !important; }
+  .isInview .scrapPaper { animation: none !important; transform: none !important; }
+}

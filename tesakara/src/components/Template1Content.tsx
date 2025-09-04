@@ -6,6 +6,7 @@ import Countdown from "./ui/countdown";
 import { PhotoWithRing } from "./ui/photoring";
 import { Button } from "./ui/button";
 import AdabCarousel from "./ui/carousel";
+import ScrapDivider from "./ui/scrapdivider";
 import Template1Timeline from "./Template1Timeline";
 import { Template1Akad, Template1Walimah, Template1Live } from "./Template1Acara";
 import { Template1RSVP, Template1Selamat } from "./Template1RSVP";
@@ -277,6 +278,7 @@ export default function Template1Content({
             className="relative w-full min-h-screen snap-start bg-[#f6eee7] items-center justify-center"
         >
           <DoaMempelai />
+          <ScrapDivider position="bottom" width="screen" maxWidth={470} height={470} />
         </section>
 
         {/* SECTION 8 — KONFIRMASI & UCAPAN */}
@@ -285,11 +287,13 @@ export default function Template1Content({
             id="konfirmasi"
             className="relative w-full min-h-screen snap-start bg-[#f6eee7] items-center justify-center"
         >
+          <div className="h-30"></div>
           <Template1RSVP 
             maxValue={detail.maxhadir} 
             name={to} 
-        />
-
+          />
+           <ScrapDivider position="bottom" width="screen" maxWidth={470} height={470} />
+           <div className="h-8"></div>
         </section>
 
         <section
@@ -297,9 +301,11 @@ export default function Template1Content({
             id="ucapan"
             className="relative w-full min-h-screen snap-start bg-[#f6eee7] items-center justify-center"
         >
+          <div className="h-30"></div>
           <Template1Selamat
           />
-
+          <ScrapDivider position="bottom" width="screen" maxWidth={470} height={470} />
+          <div className="h-8"></div>
         </section>
 
         {/* SECTION 9 — HADIAH */}
@@ -309,14 +315,15 @@ export default function Template1Content({
             id="hadiah"
             className="relative w-full min-h-screen snap-start bg-[#f6eee7] items-center justify-center"
         >
-          
+          <div className="h-30"></div>
           <Template1Hadiah
             dataRekening={bank} 
             isAlamat={detail.alamat.isAlamat}
             penerima={detail.alamat.penerima}
             alamat={detail.alamat.alamat}
           />
-
+          <ScrapDivider position="bottom" width="screen" maxWidth={470} height={470} />
+          <div className="h-8"></div>
         </section>
 
         {/* SECTION 10 — PENUTUP */}
@@ -325,7 +332,7 @@ export default function Template1Content({
             id="penutup"
             className="relative w-full min-h-screen snap-start bg-[#f6eee7] items-center justify-center"
         >
-
+          <div className="h-30"></div>
           <Closing
             bride={bride}
             groom={groom}
