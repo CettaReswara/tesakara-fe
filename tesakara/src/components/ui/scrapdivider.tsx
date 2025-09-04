@@ -54,13 +54,17 @@ function ScrapDivider({
   const w = toLen(width);
   const mw = toLen(maxWidth);
 
-  const vars: React.CSSProperties = {
-    ["--scrap-w" as any]: `min(${w}, ${mw})`,
-    ["--scrap-h" as any]: `${height}px`,
-    ["--scrap-angle" as any]: `${angle}deg`,
-    ["--paper" as any]: `url("${textureSrc}")`,
-  };
+    type CSSWithVars = React.CSSProperties & {
+    [key: `--${string}`]: string | number | undefined;
+    };
 
+    const vars: CSSWithVars = {
+    "--scrap-w": `min(${w}, ${mw})`,
+    "--scrap-h": `${height}px`,
+    "--scrap-angle": `${angle}deg`,
+    "--paper": `url("${textureSrc}")`,
+    };
+    
   const cls = [
     styles.scrapDivider,
     position === "top" ? styles.scrapTop : styles.scrapBottom,
