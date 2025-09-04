@@ -150,7 +150,7 @@ export default function Template1Content({
 
   return (
     <div className="w-full flex justify-center bg-black text-white no-horizontal-scroll">
-      <Snow color="#382e2dff" />
+      <Snow color="#ae9da7ff" />
       <div
         ref={scrollerRef}
         className="relative w-screen max-w-[470px] h-screen overflow-y-auto overflow-x-hidden"
