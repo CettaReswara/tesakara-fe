@@ -312,9 +312,9 @@ export default function Template1Content({
 
         /* SECTION 2 entrance */
         .section2 {
-          opacity: 0;
-          transform: translateY(12px) scale(0.985);
-          filter: blur(10px);
+          opacity: 1;
+          transform: translateY(0) scale(1);
+          filter: blur(0);
           will-change: opacity, transform, filter;
           backface-visibility: hidden;
           transition:
@@ -366,7 +366,7 @@ function CountdownSection({ bride, groom, date }: { bride: string; groom: string
         }}
       />
       {/* content */}
-      <div className="relative h-full flex flex-col items-center px-8">
+      <div className="relative h-full flex flex-col items-center">
         <div className="h-40" />
         {/* “The Wedding Of” */}
         <RevealGroup direction="zoom" amount={0.3} duration={1.2}>
@@ -490,7 +490,7 @@ function CountdownSection({ bride, groom, date }: { bride: string; groom: string
           margin-top: 20px;
           overflow: visible;
           width: 110%;
-          padding: 50px 50px;
+          margin-left: -10px;
           box-sizing: border-box;
           height: 230px;
           font-size: 72px;
@@ -965,7 +965,7 @@ function Adab() {
   return (
     <section
       ref={ref}
-      className="relative w-full min-h-[100dvh] max-h-screen bg-[#f6eee7]"
+      className="relative w-full min-h-screen bg-[#f6eee7]"
     >
       {/* vidbg */}
         <video

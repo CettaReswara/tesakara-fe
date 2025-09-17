@@ -187,8 +187,8 @@ export function Template1Walimah({namatempat, alamat, link, mulai, selesai, date
         {/* AKAD */}
         <RevealGroup direction="down" amount={0.3} duration={6} stagger={0.12}>
         <div className={`${styles.heading} item-center`}>
-            <span className={styles.w}>W</span>
-            <i className={styles.alimat}>alimatul ‘Ursy</i>
+            <span className={styles.w}>R</span>
+            <i className={styles.alimat}>esepsi</i>
         </div>
         </RevealGroup>
 
@@ -280,7 +280,7 @@ export function Template1Live({ link }: LiveProps) {
   return (
     <section
       ref={ref}
-      className="relative isolate snap-start w-full min-h-[100dvh] min-h-screen" //bg-[#f6eee7]
+      className="relative isolate snap-start w-full min-h-screen" //bg-[#f6eee7]
     >
       {/* vidbg */}
         {/* <video
