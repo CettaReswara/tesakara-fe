@@ -148,6 +148,31 @@ export default function Template1Content({
     };
   }, [sendYT]);
 
+  // FOR NAVIGATION
+  const scrollToId = useCallback((id: string) => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+
+    const target = scroller.querySelector<HTMLElement>(`#${CSS.escape(id)}`);
+    if (!target) return;
+
+    // Hitung posisi target relatif terhadap scroller
+    const sRect = scroller.getBoundingClientRect();
+    const tRect = target.getBoundingClientRect();
+    const top = tRect.top - sRect.top + scroller.scrollTop;
+
+    // Matikan snap sementara supaya scroll halus dan nggak ke-“kunci”
+    const prevSnap = scroller.style.scrollSnapType;
+    scroller.style.scrollSnapType = "none";
+
+    scroller.scrollTo({ top, behavior: "smooth" });
+
+    // Re-enable snap setelah animasi (fallback tanpa event 'scrollend')
+    window.setTimeout(() => {
+      scroller.style.scrollSnapType = prevSnap || "";
+    }, 600);
+  }, []);
+
   return (
     <div className="w-full flex justify-center bg-black text-white no-horizontal-scroll">
       <Snow color="#ae9da7ff" />
@@ -212,7 +237,7 @@ export default function Template1Content({
         {/* SECTION 6 — ADAB */}
 
         <section
-            id="doa"
+            id="adab"
             className="relative isolate snap-start snap-always w-full auto min-h-dvh"
         >
             < Adab />
@@ -304,6 +329,8 @@ export default function Template1Content({
         />
       </div>
 
+      <FloatingNav onJump={scrollToId} />
+
       {/* Styles for Section 2 entrance + some shared CSS */}
       <style jsx>{`
         :root {
@@ -339,6 +366,21 @@ export default function Template1Content({
           }
         }
       `}</style>
+    </div>
+  );
+}
+
+/* ---------- NAVIGATION ---------- */
+
+function FloatingNav({ onJump }: { onJump: (id: string) => void }) {
+  return (
+    <div className="fixed left-1/2 -translate-x-1/2 bottom-4 z-[1000] w-[min(470px,100vw)] px-3">
+      <div className="mx-auto flex w-full items-center justify-between gap-2 rounded-2xl bg-black/50 backdrop-blur p-2">
+        <Button className="h-9 px-3 text-xs" onClick={() => onJump("mempelai")}>Mempelai</Button>
+        <Button className="h-9 px-3 text-xs" onClick={() => onJump("akad")}>Akad</Button>
+        <Button className="h-9 px-3 text-xs" onClick={() => onJump("adab")}>Adab</Button>
+        <Button className="h-9 px-3 text-xs" onClick={() => onJump("konfirmasi")}>RSVP</Button>
+      </div>
     </div>
   );
 }
@@ -674,10 +716,18 @@ function MempelaiSection({ detail, date }: { detail: Details; date: string}) {
         <video
           ref={videoRef}
           className={[
-            // "-translate-y-3/32",
-            "fixed inset-0 z-0 w-screen max-w-[470px] mx-auto h-auto object-cover overflow-hidden",
+            // Posisikan benar-benar di tengah kolom, bukan pakai mx-auto
+            "fixed top-0 left-1/2 -translate-x-1/2 z-0",
+            // Lebar = min(100vw, 470px), Tinggi = 100dvh agar penuh di device tinggi
+            "w-[100vw] max-w-[470px] h-dvh",
+            // Pastikan selalu nutup penuh
+            "object-cover overflow-hidden",
             "transition-opacity duration-300 ease-linear pointer-events-none select-none",
             inView ? "opacity-100" : "opacity-0"
+            // "-translate-y-3/32",
+            // "fixed inset-0 z-0 w-screen max-w-[470px] mx-auto h-auto object-cover overflow-hidden",
+            // "transition-opacity duration-300 ease-linear pointer-events-none select-none",
+            // inView ? "opacity-100" : "opacity-0"
           ].join(" ")}
           // sumber video (boleh pakai <source> ganda webm+mp4 kalau mau)
           src={bgVideoSrc}
@@ -772,6 +822,7 @@ function MempelaiSection({ detail, date }: { detail: Details; date: string}) {
         </div>
         </RevealGroup>
 
+      <div id="akad">
       <Template1Akad
         namatempat={detail.akad.namatempat}
         alamat={detail.akad.alamat}
@@ -780,6 +831,7 @@ function MempelaiSection({ detail, date }: { detail: Details; date: string}) {
         selesai={detail.akad.selesai}
         date={date}
       />
+      </div>
 
       <Template1Walimah
         namatempat={detail.walimah.namatempat}
@@ -969,9 +1021,17 @@ function Adab() {
     >
       {/* vidbg */}
         <video
-          className={`z-0 absolute inset-0 w-screen max-w-[470px]  mx-auto overflow-hidden object-contain transition-opacity duration-700 ${
-            inView ? "opacity-100 scale-100" : "opacity-0 scale-105"
-          }`}
+          className={[
+            // Posisikan benar-benar di tengah kolom, bukan pakai mx-auto
+            "fixed top-0 left-1/2 -translate-x-1/2 z-0",
+            // Lebar = min(100vw, 470px), Tinggi = 100dvh agar penuh di device tinggi
+            "w-[100vw] max-w-[470px] h-dvh",
+            // Pastikan selalu nutup penuh
+            "object-cover overflow-hidden",
+            "transition-opacity duration-300 ease-linear pointer-events-none select-none",
+            inView ? "opacity-100" : "opacity-0"
+          ].join(" ")
+          }
           src="/videos/template1flower.mp4"
           muted
           playsInline
