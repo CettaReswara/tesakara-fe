@@ -14,7 +14,7 @@ type SnowProps = {
  * Uses CSS variables per flake and nested elements so vertical fall, horizontal sway,
  * and rotation are independent animations.
  */
-export default function Snow({ color = "#ffffff", count = 180 }: SnowProps) {
+export default function Snow({ color = "#ffffff", count = 80 }: SnowProps) {
   // deterministic pseudo‑random so SSR/CSR match
   const rand = (i: number) => {
     const x = Math.sin(i * 12.9898 + 78.233) * 43758.5453;
@@ -33,7 +33,7 @@ export default function Snow({ color = "#ffffff", count = 180 }: SnowProps) {
         return {
           x: r1 * 100, // vw
           // smaller, elegant: ~0.7–1.6px "arm" thickness
-          size: 0.7 + r2 * 0.9,
+          size: 0.5 + r2 * 0.9,
           // slower, graceful descent: 16–42s
           dur: 16 + r3 * 26,
           // negative to stagger on mount
@@ -45,7 +45,7 @@ export default function Snow({ color = "#ffffff", count = 180 }: SnowProps) {
           // slower sway: 6–14s
           sway: 6 + r2 * 8,
           // subtle per‑flake transparency for depth: 0.45–0.8
-          alpha: 0.45 + r1 * 0.35,
+          alpha: 0.45,
           tilt: Math.floor(r3 * 360),
         };
       }),
@@ -118,7 +118,7 @@ export default function Snow({ color = "#ffffff", count = 180 }: SnowProps) {
           position: absolute;
           left: 0; top: 0;
           width: var(--size);
-          height: calc(var(--size) * 2.6);
+          height: calc(var(--size) * 3.6);
           background: var(--snow-color);
           border-radius: 999px;
           opacity: var(--alpha);
