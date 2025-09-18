@@ -68,6 +68,12 @@ html, body {
   padding: 0;
   width: 100%;
   overflow-x: hidden;
+  scrollbar-width: none;       
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;  
 }
 
 * { box-sizing: border-box; }

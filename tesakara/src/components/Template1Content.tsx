@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useCallback, useState } from "react";
+import { Heart, CalendarHeart, HeartHandshake, BookHeart } from "lucide-react";
 import { poppins, libre } from "@/app/font";
 import Snow from "./Snow";
 import Countdown from "./ui/countdown";
@@ -92,6 +93,7 @@ export default function Template1Content({
   const dalilRef = useRef<HTMLElement | null>(null);
   const mempelaiRef = useRef<HTMLElement | null>(null);
   const [lockFirst, setLockFirst] = useState(false);
+  const [bgmMuted, setBgmMuted] = useState(false);
 
   // PostMessage helper YouTube
   const sendYT = useCallback((func: "playVideo" | "pauseVideo" | "mute" | "unMute" | "stopVideo") => {
@@ -102,6 +104,20 @@ export default function Template1Content({
       "*"
     );
   }, []);
+
+  const toggleBgm = useCallback(() => {
+    setBgmMuted(prev => {
+      const next = !prev;
+      // apply ke YT utama
+      sendYT(next ? "mute" : "unMute");
+      return next;
+    });
+  }, [sendYT]);
+
+  useEffect(() => {
+    sendYT(bgmMuted ? "mute" : "unMute");
+  }, [bgmMuted, sendYT]);
+
 
   // Smooth scroll to Section 2 when the hero video ends (no DOM swaps => no jitter)
   const handleVideoEnded = useCallback(() => {
@@ -146,7 +162,7 @@ export default function Template1Content({
       window.removeEventListener("click", unmuteOnce, true);
       window.removeEventListener("touchstart", unmuteOnce, true);
     };
-  }, [sendYT]);
+  }, [sendYT, bgmMuted]);
 
   // FOR NAVIGATION
   const scrollToId = useCallback((id: string) => {
@@ -217,7 +233,7 @@ export default function Template1Content({
           id="dalil"
           className="relative w-full h-screen snap-start bg-[#0b0b0b] items-center justify-center"
         >
-          <DalilSection />
+          <DalilSection bgmMuted={bgmMuted} />
           {/* Spacer acts as bottom sentinel inside Dalil
           <div ref={bottomSentinelRef} className="h-24" /> */}
         </section>
@@ -329,7 +345,7 @@ export default function Template1Content({
         />
       </div>
 
-      <FloatingNav onJump={scrollToId} />
+      <FloatingNav muted={bgmMuted} onToggle={toggleBgm} onJump={scrollToId} />
 
       {/* Styles for Section 2 entrance + some shared CSS */}
       <style jsx>{`
@@ -372,15 +388,55 @@ export default function Template1Content({
 
 /* ---------- NAVIGATION ---------- */
 
-function FloatingNav({ onJump }: { onJump: (id: string) => void }) {
+function FloatingNav({ muted, onToggle, onJump }: { muted: boolean; onToggle: () => void; onJump: (id: string) => void }) {
   return (
-    <div className="fixed left-1/2 -translate-x-1/2 bottom-4 z-[1000] w-[min(470px,100vw)] px-3">
-      <div className="mx-auto flex w-full items-center justify-between gap-2 rounded-2xl bg-black/50 backdrop-blur p-2">
-        <Button className="h-9 px-3 text-xs" onClick={() => onJump("mempelai")}>Mempelai</Button>
-        <Button className="h-9 px-3 text-xs" onClick={() => onJump("akad")}>Akad</Button>
-        <Button className="h-9 px-3 text-xs" onClick={() => onJump("adab")}>Adab</Button>
-        <Button className="h-9 px-3 text-xs" onClick={() => onJump("konfirmasi")}>RSVP</Button>
-      </div>
+    <div className="fixed left-1/2 -translate-x-1/2 bottom-4 z-[1000] w-[min(270px,80vw)] px-3">
+      {/* <button
+        aria-pressed={muted}
+        onClick={onToggle}
+        className="fixed left-1/2 -translate-x-1/2 bottom-20 z-[1100]
+                  w-[min(470px,100vw)] px-3"
+      >
+        <span className="mx-auto flex w-full items-center justify-center gap-2
+                        rounded-2xl bg-black/50 backdrop-blur p-2 text-white text-sm">
+          {muted ? "🔇 Unmute BGM" : "🔊 Mute BGM"}
+        </span>
+      </button> */}
+
+       <div className="mx-auto flex w-full items-center justify-between gap-0.3 rounded-3xl bg-[#E0B39C]/20 backdrop-blur p-3">
+        <Button size="icon"
+          variant="ghost"
+          aria-label="Mempelai"
+          onClick={() => onJump("mempelai")}
+          className="bg-[#E0B39C] hover:bg-[#E0B39C]/90"
+        >
+          <Heart className="h-5 w-5 text-[#B75E64]" />
+        </Button>
+        <Button size="icon"
+          variant="ghost"
+          aria-label="Akad"
+          onClick={() => onJump("akad")}
+          className="bg-[#E0B39C] hover:bg-[#E0B39C]/90"
+        >
+          <CalendarHeart className="h-5 w-5 text-[#B75E64]" />
+        </Button>
+        <Button size="icon"
+          variant="ghost"
+          aria-label="Adab"
+          onClick={() => onJump("adab")}
+          className="bg-[#E0B39C] hover:bg-[#E0B39C]/90"
+        >
+          <HeartHandshake className="h-5 w-5 text-[#B75E64]" />
+        </Button>
+        <Button size="icon"
+          variant="ghost"
+          aria-label="Konfirmasi"
+          onClick={() => onJump("konfirmasi")}
+          className="bg-[#E0B39C] hover:bg-[#E0B39C]/90"
+        >
+          <BookHeart className="h-5 w-5 text-[#B75E64]" />
+        </Button>
+       </div>
     </div>
   );
 }
@@ -564,68 +620,76 @@ function CountdownSection({ bride, groom, date }: { bride: string; groom: string
   );
 }
 
-function DalilSection() {
+function DalilSection ({ bgmMuted }: { bgmMuted: boolean }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isVideoPlayed, setIsVideoPlayed] = useState(false);
-  const [isMusicPlayed, setIsMusicPlayed] = useState(false);
+  const [ytReady, setYtReady] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
-  useEffect(() => {
-    // Create the YouTube Player when the section is in view
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-        
-        if (entry.isIntersecting && !isMusicPlayed) {
-          // Play the main video (muted) when the section is in view
-          if (videoRef.current) {
-            videoRef.current.play(); // Play main video (muted)
-            videoRef.current.muted = true; // Ensure the main video is muted
-            setIsVideoPlayed(true);
-          }
-
-          // Load and play the YouTube music
-          if (!iframeRef.current) {
-            const iframe = document.createElement("iframe");
-            iframe.src = "https://www.youtube.com/embed/m24kZjhq3Cw?autoplay=1&loop=1&mute=0"; // Replace with your YouTube video URL
-            iframe.width = "1";
-            iframe.height = "1";
-            iframe.style.position = "absolute";
-            iframe.style.visibility = "hidden"; // Hide the iframe
-            iframe.style.pointerEvents = "none"; // Disable interactions with the iframe
-            iframeRef.current = iframe;
-
-            // Append the iframe to the body or a hidden div
-            document.body.appendChild(iframe);
-            setIsMusicPlayed(true); // Mark that music is now playing
-          }
-        } else if (!entry.isIntersecting && isMusicPlayed) {
-          // Stop the video and music when the section is not in view
-          if (videoRef.current) {
-            videoRef.current.pause();
-          }
-
-          if (iframeRef.current) {
-            if (!iframeRef?.current) return;
-            setIsMusicPlayed(false);
-          }
-        }
-      },
-      {
-        threshold: 0.3, // Ensure 100% visibility for playback
-      }
+  const sendDalilYT = useCallback((func: "playVideo"|"pauseVideo"|"mute"|"unMute") => {
+    if (!iframeRef.current) return;
+    iframeRef.current.contentWindow?.postMessage(
+      JSON.stringify({ event: "command", func, args: [] }),
+      "*"
     );
+  }, []);
 
-    if (videoRef.current) {
-      observer.observe(videoRef.current);
-    }
+  useEffect(() => {
+    const io = new IntersectionObserver(([entry]) => {
+      const inView = entry.isIntersecting;
 
-    return () => {
-      if (videoRef.current) {
-        observer.disconnect();
+      if (inView) {
+        // Mainkan video visual (tetap muted)
+        if (videoRef.current && !isVideoPlayed) {
+          videoRef.current.muted = true;
+          videoRef.current.play().catch(() => {});
+          setIsVideoPlayed(true);
+        }
+
+        // Siapkan / mainkan YT musik
+        if (!iframeRef.current) {
+          const id = "m24kZjhq3Cw";
+          const iframe = document.createElement("iframe");
+          iframe.src =
+            `https://www.youtube.com/embed/${id}` +
+            `?enablejsapi=1&autoplay=1&loop=1&playlist=${id}&mute=${bgmMuted ? 1 : 0}`;
+          iframe.width = "1";
+          iframe.height = "1";
+          Object.assign(iframe.style, {
+            position: "absolute",
+            visibility: "hidden",
+            pointerEvents: "none",
+          } as CSSStyleDeclaration);
+          iframeRef.current = iframe;
+          document.body.appendChild(iframe);
+          // kasih sedikit waktu untuk siap menerima command
+          setTimeout(() => setYtReady(true), 300);
+        } else {
+          // kalau sudah ada: play/pause sesuai mute
+          if (!bgmMuted) sendDalilYT("playVideo");
+        }
+      } else {
+        // Keluar viewport: pause musik biar nggak dobel
+        if (iframeRef.current) sendDalilYT("pauseVideo");
+        if (videoRef.current) videoRef.current.pause();
+        setIsVideoPlayed(false);
       }
-    };
-  }, [isMusicPlayed]);
+    }, { threshold: 0.3 });
+
+    if (videoRef.current) io.observe(videoRef.current);
+    return () => io.disconnect();
+  }, [bgmMuted, isVideoPlayed, sendDalilYT]);
+
+  // Reaksi saat bgmMuted berubah
+  useEffect(() => {
+    if (!ytReady || !iframeRef.current) return;
+    sendDalilYT(bgmMuted ? "mute" : "unMute");
+    if (bgmMuted) {
+      sendDalilYT("pauseVideo");
+    } else {
+      sendDalilYT("playVideo");
+    }
+  }, [bgmMuted, ytReady, sendDalilYT]);
   
   return (
     <div className="relative isolate h-screen w-screen max-w-[470px] flex flex-col items-center justify-center overflow-hidden">

@@ -5,10 +5,15 @@ const AdabCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const slides = [
-    'https://lh3.googleusercontent.com/d/1G8NaVoRRCBw4mDaZwdeRLLUGY1UtLdOj=w810-h810',
-    'https://lh3.googleusercontent.com/d/1CfpK7Fp_LwFCKAKhIyLvRZy5Hdy3Lfw9=w810-h810',
-    'https://lh3.googleusercontent.com/d/1uh9TlCzg4VeH4R4S31L7ZFwAK7ibO69K=w810-h810',
+    'https://lh3.googleusercontent.com/d/1TidtBYJu1LwXmFTsbzebgyyMDt6Qex2a=w810-h810',
+    'https://lh3.googleusercontent.com/d/1CzDgfhUD23ALRhIKEk3TiIrkWN1l-iiq=w810-h810',
+    'https://lh3.googleusercontent.com/d/1yWDec05FaDqvNHVy0szjY8T6T0wq4Q7U=w810-h810',
+    'https://lh3.googleusercontent.com/d/1T3F-_zbaTkvhVssFc9Elluc1rpMmiGSk=w810-h810',
+    'https://lh3.googleusercontent.com/d/173NnEs-4zW1I5yXANl0XKCs6s1FQ2NvR=w810-h810',
+    // 'https://lh3.googleusercontent.com/d/1uh9TlCzg4VeH4R4S31L7ZFwAK7ibO69K=w810-h810',
   ];
+
+
 
   const totalSlides = slides.length;
 
